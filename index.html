@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Website Prompt Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .suggestion-select {
+            width: auto;
+            flex: 0 0 200px;
+        }
+        #json-output {
+            height: 80vh;
+            font-family: monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+        .form-container {
+            height: 80vh;
+            overflow-y: auto;
+        }
+        .json-container {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .json-header {
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .json-output-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-input {
+            min-height: 38px;
+        }
+        .btn-group-sm .btn {
+            font-size: 0.8rem;
+        }
+        .header-actions {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        .main-header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 991px) {
+            .form-container, .json-container {
+                margin-bottom: 20px;
+                height: auto;
+            }
+            #json-output {
+                height: 400px;
+            }
+            .header-actions {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="main-header">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <h1 class="mb-0 me-3">AI Website Prompt Builder</h1>
+                            <span class="badge bg-primary">Form</span>
+                        </div>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary" id="generate-random" title="Generate random values">
+                                <i class="bi bi-shuffle"></i> Generate Random
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" id="clear-form" title="Clear all fields">
+                                <i class="bi bi-eraser"></i> Clear Form
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-muted mt-3 mb-0">Fill in the fields to build a **JSON prompt**. This structured output can be copied and used directly in a Generative AI model to produce a complete website based on your specifications. Use the suggestions or generate random values to get started.</p>
+                </div>
+                
+                <div class="form-container">
+                    <form id="prompt-form">
+                        <div class="form-section">
+                            <h5 class="border-bottom pb-2 mb-3">General Information</h5>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="title" placeholder="e.g., My Website">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('title').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>My Amazing Site</option>
+                                        <option>Business Pro</option>
+                                        <option>Creative Hub</option>
+                                        <option>Digital World</option>
+                                        <option>The Online Guide</option>
+                                        <option>Innovation Studio</option>
+                                        <option>The Perfect Solution</option>
+                                        <option>Your Brand Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="slogan" class="form-label">Slogan</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="slogan" placeholder="e.g., Innovate Today">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('slogan').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Innovate Today</option>
+                                        <option>Empower Your Future</option>
+                                        <option>Connect and Create</option>
+                                        <option>Your Vision, Our Solution</option>
+                                        <option>Growing Together</option>
+                                        <option>Simple and Effective</option>
+                                        <option>The Future Starts Here</option>
+                                        <option>Discover the Possibilities</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="language" class="form-label">Language</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="language" placeholder="e.g., English">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('language').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Dutch</option>
+                                        <option>English</option>
+                                        <option>French</option>
+                                        <option>German</option>
+                                        <option>Spanish</option>
+                                        <option>Portuguese</option>
+                                        <option>Italian</option>
+                                        <option>Chinese</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_details" class="form-label">Contact Details</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('contact_details').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>123 Street, Amsterdam, Netherlands</option>
+                                        <option>123 Main St, New York, USA</option>
+                                        <option>45 Example Street, Paris, France</option>
+                                        <option>56 Main Street, Brussels, Belgium</option>
+                                        <option>78 Hauptstraße, Berlin, Germany</option>
+                                        <option>90 Via Roma, Rome, Italy</option>
+                                        <option>101 Avenida de la Libertad, Madrid, Spain</option>
+                                        <option>1 Plaza Major, Mexico City, Mexico</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h5 class="border-bottom pb-2 mb-3">Context & Brand Identity</h5>
+                            <div class="mb-3">
+                                <label for="sector" class="form-label">Sector/Activity</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="sector" placeholder="e.g., Technology">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('sector').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Technology</option>
+                                        <option>Healthcare</option>
+                                        <option>Education</option>
+                                        <option>Financial Services</option>
+                                        <option>Retail</option>
+                                        <option>Tourism</option>
+                                        <option>Real Estate</option>
+                                        <option>Automotive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="target_audience" class="form-label">Target Audience</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('target_audience').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Young professionals</option>
+                                        <option>Entrepreneurs</option>
+                                        <option>Students</option>
+                                        <option>Families</option>
+                                        <option>Seniors</option>
+                                        <option>Technology enthusiasts</option>
+                                        <option>Artists and Creatives</option>
+                                        <option>Sustainability advocates</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mission" class="form-label">Mission</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('mission').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>To improve the world through innovation</option>
+                                        <option>To deliver quality to customers</option>
+                                        <option>To promote sustainability</option>
+                                        <option>To create accessibility</option>
+                                        <option>To build community</option>
+                                        <option>To become the best in the industry</option>
+                                        <option>To make life easier</option>
+                                        <option>To share knowledge</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vision" class="form-label">Vision</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('vision').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>To become a leader in the sector</option>
+                                        <option>To make a global impact</option>
+                                        <option>To lead innovation</option>
+                                        <option>To be an inspiring partner</option>
+                                        <option>To set the standard</option>
+                                        <option>To create a sustainable future</option>
+                                        <option>To enrich people's lives</option>
+                                        <option>To build a global community</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="core_values" class="form-label">Core Values</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('core_values').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Integrity, Innovation, Sustainability</option>
+                                        <option>Customer-centric, Reliable, Creative</option>
+                                        <option>Collaboration, Excellence, Responsibility</option>
+                                        <option>Passion, Quality, Growth</option>
+                                        <option>Transparency, Flexibility, Drive</option>
+                                        <option>Simplicity, Respect, Resourcefulness</option>
+                                        <option>Innovation, Passion, Integrity</option>
+                                        <option>Authenticity, Courage, Resilience</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h5 class="border-bottom pb-2 mb-3">Design</h5>
+                            <div class="mb-3">
+                                <label for="style_preference" class="form-label">Style Preference</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('style_preference').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Modern minimalist</option>
+                                        <option>Retro vintage</option>
+                                        <option>Bold and colorful</option>
+                                        <option>Classic and elegant</option>
+                                        <option>Futuristic and technological</option>
+                                        <option>Organic and natural</option>
+                                        <option>Playful and cartoonish</option>
+                                        <option>Business and sleek</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="colors" class="form-label">Colors</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('colors').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Blue, White, Gray</option>
+                                        <option>Red, Black, Yellow</option>
+                                        <option>Green, Blue, White</option>
+                                        <option>Purple, Orange, Turquoise</option>
+                                        <option>Black, Gold, Dark Gray</option>
+                                        <option>Earth tones (Brown, Beige, Green)</option>
+                                        <option>Pastel shades (Pink, Mint green, Light blue)</option>
+                                        <option>Vibrant colors (Fuchsia, Bright yellow, Cyan)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="typography" class="form-label">Typography</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
+                                     <select class="form-select suggestion-select" onchange="document.getElementById('typography').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Playfair Display & Source Sans Pro (Classic and elegant)</option>
+                                        <option>Montserrat & Open Sans (Bold and modern)</option>
+                                        <option>Roboto & Roboto Condensed (Sleek and functional)</option>
+                                        <option>Merriweather & Lato (Classic and readable)</option>
+                                        <option>Poppins & Raleway (Geometric and modern)</option>
+                                        <option>Abril Fatface & Lato (Serif and Sans-serif contrast)</option>
+                                        <option>Oswald & Noto Sans (Strong and universal)</option>
+                                        <option>Work Sans & Roboto (Professional and versatile)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="button_style" class="form-label">Button Style</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('button_style').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Rounded corners</option>
+                                        <option>Flat design</option>
+                                        <option>Gradient buttons</option>
+                                        <option>3D buttons with shadow</option>
+                                        <option>Filled buttons</option>
+                                        <option>Outline buttons</option>
+                                        <option>Shimmering buttons</option>
+                                        <option>Buttons with icons</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h5 class="border-bottom pb-2 mb-3">Imagery & Tone</h5>
+                            <div class="mb-3">
+                                <label for="photography" class="form-label">Photography/Illustrations</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="photography" placeholder="e.g., Stock photos of nature">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('photography').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Stock photos of nature</option>
+                                        <option>Abstract illustrations</option>
+                                        <option>Professional portraits</option>
+                                        <option>Own product photos</option>
+                                        <option>Minimalist line drawings</option>
+                                        <option>Dynamic video clips</option>
+                                        <option>Realistic 3D models</option>
+                                        <option>Atmospheric location photos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="icons" class="form-label">Icons</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="icons" placeholder="e.g., Font Awesome icons">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('icons').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Font Awesome icons</option>
+                                        <option>Material icons</option>
+                                        <option>Custom SVG icons</option>
+                                        <option>Line icons</option>
+                                        <option>Filled icons</option>
+                                        <option>Emojis</option>
+                                        <option>Monochromatic icons</option>
+                                        <option>Illustrative icons</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tone_of_voice" class="form-label">Tone of Voice</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('tone_of_voice').value = this.value; updateJsonOutput();">
+                                        <option value="">Suggestion</option>
+                                        <option>Friendly and professional</option>
+                                        <option>Playful and informal</option>
+                                        <option>Formal and authoritative</option>
+                                        <option>Passionate and persuasive</option>
+                                        <option>Calm and reassuring</option>
+                                        <option>Humorous and lighthearted</option>
+                                        <option>Inspiring and motivating</option>
+                                        <option>Direct and to the point</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="json-container">
+                    <div class="json-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-0">Generated JSON Prompt</h5>
+                            <span class="badge bg-secondary">Output</span>
+                        </div>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button class="btn btn-outline-success" id="copy-json" title="Copy to clipboard">
+                                <i class="bi bi-copy"></i>
+                            </button>
+                            <button class="btn btn-outline-info" id="export-json" title="Download as file">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="json-output-container">
+                        <textarea class="form-control border-0 flex-grow-1" id="json-output" readonly placeholder="Fill in the form to generate JSON..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <script>
+        // JSON Template
+        const jsonTemplate = {
+            "instructions": "Build a website in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. If possible, deliver a single zip file with all the files. Otherwise, write out the HTML, CSS, and JS source files so I can copy and create these files myself. Ensure the homepage is named index.html.",
+            "general_data": {
+                "title": "[TITLE]",
+                "slogan": "[SLOGAN]",
+                "language": "[LANGUAGE]",
+                "contact_details": "[FULL_CONTACT_DETAILS]",
+                "timestamp": "[TIMESTAMP]" // NEW FIELD
+            },
+            "context_and_brand_identity": {
+                "sector_activity": "[SECTOR]",
+                "target_audience": "[TARGET_AUDIENCE]",
+                "mission": "[MISSION]",
+                "vision": "[VISION]",
+                "core_values": "[CORE_VALUES]"
+            },
+            "design": {
+                "style_preference": "[STYLE_PREFERENCE]",
+                "colors": "[COLORS]",
+                "typography": "[TYPOGRAPHY]",
+                "button_style": "[BUTTON_STYLE]"
+            },
+            "imagery_and_tone": {
+                "photography_illustrations": "[PHOTOGRAPHY]",
+                "icons": "[ICONS]",
+                "tone_of_voice": "[TONE_OF_VOICE]"
+            },
+            "pages": {
+                "homepage": {
+                    "file_name": "index.html",
+                    "sections": [
+                        "Header",
+                        "Hero section (with a placeholder for the cover image, use a 'fixed' background-cover)",
+                        "An about-us section",
+                        "A gallery with images (with placeholders for images)",
+                        "A gallery with videos (with placeholders for YouTube embeds)",
+                        "A call to action that links to the contact page",
+                        "Footer"
+                    ]
+                },
+                "contact_page": {
+                    "file_name": "contact.html",
+                    "reuse": "Reuse header and footer from index.html",
+                    "content": "Use the contact details specified above",
+                    "no_form": "Do NOT create a form",
+                    "map": "Add a Google Map for the address"
+                },
+                "privacy_policy": {
+                    "file_name": "privacy.html",
+                    "reuse": "Reuse header and footer from index.html",
+                    "content": "Provide a default privacy policy for a website that only uses technical cookies."
+                }
+            },
+            "web_technologies": [
+                "use CDN where possible",
+                "create a sticky header",
+                "use the latest version of Bootstrap or Tailwind CSS",
+                "responsive design (mobile first)",
+                "responsive menu with hamburger icon",
+                "subtle animate-on-scroll (AoS) animations on all blocks (subtle fades and slides)",
+                "cookie acceptance module with link to the privacy page",
+                "lightbox for images (also add jQuery if you use a jQuery plugin)",
+                "dark/light mode (with icons in the header)",
+                "a back-to-top button at the bottom right",
+                "compatible with A11y standards for visually impaired/blind users",
+                "use smooth-scrolling everywhere",
+                "create a matching favicon",
+                "add free icons to the design",
+                "add social icons for Facebook, Instagram, and YouTube",
+                "use hover effects for buttons, links, and images where possible"
+            ],
+            "legal_conditions": [
+                "do not copy content (text/images) from other websites",
+                "ensure the website is in line with European GDPR regulations"
+            ]
+        };
+
+        const suggestions = {
+            title: [
+                "The World Discovered", "Traveler's Hunger", "Taste", "Vital Life", "The Digital Leap", "Creative Souls",
+                "The Balance", "Tech & Trends", "The Source of Inspiration", "The Palate", "Green Footprint", "The Innovation Hub",
+                "Education Online", "Financial Freedom"
+            ],
+            slogan: [
+                "Your compass for unforgettable journeys", "Inspiration for the adventurer in you", "From recipe to sensation",
+                "The path to a healthier version of yourself", "Your guide in a changing world", "The place where imagination comes to life",
+                "Harmony for body and mind", "Stay ahead, stay informed", "Dive into the depths of art and culture",
+                "Where every meal tells a story", "The future is now", "Building success together",
+                "Your partner in growth", "Discover, learn, grow"
+            ],
+            language: [
+                "Dutch", "English", "French", "Spanish", "German", "Italian", "Portuguese", "Japanese", "Chinese", "Russian",
+                "Arabic", "Turkish", "Polish", "Swedish"
+            ],
+            contact_details: [
+                "123 Street, Amsterdam, Netherlands", "123 Main St, New York, USA", "45 Example Street, Paris, France",
+                "7 Bahnhofstrasse, Zurich, Switzerland", "101 Champs-Élysées, Paris, France", "1 Downing Street, London, UK",
+                "20 Viale Roma, Rome, Italy", "8 Calle Sol, Madrid, Spain", "5 Kerkstraat, Brussels, Belgium",
+                "1 Marktplatz, Berlin, Germany", "1 Wall Street, New York, USA", "10 Grote Markt, Bruges, Belgium",
+                "25 Main Street, Utrecht, Netherlands", "500 Avenida Paulista, São Paulo, Brazil"
+            ],
+            sector: [
+                "Tech", "Healthcare", "Education", "Financial services", "Retail", "Consultancy", "Real estate", "Energy",
+                "Media & Entertainment", "Tourism & Hospitality", "Agriculture", "Manufacturing", "Automotive", "Logistics"
+            ],
+            target_audience: [
+                "Young professionals", "Entrepreneurs", "Students", "Families with children", "Seniors", "Creatives", "Hobbyists",
+                "Health-conscious individuals", "Travelers", "Tech enthusiasts", "Start-ups", "Non-profit organizations",
+                "Government agencies", "Local communities"
+            ],
+            mission: [
+                "To improve the world through innovation", "To deliver quality to customers", "To promote sustainability",
+                "To create an inclusive society", "To democratize access to knowledge", "To be the best workplace",
+                "To provide unforgettable experiences", "To empower people to reach their potential", "To leave a healthy planet",
+                "Financial independence for everyone", "To ensure safety and security", "To push the boundaries of science",
+                "To protect cultural heritage", "To build a community of like-minded individuals"
+            ],
+            vision: [
+                "To become a leader in the sector", "To make a global impact", "To lead innovation",
+                "A world without borders for communication", "The go-to source for expertise in X", "To make all homes sustainable",
+                "A world where technology is human", "Health accessible to everyone", "To empower every individual",
+                "To create a platform for connection", "An ecosystem of sustainable solutions", "To shape the future of mobility",
+                "A culture of lifelong learning", "To transform the way we work"
+            ],
+            core_values: [
+                "Integrity, Innovation, Sustainability", "Customer-centric, Reliable, Creative", "Collaboration, Excellence, Responsibility",
+                "Respect, Honesty, Transparency", "Passion, Growth, Result-oriented", "Diversity, Inclusivity, Equality",
+                "Agility, Flexibility, Drive", "Quality, Service, Accessibility", "Courage, Authenticity, Resilience",
+                "Simplicity, Functionality, Elegance", "Leadership, Empowerment, Commitment", "Corporate Social Responsibility",
+                "Openness, Curiosity, Eagerness to learn", "Sustainability, Innovation, Inclusivity"
+            ],
+            style_preference: [
+                "Modern minimalist", "Retro vintage", "Bold and colorful", "Elegant and luxurious", "Playful and dynamic",
+                "Clean and functional", "Organic and natural", "Industrial and robust", "Hand-drawn illustrations",
+                "Futuristic and digital", "Rustic and rural", "Cozy and warm", "Geometric and abstract", "Detailed and rich"
+            ],
+            colors: [
+                "Blue, White, Gray", "Red, Black, Yellow", "Green, Blue, White", "Black, White, Gold",
+                "Pastel shades such as Mint green, Pink, Light blue", "Earth tones such as Beige, Brown, Terracotta",
+                "Bright colors such as Orange, Turquoise, Magenta", "Purple, Lavender, Gray", "Dark blue, Gold, Ivory",
+                "Silver, White, Aqua", "Brown, Green, Orange", "Red, White, Blue", "Black, White, Red", "Yellow, Gray, White"
+            ],
+            typography: [
+                "Sans-serif fonts like Arial", "Serif fonts like Times New Roman", "Modern fonts like Roboto",
+                "Sans-serif fonts like Poppins", "Elegant fonts like Playfair Display", "Playful fonts like Comic Sans MS",
+                "Script fonts like Lobster", "Handwritten fonts like Amatic SC", "Monospace fonts like Courier New",
+                "Bold fonts for headings like Oswald", "Decorative fonts for logos like Great Vibes", "Sleek and geometric fonts like Montserrat",
+                "Friendly and rounded fonts like Quicksand", "Classic and readable fonts like Merriweather"
+            ],
+            button_style: [
+                "Rounded corners", "Flat design", "Gradient buttons", "Sharp corners", "With shadow", "Neumorphic design",
+                "Transparent buttons", "Button with icon", "Subtle hover effects", "Thick borders", "Large buttons",
+                "Buttons with only a border", "Shimmering buttons", "Buttons with icons"
+            ],
+            photography: [
+                "Stock photos of nature", "Abstract illustrations", "Professional portraits", "Own product photos",
+                "Minimalist line drawings", "Dynamic video clips", "Realistic 3D models", "Atmospheric location photos"
+            ],
+            icons: [
+                "Font Awesome icons", "Material icons", "Custom SVG icons", "Line icons", "Filled icons",
+                "Emojis", "Monochromatic icons", "Illustrative icons"
+            ],
+            tone_of_voice: [
+                "Friendly and professional", "Playful and informal", "Formal and authoritative",
+                "Passionate and persuasive", "Calm and reassuring", "Humorous and lighthearted",
+                "Inspiring and motivating", "Direct and to the point"
+            ]
+        };
+
+        function updateJsonOutput() {
+            const formData = {
+                title: document.getElementById('title').value,
+                slogan: document.getElementById('slogan').value,
+                language: document.getElementById('language').value,
+                contact_details: document.getElementById('contact_details').value,
+                sector: document.getElementById('sector').value,
+                target_audience: document.getElementById('target_audience').value,
+                mission: document.getElementById('mission').value,
+                vision: document.getElementById('vision').value,
+                core_values: document.getElementById('core_values').value,
+                style_preference: document.getElementById('style_preference').value,
+                colors: document.getElementById('colors').value,
+                typography: document.getElementById('typography').value,
+                button_style: document.getElementById('button_style').value,
+                photography: document.getElementById('photography').value,
+                icons: document.getElementById('icons').value,
+                tone_of_voice: document.getElementById('tone_of_voice').value,
+            };
+
+            const populatedTemplate = JSON.parse(JSON.stringify(jsonTemplate)); // Deep clone
+            const currentTimestamp = new Date().toISOString();
+
+            populatedTemplate.general_data.title = formData.title;
+            populatedTemplate.general_data.slogan = formData.slogan;
+            populatedTemplate.general_data.language = formData.language;
+            populatedTemplate.general_data.contact_details = formData.contact_details;
+            populatedTemplate.general_data.timestamp = currentTimestamp; // ADDED TIMESTAMP
+
+            populatedTemplate.context_and_brand_identity.sector_activity = formData.sector;
+            populatedTemplate.context_and_brand_identity.target_audience = formData.target_audience;
+            populatedTemplate.context_and_brand_identity.mission = formData.mission;
+            populatedTemplate.context_and_brand_identity.vision = formData.vision;
+            populatedTemplate.context_and_brand_identity.core_values = formData.core_values;
+            
+            populatedTemplate.design.style_preference = formData.style_preference;
+            populatedTemplate.design.colors = formData.colors;
+            populatedTemplate.design.typography = formData.typography;
+            populatedTemplate.design.button_style = formData.button_style;
+            
+            populatedTemplate.imagery_and_tone.photography_illustrations = formData.photography;
+            populatedTemplate.imagery_and_tone.icons = formData.icons;
+            populatedTemplate.imagery_and_tone.tone_of_voice = formData.tone_of_voice;
+
+            document.getElementById('json-output').value = JSON.stringify(populatedTemplate, null, 2);
+        }
+
+        function generateRandomValues() {
+            const formFields = ['title', 'slogan', 'language', 'contact_details', 'sector', 'target_audience', 'mission',
+                'vision', 'core_values', 'style_preference', 'colors', 'typography', 'button_style',
+                'photography', 'icons', 'tone_of_voice'
+            ];
+            
+            formFields.forEach(fieldId => {
+                const element = document.getElementById(fieldId);
+                if (element && suggestions[fieldId]) {
+                    const randomValue = suggestions[fieldId][Math.floor(Math.random() * suggestions[fieldId].length)];
+                    element.value = randomValue;
+                }
+            });
+            updateJsonOutput();
+        }
+
+        function clearForm() {
+            document.getElementById('prompt-form').reset();
+            updateJsonOutput();
+        }
+
+        // Event Listeners
+        document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
+        document.getElementById('generate-random').addEventListener('click', generateRandomValues);
+        document.getElementById('clear-form').addEventListener('click', clearForm);
+
+        document.getElementById('copy-json').addEventListener('click', () => {
+            const jsonOutput = document.getElementById('json-output');
+            jsonOutput.select();
+            document.execCommand('copy');
+            alert('JSON copied to clipboard!');
+        });
+
+        document.getElementById('export-json').addEventListener('click', () => {
+            const jsonOutput = document.getElementById('json-output').value;
+            const blob = new Blob([jsonOutput], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'website_prompt.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Initial generation on page load
+        updateJsonOutput();
+    </script>
+</body>
+</html>
