@@ -67,6 +67,14 @@
             border: 1px solid #dee2e6;
             margin-bottom: 20px;
         }
+        .theme-selector {
+            margin-bottom: 15px;
+        }
+        .theme-badge {
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
         @media (max-width: 991px) {
             .form-container, .json-container {
                 margin-bottom: 20px;
@@ -88,22 +96,30 @@
                 <div class="main-header">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div class="d-flex align-items-center flex-grow-1">
-                            <h1 class="mb-0 me-3">AI Site Prompt Builder</h1>
+                            <h1 class="mb-0 me-3">AI Onepaged Site Prompt</h1>
                             <a href="https://github.com/PieterCooreman/AI-Website-Prompt-Builder" class="btn btn-sm btn-outline-dark" target="_blank" title="View on GitHub">
                                 <i class="bi bi-github"></i>
                             </a>
-                           
                         </div>
                         <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-outline-primary" id="generate-random" title="Generate random values">
-                                <i class="bi bi-shuffle"></i> Generate Random
+                            <button type="button" class="btn btn-outline-primary" id="generate-random" title="Generate random themed values">
+                                <i class="bi bi-shuffle"></i> Random Theme
                             </button>
                             <button type="button" class="btn btn-outline-secondary" id="clear-form" title="Clear all fields">
                                 <i class="bi bi-eraser"></i> Clear Form
                             </button>
                         </div>
                     </div>
-                    <p class="text-muted mt-3 mb-0">Fill in the fields to build a <b>JSON prompt</b>. This structured output can be copied and used directly in a Generative AI model to produce a complete website based on your specifications. Use the suggestions or generate random values to get started.</p>
+                    <p class="text-muted mt-3 mb-0">Fill in the fields to build a <b>JSON prompt</b>. This structured output can be copied and used directly in a Generative AI model to produce a one-paged webpage based on your specifications.</p>
+                    
+                    <div class="theme-selector mt-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Theme Clusters:</label>
+                                <div id="theme-badges"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-container">
@@ -111,28 +127,28 @@
                         <div class="form-section">
                             <h5 class="border-bottom pb-2 mb-3">General Information</h5>
                             <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
+                                <label for="sitetitle" class="form-label">Title</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="title" placeholder="e.g., My Website">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('title').value = this.value; updateJsonOutput();">
+                                    <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('sitetitle').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="slogan" class="form-label">Slogan</label>
+                                <label for="siteslogan" class="form-label">Slogan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="slogan" placeholder="e.g., Innovate Today">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('slogan').value = this.value; updateJsonOutput();">
+                                    <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('siteslogan').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="language" class="form-label">Language</label>
+                                <label for="sitelanguage" class="form-label">Language</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="language" placeholder="e.g., English">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('language').value = this.value; updateJsonOutput();">
+                                    <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('sitelanguage').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -301,13 +317,12 @@
     <script>
         // JSON Template
         const jsonTemplate = {
-            "instructions": "Build a website in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. If possible, deliver a single zip file with all the files. Otherwise, write out the HTML, CSS, and JS source files so I can copy and create these files myself. Ensure the homepage is named index.html.",
+            "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html",
             "general_data": {
-                "title": "[TITLE]",
-                "slogan": "[SLOGAN]",
-                "language": "[LANGUAGE]",
-                "contact_details": "[FULL_CONTACT_DETAILS]",
-                "timestamp": "[TIMESTAMP]" // NEW FIELD
+                "sitetitle": "[SITETITLE]",
+                "siteslogan": "[SITESLOGAN]",
+                "sitelanguage": "[SITELANGUAGE]",
+                "contact_details": "[FULL_CONTACT_DETAILS]"                
             },
             "context_and_brand_identity": {
                 "sector_activity": "[SECTOR]",
@@ -327,296 +342,230 @@
                 "icons": "[ICONS]",
                 "tone_of_voice": "[TONE_OF_VOICE]"
             },
-            "pages": {
-                "homepage": {
-                    "file_name": "index.html",
-                    "sections": [
-                        "Header",
-                        "Hero section (with a placeholder for the cover image, use a 'fixed' background-cover)",
-                        "An about-us section",
-                        "A gallery with images (with placeholders for images)",
-                        "A gallery with videos (with placeholders for YouTube embeds)",
-                        "A call to action that links to the contact page",
-                        "Footer"
-                    ]
-                },
-                "contact_page": {
-                    "file_name": "contact.html",
-                    "reuse": "Reuse header and footer from index.html",
-                    "content": "Use the contact details specified above",
-                    "no_form": "Do NOT create a form",
-                    "map": "Add a Google Map for the address"
-                },
-                "privacy_policy": {
-                    "file_name": "privacy.html",
-                    "reuse": "Reuse header and footer from index.html",
-                    "content": "Provide a default privacy policy for a website that only uses technical cookies."
-                }
+            "content": {
+               
+				"file_name": "index.html",
+				"sections": [
+					"Sticky header with mobile menu",
+					"Hero section with a site-themed cover image. Use only royalty-free images from Unsplash, Pexels, or Pixabay. Double check whether the images exist and do not return any error message! Use a 'fixed' background-cover with parallax scrolling.",
+					"An site-themed about-us section width some lines of text",
+					"A gallery with 6 site-themed images - use only royalty-free images from Unsplash, Pexels, or Pixabay",
+					"A site-themed call to action that guides visitors to the contact block",
+					"A gallery with royalty-free site-themed videos safe to use in a website without attribution",
+					"Contact - use the contact details specified above - Add a Google Map for the address",
+					"Privacy-modal: Provide a default privacy policy for a website that only uses technical cookies",
+					"Footer"
+					]                
             },
             "web_technologies": [
                 "use CDN where possible",
                 "create a sticky header",
-                "use the latest version of Bootstrap or Tailwind CSS",
+                "use the latest version of Bootstrap",
                 "responsive design (mobile first)",
                 "responsive menu with hamburger icon",
                 "subtle animate-on-scroll (AoS) animations on all blocks (subtle fades and slides)",
-                "cookie acceptance module with link to the privacy page",
-                "lightbox for images (also add jQuery if you use a jQuery plugin)",
+                "cookie acceptance module with link that opens the privacy modal",
+                "lightbox for images in the gallery (also add jQuery if you use a jQuery plugin)",
                 "dark/light mode (with icons in the header)",
                 "a back-to-top button at the bottom right",
                 "compatible with A11y standards for visually impaired/blind users",
                 "use smooth-scrolling everywhere",
-                "create a matching favicon",
-                "add free icons to the design",
+                "create a matching favicon",                
                 "add social icons for Facebook, Instagram, and YouTube",
-                "use hover effects for buttons, links, and images where possible"
-            ],
-            "legal_conditions": [
-                "do not copy content (text/images) from other websites",
-                "ensure the website is in line with European GDPR regulations"
+                "use hover effects for buttons, links, and images where possible",
+				"When using colors, ensure there is sufficient contrast between the background and the text"
             ]
         };
 
-        const suggestions = {
-            title: [
-                "Creative Souls",
-                "Education Online",
-                "Financial Freedom",
-                "Green Footprint",
-                "Taste",
-                "Tech & Trends",
-                "The Balance",
-                "The Digital Leap",
-                "The Innovation Hub",
-                "The Palate",
-                "The Source of Inspiration",
-                "The World Discovered",
-                "Traveler's Hunger",
-                "Vital Life"
-            ].sort(),
-            slogan: [
-                "Building success together",
-                "Discover, learn, grow",
-                "Dive into the depths of art and culture",
-                "From recipe to sensation",
-                "Harmony for body and mind",
-                "Inspiration for the adventurer in you",
-                "Stay ahead, stay informed",
-                "The future is now",
-                "The path to a healthier version of yourself",
-                "The place where imagination comes to life",
-                "Where every meal tells a story",
-                "Your compass for unforgettable journeys",
-                "Your guide in a changing world",
-                "Your partner in growth"
-            ].sort(),
-            language: [
-                "Arabic",
-                "Chinese",
-                "Dutch",
-                "English",
-                "French",
-                "German",
-                "Italian",
-                "Japanese",
-                "Polish",
-                "Portuguese",
-                "Russian",
-                "Spanish",
-                "Swedish",
-                "Turkish"
-            ].sort(),
-            contact_details: [
-                "1 Downing Street, London, UK",
-                "1 Marktplatz, Berlin, Germany",
-                "1 Wall Street, New York, USA",
-                "10 Grote Markt, Bruges, Belgium",
-                "101 Champs-Élysées, Paris, France",
-                "123 Main St, New York, USA",
-                "123 Street, Amsterdam, Netherlands",
-                "20 Viale Roma, Rome, Italy",
-                "25 Main Street, Utrecht, Netherlands",
-                "45 Example Street, Paris, France",
-                "5 Kerkstraat, Brussels, Belgium",
-                "500 Avenida Paulista, São Paulo, Brazil",
-                "7 Bahnhofstrasse, Zurich, Switzerland",
-                "8 Calle Sol, Madrid, Spain"
-            ].sort(),
-            sector: [
-                "Agriculture",
-                "Automotive",
-                "Consultancy",
-                "Education",
-                "Energy",
-                "Financial services",
-                "Healthcare",
-                "Logistics",
-                "Manufacturing",
-                "Media & Entertainment",
-                "Real estate",
-                "Retail",
-                "Tech",
-                "Tourism & Hospitality"
-            ].sort(),
-            target_audience: [
-                "Creatives",
-                "Entrepreneurs",
-                "Families with children",
-                "Government agencies",
-                "Health-conscious individuals",
-                "Hobbyists",
-                "Local communities",
-                "Non-profit organizations",
-                "Seniors",
-                "Start-ups",
-                "Students",
-                "Tech enthusiasts",
-                "Travelers",
-                "Young professionals"
-            ].sort(),
-            mission: [
-                "Financial independence for everyone",
-                "To be the best workplace",
-                "To build a community of like-minded individuals",
-                "To create an inclusive society",
-                "To democratize access to knowledge",
-                "To deliver quality to customers",
-                "To empower people to reach their potential",
-                "To ensure safety and security",
-                "To improve the world through innovation",
-                "To leave a healthy planet",
-                "To promote sustainability",
-                "To provide unforgettable experiences",
-                "To push the boundaries of science",
-                "To protect cultural heritage"
-            ].sort(),
-            vision: [
-                "A culture of lifelong learning",
-                "A world where technology is human",
-                "A world without borders for communication",
-                "An ecosystem of sustainable solutions",
-                "Health accessible to everyone",
-                "The go-to source for expertise in X",
-                "To become a leader in the sector",
-                "To create a platform for connection",
-                "To lead innovation",
-                "To make a global impact",
-                "To make all homes sustainable",
-                "To empower every individual",
-                "To shape the future of mobility",
-                "To transform the way we work"
-            ].sort(),
-            core_values: [
-                "Agility, Flexibility, Drive",
-                "Collaboration, Excellence, Responsibility",
-                "Corporate Social Responsibility",
-                "Courage, Authenticity, Resilience",
-                "Customer-centric, Reliable, Creative",
-                "Diversity, Inclusivity, Equality",
-                "Integrity, Innovation, Sustainability",
-                "Leadership, Empowerment, Commitment",
-                "Openness, Curiosity, Eagerness to learn",
-                "Passion, Growth, Result-oriented",
-                "Quality, Service, Accessibility",
-                "Respect, Honesty, Transparency",
-                "Simplicity, Functionality, Elegance",
-                "Sustainability, Innovation, Inclusivity"
-            ].sort(),
-            style_preference: [
-                "Bold and colorful",
-                "Clean and functional",
-                "Cozy and warm",
-                "Detailed and rich",
-                "Elegant and luxurious",
-                "Futuristic and digital",
-                "Geometric and abstract",
-                "Hand-drawn illustrations",
-                "Industrial and robust",
-                "Modern minimalist",
-                "Organic and natural",
-                "Playful and dynamic",
-                "Retro vintage",
-                "Rustic and rural"
-            ].sort(),
-            colors: [
-                "Black, White, Gold",
-                "Blue, White, Gray",
-                "Bright colors such as Orange, Turquoise, Magenta",
-                "Brown, Green, Orange",
-                "Dark blue, Gold, Ivory",
-                "Earth tones such as Beige, Brown, Terracotta",
-                "Green, Blue, White",
-                "Pastel shades such as Mint green, Pink, Light blue",
-                "Purple, Lavender, Gray",
-                "Red, Black, Yellow",
-                "Red, White, Blue",
-                "Silver, White, Aqua",
-                "Yellow, Gray, White",
-                "Black, White, Red"
-            ].sort(),
-            typography: [                
-				"Headings: Oswald, Body: Open Sans",
-				"Headings: Merriweather Sans, Body: Merriweather",
-				"Logo/Decorative: Great Vibes, Body: Lato",
-				"Headings: Playfair Display, Body: Source Sans Pro",
-				"Headings: Quicksand, Body: Raleway",
-				"Handwritten: Amatic SC, Body: Patrick Hand",
-				"Headings: Roboto Slab, Body: Roboto",
-				"Headings: Space Mono, Body: Inconsolata",
-				"Headings: Fredoka, Body: Nunito",
-				"Headings: Poppins, Body: Open Sans",
-				"Headings: Montserrat, Body: Roboto",
-				"Headings: Lora, Body: Source Serif Pro",
-				"Headings: Lobster, Body: Raleway",
-				"Headings: Montserrat Alternates, Body: Work Sans"
-			].sort(),
-            button_style: [
-                "Buttons with only a border",
-                "Buttons with icons",
-                "Flat design",
-                "Gradient buttons",
-                "Large buttons",
-                "Neumorphic design",
-                "Rounded corners",
-                "Sharp corners",
-                "Shimmering buttons",
-                "Subtle hover effects",
-                "Thick borders",
-                "Transparent buttons",
-                "With shadow",
-                "Button with icon"
-            ].sort(),
-            photography: [
-                "Abstract illustrations",
-                "Atmospheric location photos",
-                "Dynamic video clips",
-                "Minimalist line drawings",
-                "Own product photos",
-                "Professional portraits",
-                "Realistic 3D models",
-                "Stock photos of nature"
-            ].sort(),
-            icons: [
-                "Custom SVG icons",
-                "Emojis",
-                "Filled icons",
-                "Font Awesome icons",
-                "Illustrative icons",
-                "Line icons",
-                "Material icons",
-                "Monochromatic icons"
-            ].sort(),
-            tone_of_voice: [
-                "Calm and reassuring",
-                "Direct and to the point",
-                "Formal and authoritative",
-                "Friendly and professional",
-                "Humorous and lighthearted",
-                "Inspiring and motivating",
-                "Passionate and persuasive",
-                "Playful and informal"
-            ].sort()
-        };
+        // Thematic Clusters - each cluster contains all related suggestions
+       const thematicClusters = {
+    tech_startup: {
+        name: "Tech Startup",
+        color: "primary",
+        sitetitle: "The Innovation Hub",
+        siteslogan: "The future is now",
+        sitelanguage: "English",
+        contact_details: "1 Wall Street, New York, USA",
+        sector: "Tech",
+        target_audience: "Tech enthusiasts",
+        mission: "To improve the world through innovation",
+        vision: "To lead innovation",
+        core_values: "Integrity, Innovation, Sustainability",
+        style_preference: "Modern minimalist",
+        colors: "Blue, White, Gray",
+        typography: "Headings: Montserrat (Modern, Geometric Sans-Serif), Body: Roboto (Clean, Neutral Sans-Serif)",
+        button_style: "Rounded corners with a subtle glow on hover",
+        photography: "Realistic 3D models",
+        icons: "Line icons",
+        tone_of_voice: "Direct and to the point"
+    },
+    health_wellness: {
+        name: "Health & Wellness",
+        color: "success",
+        sitetitle: "Vital Life",
+        siteslogan: "Harmony for body and mind",
+        sitelanguage: "English",
+        contact_details: "25 Main Street, Utrecht, Netherlands",
+        sector: "Healthcare",
+        target_audience: "Health-conscious individuals",
+        mission: "To empower people to reach their potential",
+        vision: "Health accessible to everyone",
+        core_values: "Sustainability, Innovation, Inclusivity",
+        style_preference: "Organic and natural",
+        colors: "Green, Blue, White",
+        typography: "Headings: Lora (Elegant, Serif), Body: Source Serif Pro (Classic, Readable Serif)",
+        button_style: "Soft edges with a calm color transition on hover",
+        photography: "Stock photos of nature",
+        icons: "Filled icons",
+        tone_of_voice: "Calm and reassuring"
+    },
+    creative_agency: {
+        name: "Creative Agency",
+        color: "warning",
+        sitetitle: "Creative Souls",
+        siteslogan: "Where imagination comes to life",
+        sitelanguage: "English",
+        contact_details: "101 Champs-Élysées, Paris, France",
+        sector: "Media & Entertainment",
+        target_audience: "Creatives",
+        mission: "To protect cultural heritage",
+        vision: "A world where technology is human",
+        core_values: "Passion, Growth, Result-oriented",
+        style_preference: "Bold and colorful",
+        colors: "Bright colors such as Orange, Turquoise, Magenta",
+        typography: "Logo/Decorative: Great Vibes (Flowing, Script), Body: Lato (Friendly, Humanist Sans-Serif)",
+        button_style: "Gradient buttons with a dynamic drop shadow on hover",
+        photography: "Abstract illustrations",
+        icons: "Illustrative icons",
+        tone_of_voice: "Playful and informal"
+    },
+    financial_services: {
+        name: "Financial Services",
+        color: "info",
+        sitetitle: "Financial Freedom",
+        siteslogan: "Building success together",
+        sitelanguage: "English",
+        contact_details: "7 Bahnhofstrasse, Zurich, Switzerland",
+        sector: "Financial services",
+        target_audience: "Young professionals",
+        mission: "Financial independence for everyone",
+        vision: "To make a global impact",
+        core_values: "Integrity, Innovation, Sustainability",
+        style_preference: "Elegant and luxurious",
+        colors: "Dark blue, Gold, Ivory",
+        typography: "Headings: Playfair Display (Elegant, High-contrast Serif), Body: Source Sans Pro (Professional, Neutral Sans-Serif)",
+        button_style: "Sharp buttons with a subtle 3D-like effect and a slight sheen",
+        photography: "Professional portraits",
+        icons: "Monochromatic icons",
+        tone_of_voice: "Formal and authoritative"
+    },
+    restaurant_food: {
+        name: "Restaurant & Food",
+        color: "danger",
+        sitetitle: "The Palate",
+        siteslogan: "Where every meal tells a story",
+        sitelanguage: "English",
+        contact_details: "20 Viale Roma, Rome, Italy",
+        sector: "Tourism & Hospitality",
+        target_audience: "Local communities",
+        mission: "To provide unforgettable experiences",
+        vision: "To create a platform for connection",
+        core_values: "Quality, Service, Accessibility",
+        style_preference: "Cozy and warm",
+        colors: "Brown, Green, Orange",
+        typography: "Headings: Lobster (Playful, Bold Script), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
+        button_style: "Buttons with icons, rounded corners, and a light shadow",
+        photography: "Own product photos",
+        icons: "Font Awesome icons",
+        tone_of_voice: "Friendly and professional"
+    },
+    education_online: {
+        name: "Online Education",
+        color: "secondary",
+        sitetitle: "Education Online",
+        siteslogan: "Discover, learn, grow",
+        sitelanguage: "English",
+        contact_details: "123 Main St, New York, USA",
+        sector: "Education",
+        target_audience: "Students",
+        mission: "To democratize access to knowledge",
+        vision: "A culture of lifelong learning",
+        core_values: "Openness, Curiosity, Eagerness to learn",
+        style_preference: "Clean and functional",
+        colors: "Blue, White, Gray",
+        typography: "Headings: Poppins (Clean, Geometric Sans-Serif), Body: Open Sans (Highly readable, Neutral Sans-Serif)",
+        button_style: "Flat design with a slight background change on hover",
+        photography: "Minimalist line drawings",
+        icons: "Material icons",
+        tone_of_voice: "Inspiring and motivating"
+    },
+    eco_sustainability: {
+        name: "Eco & Sustainability",
+        color: "success",
+        sitetitle: "Green Footprint",
+        siteslogan: "Your partner in growth",
+        sitelanguage: "English",
+        contact_details: "10 Grote Markt, Bruges, Belgium",
+        sector: "Energy",
+        target_audience: "Families with children",
+        mission: "To leave a healthy planet",
+        vision: "To make all homes sustainable",
+        core_values: "Sustainability, Innovation, Inclusivity",
+        style_preference: "Organic and natural",
+        colors: "Green, Blue, White",
+        typography: "Headings: Fredoka (Friendly, Rounded Sans-Serif), Body: Nunito (Soft, Balanced Sans-Serif)",
+        button_style: "Rounded corners with a natural 'pulse' effect on hover",
+        photography: "Photos of nature",
+        icons: "Line icons",
+        tone_of_voice: "Inspiring and motivating"
+    },
+    travel_adventure: {
+        name: "Travel & Adventure",
+        color: "info",
+        sitetitle: "The World Discovered",
+        siteslogan: "Your compass for unforgettable journeys",
+        sitelanguage: "English",
+        contact_details: "500 Avenida Paulista, São Paulo, Brazil",
+        sector: "Tourism & Hospitality",
+        target_audience: "Travelers",
+        mission: "To provide unforgettable experiences",
+        vision: "A world without borders for communication",
+        core_values: "Openness, Curiosity, Eagerness to learn",
+        style_preference: "Playful and dynamic",
+        colors: "Bright colors such as Orange, Turquoise, Magenta",
+        typography: "Headings: Quicksand (Light, Rounded Sans-Serif), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
+        button_style: "Large, eye-catching buttons with a playful shadow on hover",
+        photography: "Atmospheric location photos",
+        icons: "Filled icons",
+        tone_of_voice: "Playful and informal"
+    }
+};
+        // Create individual suggestion arrays from clusters for dropdown menus
+        const suggestions = {};
+        const fields = ['sitetitle', 'siteslogan', 'sitelanguage', 'contact_details', 'sector', 'target_audience', 
+                       'mission', 'vision', 'core_values', 'style_preference', 'colors', 'typography', 
+                       'button_style', 'photography', 'icons', 'tone_of_voice'];
+        
+        // Initialize suggestion arrays
+        fields.forEach(field => {
+            suggestions[field] = [];
+        });
+
+        // Populate suggestions from clusters
+        Object.values(thematicClusters).forEach(cluster => {
+            fields.forEach(field => {
+                if (cluster[field] && !suggestions[field].includes(cluster[field])) {
+                    suggestions[field].push(cluster[field]);
+                }
+            });
+        });
+
+        // Sort all suggestion arrays
+        fields.forEach(field => {
+            suggestions[field].sort();
+        });
+
+        let currentCluster = null;
 
         function populateSuggestions() {
             for (const fieldId in suggestions) {
@@ -635,11 +584,39 @@
             }
         }
 
+        function createThemeBadges() {
+            const badgeContainer = document.getElementById('theme-badges');
+            Object.keys(thematicClusters).forEach(clusterKey => {
+                const cluster = thematicClusters[clusterKey];
+                const badge = document.createElement('span');
+                badge.className = `badge bg-${cluster.color} theme-badge`;
+                badge.textContent = cluster.name;
+                badge.style.cursor = 'pointer';
+                badge.onclick = () => applyCluster(clusterKey);
+                badgeContainer.appendChild(badge);
+            });
+        }
+
+        function applyCluster(clusterKey) {
+            const cluster = thematicClusters[clusterKey];
+            currentCluster = clusterKey;
+            
+            // Update all form fields with cluster values
+            fields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element && cluster[field]) {
+                    element.value = cluster[field];
+                }
+            });
+            
+            updateJsonOutput();
+        }
+
         function updateJsonOutput() {
             const formData = {
-                title: document.getElementById('title').value,
-                slogan: document.getElementById('slogan').value,
-                language: document.getElementById('language').value,
+                sitetitle: document.getElementById('sitetitle').value,
+                siteslogan: document.getElementById('siteslogan').value,
+                sitelanguage: document.getElementById('sitelanguage').value,
                 contact_details: document.getElementById('contact_details').value,
                 sector: document.getElementById('sector').value,
                 target_audience: document.getElementById('target_audience').value,
@@ -656,13 +633,12 @@
             };
 
             const populatedTemplate = JSON.parse(JSON.stringify(jsonTemplate)); // Deep clone
-            const currentTimestamp = new Date().toISOString();
-
-            populatedTemplate.general_data.title = formData.title;
-            populatedTemplate.general_data.slogan = formData.slogan;
-            populatedTemplate.general_data.language = formData.language;
+            
+            populatedTemplate.general_data.sitetitle = formData.sitetitle;
+            populatedTemplate.general_data.siteslogan = formData.siteslogan;
+            populatedTemplate.general_data.sitelanguage = formData.sitelanguage;
             populatedTemplate.general_data.contact_details = formData.contact_details;
-            populatedTemplate.general_data.timestamp = currentTimestamp;
+            
 
             populatedTemplate.context_and_brand_identity.sector_activity = formData.sector;
             populatedTemplate.context_and_brand_identity.target_audience = formData.target_audience;
@@ -683,23 +659,15 @@
         }
 
         function generateRandomValues() {
-            const formFields = ['title', 'slogan', 'language', 'contact_details', 'sector', 'target_audience', 'mission',
-                'vision', 'core_values', 'style_preference', 'colors', 'typography', 'button_style',
-                'photography', 'icons', 'tone_of_voice'
-            ];
-            
-            formFields.forEach(fieldId => {
-                const element = document.getElementById(fieldId);
-                if (element && suggestions[fieldId]) {
-                    const randomValue = suggestions[fieldId][Math.floor(Math.random() * suggestions[fieldId].length)];
-                    element.value = randomValue;
-                }
-            });
-            updateJsonOutput();
+            // Select a random cluster
+            const clusterKeys = Object.keys(thematicClusters);
+            const randomClusterKey = clusterKeys[Math.floor(Math.random() * clusterKeys.length)];
+            applyCluster(randomClusterKey);
         }
 
         function clearForm() {
             document.getElementById('prompt-form').reset();
+            currentCluster = null;
             updateJsonOutput();
         }
 
@@ -728,9 +696,12 @@
             URL.revokeObjectURL(url);
         });
 
-        // Initial generation on page load
-        updateJsonOutput();
-        populateSuggestions();
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateJsonOutput();
+            populateSuggestions();
+            createThemeBadges();
+        });
     </script>
 </body>
 </html>
