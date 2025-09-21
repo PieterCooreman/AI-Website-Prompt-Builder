@@ -76,6 +76,7 @@
             margin-right: 5px;
             margin-bottom: 5px;
         }
+		
         @media (max-width: 991px) {
             .form-container, .json-container {
                 margin-bottom: 20px;
@@ -168,10 +169,10 @@
                         <div class="form-section">
                             <h5 class="border-bottom pb-2 mb-3">Context & Brand Identity</h5>
                             <div class="mb-3">
-                                <label for="sector" class="form-label">Sector/Activity</label>
+                                <label for="sector_activity" class="form-label">Sector/Activity</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="sector" placeholder="e.g., Technology">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('sector').value = this.value; updateJsonOutput();">
+                                    <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
+                                    <select class="form-select suggestion-select" onchange="document.getElementById('sector_activity').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -240,7 +241,7 @@
                                     <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
                                      <select class="form-select suggestion-select" onchange="document.getElementById('typography').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
-                                    </select>
+                                     </select>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -255,7 +256,7 @@
                         </div>
 
                         <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">Imagery & Tone</h5>                                     
+                            <h5 class="border-bottom pb-2 mb-3">Imagery & Tone</h5>                            
                             <div class="mb-3">
                                 <label for="tone_of_voice" class="form-label">Tone of Voice</label>
                                 <div class="input-group">
@@ -296,7 +297,6 @@
     </div>
 
     <script>
-        // JSON Template (legacy keys kept for backward compatibility)
         const jsonTemplate = {
             "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html. Ensure the header remains fixed at the top (CSS position: fixed), the Google Map uses a working key-less embed or OpenStreetMap fallback. Never display white (or light-colored) text on white backgrounds, and never display black (or dark) text on black or dark backgrounds. This makes the text unreadable. Keep this in mind EVERYWHERE you use text.",
             "output": "one complete index.html file with inline <style> en <script> sections",
@@ -304,10 +304,10 @@
                 "sitetitle": "[SITETITLE]",
                 "siteslogan": "[SITESLOGAN]",
                 "sitelanguage": "[SITELANGUAGE]",
-                "contact_details": "[FULL_CONTACT_DETAILS]"                
+                "contact_details": "[CONTACT_DETAILS]"               
             },
             "context_and_brand_identity": {
-                "sector_activity": "[SECTOR]",
+                "sector_activity": "[SECTOR_ACTIVITY]",
                 "target_audience": "[TARGET_AUDIENCE]",
                 "mission": "[MISSION]",
                 "vision": "[VISION]",
@@ -320,7 +320,7 @@
                 "typography": "[TYPOGRAPHY]",
                 "button_style": "[BUTTON_STYLE]",
                 "favicon": "Generate a matching favicon",
-				"header_behavior": "Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
+                "header_behavior": "Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
             },
             "color_contrast": {
               "minimum_ratio": "4.5:1",
@@ -342,7 +342,7 @@
                 "Minimum `line-height: 1.5` for body text",
                 "No text directly on gradient backgrounds without contrast overlay",
                 "Use `rgba(255,255,255,0.9)` minimum opacity for text on dark images",
-				"Ensure that all interactive elements, including navigation links in the header, buttons, and forms, have explicit color definitions for both light and dark modes. These definitions should be specific enough to override standard styles from libraries like Bootstrap and maintain the WCAG AA contrast ratio."
+                "Ensure that all interactive elements, including navigation links in the header, buttons, and forms, have explicit color definitions for both light and dark modes. These definitions should be specific enough to override standard styles from libraries like Bootstrap and maintain the WCAG AA contrast ratio."
               ],
               "background_transparency": [
                 "Navigation: minimum 0.95 opacity on light, 0.9 on dark",
@@ -355,7 +355,7 @@
                 "Generate color pairs and verify 4.5:1 ratio before implementation",
                 "Test all text elements in browser dev tools",
                 "Provide contrast ratios in code comments for each text/background combination"
-              ]              
+              ]                
             },
             "text_guidelines": [
                 "Body text: 16px minimum on backgrounds with 4.5:1 contrast",
@@ -366,11 +366,11 @@
                 "required_library": "Bootstrap Icons",
                 "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
                 "implementation_rules": [
-                  "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",				  
-                  "Do NOT use inline SVG or data URIs"                  
-                ]				
-              },
-            "imagery_and_tone": {                            
+                  "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",                 
+                  "Do NOT use inline SVG or data URIs"                   
+                ]                
+            },
+            "imagery_and_tone": {                      
                 "tone_of_voice": "[TONE_OF_VOICE]"
             },
             "content_sections": [
@@ -378,22 +378,22 @@
                 "Hero section with a parallax fixed-cover background image",
                 "About-us section with a few site-themed descriptive lines",
                 "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
-				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as GLightbox or SimpleLightbox",
+                "For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as GLightbox or SimpleLightbox",
                 "Call-to-action guiding visitors to the contact block",
                 "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
                 "Contact section with provided details and embedded Google Map",
                 "Privacy modal with a default policy for a site using only technical cookies",
                 "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button"
               ],
-			  "contact_section": {
-				  "google_map": {
-					"requirement": "Use a fully functional embed with a public, keyless embed URL from Google Maps (or OpenStreetMap as a fallback)"
-				  }
-				},            
+              "contact_section": {
+                "google_map": {
+                    "requirement": "Use a fully functional embed with a public, keyless embed URL from Google Maps (or OpenStreetMap as a fallback)"
+                }
+                },                
             "web_technologies": [
                 "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",         
-                "responsive menu with hamburger icon",                            
-                "use hover effects for buttons, links, and images where possible"				
+                "responsive menu with hamburger icon",                      
+                "use hover effects for buttons, links, and images where possible"                
             ],
             "functionality": {
                 "animations": "Subtle animate-on-scroll (fade/slide)",
@@ -402,79 +402,48 @@
                 "hover_effects": "Buttons, links, and images",
                 "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation"
               },
-			"code_validation": {
-			  "requirements": [
-				"All JavaScript must be syntactically valid and pass ESLint",
-				"Test all event listeners and DOM manipulations",
-				"Verify all string concatenation and template literals",
-				"Ensure proper quote escaping in HTML attributes",
-				"Validate all CSS custom properties and selectors"
-			  ]
-			},
-			"code_quality": {				
-				"error_prevention": {
-				  "javascript": "Use defensive programming: check if elements exist before manipulation, wrap all event listeners in try-catch, validate all data types",
-				  "common_issues_to_avoid": [
-					"Unclosed string literals",
-					"Missing semicolons in critical locations", 
-					"Malformed regex patterns",
-					"Incorrect quote escaping in HTML attributes",
-					"Global variable scope conflicts"
-				  ]
-				}
-			  },
-			"javascript_specifics": {
-			  "string_handling": "Use single quotes for HTML attributes, double quotes for JavaScript strings, and template literals only when necessary",
-			  "event_listeners": "Always check if target element exists: if (element) { element.addEventListener(...) }",
-			  "dom_manipulation": "Use document.querySelector safety: const el = document.querySelector('#id'); if (el) { ... }"
-			},
+            "code_validation": {
+              "requirements": [
+                "All JavaScript must be syntactically valid and pass ESLint",
+                "Test all event listeners and DOM manipulations",
+                "Verify all string concatenation and template literals",
+                "Ensure proper quote escaping in HTML attributes",
+                "Validate all CSS custom properties and selectors"
+              ]
+            },
+            "code_quality": {                
+                "error_prevention": {
+                  "javascript": "Use defensive programming: check if elements exist before manipulation, wrap all event listeners in try-catch, validate all data types",
+                  "common_issues_to_avoid": [
+                    "Unclosed string literals",
+                    "Missing semicolons in critical locations", 
+                    "Malformed regex patterns",
+                    "Incorrect quote escaping in HTML attributes",
+                    "Global variable scope conflicts"
+                  ]
+                }
+              },
+            "javascript_specifics": {
+              "string_handling": "Use single quotes for HTML attributes, double quotes for JavaScript strings, and template literals only when necessary",
+              "event_listeners": "Always check if target element exists: if (element) { element.addEventListener(...) }",
+              "dom_manipulation": "Use document.querySelector safety: const el = document.querySelector('#id'); if (el) { ... }"
+            },
             "assets": {
-                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. If the image returns an error message (404, 403), use https://placeholder.co as a fallback. For example:src='https://placehold.co/600x400?text=use+image+here'",
+                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
                 "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
           }
         };
+ 
 
-        // -------------------------
-        // Backwards-compatible wrappers
-        // -------------------------
-        // These wrappers provide the improved hierarchical structure (project_info, design_system, etc.)
-        // while referencing the existing legacy objects so your current JS still works unchanged.
-        jsonTemplate.project_info = {
-            general_data: jsonTemplate.general_data,
-            context_and_brand_identity: jsonTemplate.context_and_brand_identity
-        };
-        jsonTemplate.design_system = {
-            design: jsonTemplate.design,
-            color_contrast: jsonTemplate.color_contrast,
-            css_requirements: jsonTemplate.css_requirements,
-            text_guidelines: jsonTemplate.text_guidelines
-        };
-        jsonTemplate.media_and_tone = {
-            imagery_and_tone: jsonTemplate.imagery_and_tone,
-            icons: jsonTemplate.icons,
-            assets: jsonTemplate.assets
-        };
-        jsonTemplate.site_structure = {
-            content_sections: jsonTemplate.content_sections,
-            images: jsonTemplate.images,
-            web_technologies: jsonTemplate.web_technologies,
-            functionality: jsonTemplate.functionality
-        };
-        jsonTemplate.quality_checks = {
-            validation: jsonTemplate.validation
-        };
-
-        // Thematic Clusters - each cluster contains all related suggestions
-       const thematicClusters = {
-
-    "tech_startup": {
+        const thematicClusters = {
+        "tech_startup": {
         "name": "Tech Startup",
         "color": "primary",
         "sitetitle": "The Innovation Hub",
         "siteslogan": "The future is now",
         "sitelanguage": "English",
         "contact_details": "1 Wall Street, New York, USA",
-        "sector": "Tech",
+        "sector_activity": "Tech",
         "target_audience": "Tech enthusiasts",
         "mission": "To improve the world through innovation",
         "vision": "To lead innovation",
@@ -497,7 +466,7 @@
         "siteslogan": "Harmony for body and mind",
         "sitelanguage": "English",
         "contact_details": "25 Main Street, Utrecht, Netherlands",
-        "sector": "Healthcare",
+        "sector_activity": "Healthcare",
         "target_audience": "Health-conscious individuals",
         "mission": "To empower people to reach their potential",
         "vision": "Health accessible to everyone",
@@ -520,7 +489,7 @@
         "siteslogan": "Where imagination comes to life",
         "sitelanguage": "English",
         "contact_details": "101 Champs-Élysées, Paris, France",
-        "sector": "Media & Entertainment",
+        "sector_activity": "Media & Entertainment",
         "target_audience": "Creatives",
         "mission": "To protect cultural heritage",
         "vision": "A world where technology is human",
@@ -543,7 +512,7 @@
         "siteslogan": "Building success together",
         "sitelanguage": "English",
         "contact_details": "7 Bahnhofstrasse, Zurich, Switzerland",
-        "sector": "Financial services",
+        "sector_activity": "Financial services",
         "target_audience": "Young professionals",
         "mission": "Financial independence for everyone",
         "vision": "To make a global impact",
@@ -566,7 +535,7 @@
         "siteslogan": "Where every meal tells a story",
         "sitelanguage": "English",
         "contact_details": "20 Viale Roma, Rome, Italy",
-        "sector": "Tourism & Hospitality",
+        "sector_activity": "Tourism & Hospitality",
         "target_audience": "Local communities",
         "mission": "To provide unforgettable experiences",
         "vision": "To create a platform for connection",
@@ -589,7 +558,7 @@
         "siteslogan": "Discover, learn, grow",
         "sitelanguage": "English",
         "contact_details": "123 Main St, New York, USA",
-        "sector": "Education",
+        "sector_activity": "Education",
         "target_audience": "Students",
         "mission": "To democratize access to knowledge",
         "vision": "A culture of lifelong learning",
@@ -612,7 +581,7 @@
         "siteslogan": "Your partner in growth",
         "sitelanguage": "English",
         "contact_details": "10 Grote Markt, Bruges, Belgium",
-        "sector": "Energy",
+        "sector_activity": "Energy",
         "target_audience": "Families with children",
         "mission": "To leave a healthy planet",
         "vision": "To make all homes sustainable",
@@ -635,7 +604,7 @@
         "siteslogan": "Your compass for unforgettable journeys",
         "sitelanguage": "English",
         "contact_details": "500 Avenida Paulista, São Paulo, Brazil",
-        "sector": "Tourism & Hospitality",
+        "sector_activity": "Tourism & Hospitality",
         "target_audience": "Travelers",
         "mission": "To provide unforgettable experiences",
         "vision": "A world without borders for communication",
@@ -651,193 +620,160 @@
         "button_style": "Large, eye-catching buttons with a playful shadow on hover",
         "tone_of_voice": "Playful and informal"
     }
-
 };
-        // Create individual suggestion arrays from clusters for dropdown menus
-        const suggestions = {};
-        const fields = ['sitetitle', 'siteslogan', 'sitelanguage', 'contact_details', 'sector', 'target_audience', 
-                       'mission', 'vision', 'core_values', 'style_preference', 'colors', 'typography', 
-                       'button_style', 'tone_of_voice'];
-        
-        // Initialize suggestion arrays
-        fields.forEach(field => {
-            suggestions[field] = [];
-        });
 
-        // Populate suggestions from clusters
-        Object.values(thematicClusters).forEach(cluster => {
-            fields.forEach(field => {
-                if (cluster[field] && !suggestions[field].includes(cluster[field])) {
-                    suggestions[field].push(cluster[field]);
+        // The issue is in the functions that add options and badges. They are called multiple times,
+        // causing duplication. We need to clear the existing options before adding new ones.
+
+        // Fix 1: Refactor to a single, idempotent function to add theme options
+        function addThemeOptionsAndBadges() {
+            const selectElements = document.querySelectorAll('.suggestion-select');
+            const themeBadgesContainer = document.getElementById('theme-badges');
+
+            // Clear existing options from all select elements
+            selectElements.forEach(select => {
+                // Keep the first option ("Suggestion")
+                while (select.options.length > 1) {
+                    select.remove(1);
                 }
             });
-        });
 
-        // Sort all suggestion arrays
-        fields.forEach(field => {
-            suggestions[field].sort();
-        });
+            // Clear existing badges
+            themeBadgesContainer.innerHTML = '';
 
-        let currentCluster = null;
-
-        function populateSuggestions() {
-            for (const fieldId in suggestions) {
-                const selectElement = document.querySelector(`#${fieldId} + .suggestion-select`);
-                if (selectElement) {
-                    while (selectElement.options.length > 1) {
-                        selectElement.remove(1);
-                    }
-                    suggestions[fieldId].forEach(suggestion => {
-                        const option = document.createElement('option');
-                        option.value = suggestion;
-                        option.textContent = suggestion;
-                        selectElement.appendChild(option);
+            for (const key in thematicClusters) {
+                if (thematicClusters.hasOwnProperty(key)) {
+                    const theme = thematicClusters[key];
+                    
+                    // Add badge
+                    const badge = document.createElement('span');
+                    badge.className = `badge bg-${theme.color} theme-badge btn`;
+                    badge.textContent = theme.name;
+                    badge.onclick = () => applyTheme(key);
+                    themeBadgesContainer.appendChild(badge);
+                    
+                    // Add option to each select
+                    const themeOption = document.createElement('option');
+                    themeOption.value = key;
+                    themeOption.textContent = `${theme.name} Theme`;
+                    
+                    selectElements.forEach(select => {
+                        select.appendChild(themeOption.cloneNode(true));
                     });
                 }
             }
         }
 
-        function createThemeBadges() {
-            const badgeContainer = document.getElementById('theme-badges');
-            Object.keys(thematicClusters).forEach(clusterKey => {
-                const cluster = thematicClusters[clusterKey];
-                const badge = document.createElement('span');
-                badge.className = `badge bg-${cluster.color} theme-badge`;
-                badge.textContent = cluster.name;
-                badge.style.cursor = 'pointer';
-                badge.onclick = () => applyCluster(clusterKey);
-                badgeContainer.appendChild(badge);
-            });
-        }
+        // Call this function once on page load
+        document.addEventListener('DOMContentLoaded', addThemeOptionsAndBadges);
 
-        function applyCluster(clusterKey) {
-            const cluster = thematicClusters[clusterKey];
-            currentCluster = clusterKey;
-            
-            // Update all form fields with cluster values
-            fields.forEach(field => {
-                const element = document.getElementById(field);
-                if (element && cluster[field]) {
-                    element.value = cluster[field];
-                }
+
+        // -------------------------
+        // Core Logic
+        // -------------------------
+
+        function getFormData() {
+            const data = {};
+            const formElements = document.querySelectorAll('#prompt-form .form-input');
+            formElements.forEach(input => {
+                data[input.id] = input.value;
             });
-            
-            updateJsonOutput();
+            return data;
         }
 
         function updateJsonOutput() {
-            const formData = {
-                sitetitle: document.getElementById('sitetitle').value,
-                siteslogan: document.getElementById('siteslogan').value,
-                sitelanguage: document.getElementById('sitelanguage').value,
-                contact_details: document.getElementById('contact_details').value,
-                sector: document.getElementById('sector').value,
-                target_audience: document.getElementById('target_audience').value,
-                mission: document.getElementById('mission').value,
-                vision: document.getElementById('vision').value,
-                core_values: document.getElementById('core_values').value,
-                style_preference: document.getElementById('style_preference').value,
-                colors: document.getElementById('colors').value,
-                typography: document.getElementById('typography').value,
-                button_style: document.getElementById('button_style').value,                
-                tone_of_voice: document.getElementById('tone_of_voice').value,
-            };
+            const formData = getFormData();
+            const clonedTemplate = JSON.parse(JSON.stringify(jsonTemplate));
 
-            const populatedTemplate = JSON.parse(JSON.stringify(jsonTemplate)); // Deep clone
+            function replacePlaceholders(obj) {
+                for (const key in obj) {
+                    if (typeof obj[key] === 'string') {
+                        let value = formData[key];
+                        if (key === 'colors' && Array.isArray(value)) {
+                            value = value.join(', ');
+                        }
+                        if (value) {
+                            const placeholder = `[${key.toUpperCase()}]`;
+                            obj[key] = obj[key].replace(placeholder, value);
+                        }
+                    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                        replacePlaceholders(obj[key]);
+                    }
+                }
+            }
             
-            // keep using legacy keys so existing code works
-            populatedTemplate.general_data.sitetitle = formData.sitetitle;
-            populatedTemplate.general_data.siteslogan = formData.siteslogan;
-            populatedTemplate.general_data.sitelanguage = formData.sitelanguage;
-            populatedTemplate.general_data.contact_details = formData.contact_details;
+            replacePlaceholders(clonedTemplate);
             
-
-            populatedTemplate.context_and_brand_identity.sector_activity = formData.sector;
-            populatedTemplate.context_and_brand_identity.target_audience = formData.target_audience;
-            populatedTemplate.context_and_brand_identity.mission = formData.mission;
-            populatedTemplate.context_and_brand_identity.vision = formData.vision;
-            populatedTemplate.context_and_brand_identity.core_values = formData.core_values;
+            // Clean up empty placeholder objects and arrays
+            const cleanTemplate = JSON.parse(JSON.stringify(clonedTemplate, (key, value) => {
+                if (Array.isArray(value) && value.length === 0) return undefined;
+                if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return undefined;
+                if (typeof value === 'string' && value.startsWith('[') && value.endsWith(']')) return undefined;
+                return value;
+            }, 2));
             
-            populatedTemplate.design.style_preference = formData.style_preference;
-            populatedTemplate.design.colors = formData.colors;
-            populatedTemplate.design.typography = formData.typography;
-            populatedTemplate.design.button_style = formData.button_style;            
-            
-            populatedTemplate.imagery_and_tone.tone_of_voice = formData.tone_of_voice;
-
-            // Also update the new grouped wrappers so both representations stay in sync
-            if (populatedTemplate.project_info) {
-                populatedTemplate.project_info.general_data = populatedTemplate.general_data;
-                populatedTemplate.project_info.context_and_brand_identity = populatedTemplate.context_and_brand_identity;
-            }
-            if (populatedTemplate.design_system) {
-                populatedTemplate.design_system.design = populatedTemplate.design;
-                populatedTemplate.design_system.color_contrast = populatedTemplate.color_contrast;
-                populatedTemplate.design_system.css_requirements = populatedTemplate.css_requirements;
-                populatedTemplate.design_system.text_guidelines = populatedTemplate.text_guidelines;
-            }
-            if (populatedTemplate.media_and_tone) {
-                populatedTemplate.media_and_tone.imagery_and_tone = populatedTemplate.imagery_and_tone;
-                populatedTemplate.media_and_tone.icons = populatedTemplate.icons;
-                populatedTemplate.media_and_tone.assets = populatedTemplate.assets;
-            }
-            if (populatedTemplate.site_structure) {
-                populatedTemplate.site_structure.content_sections = populatedTemplate.content_sections;
-                populatedTemplate.site_structure.images = populatedTemplate.images;
-                populatedTemplate.site_structure.web_technologies = populatedTemplate.web_technologies;
-                populatedTemplate.site_structure.functionality = populatedTemplate.functionality;
-            }
-            if (populatedTemplate.quality_checks) {
-                populatedTemplate.quality_checks.validation = populatedTemplate.validation;
-            }
-
-            document.getElementById('json-output').value = JSON.stringify(populatedTemplate, null, 2);
+            document.getElementById('json-output').value = JSON.stringify(cleanTemplate, null, 2);
         }
 
-        function generateRandomValues() {
-            // Select a random cluster
-            const clusterKeys = Object.keys(thematicClusters);
-            const randomClusterKey = clusterKeys[Math.floor(Math.random() * clusterKeys.length)];
-            applyCluster(randomClusterKey);
+        function applyTheme(themeKey) {
+            const theme = thematicClusters[themeKey];
+            if (!theme) return;
+            
+            document.getElementById('sitetitle').value = theme.sitetitle || '';
+            document.getElementById('siteslogan').value = theme.siteslogan || '';
+            document.getElementById('sitelanguage').value = theme.sitelanguage || '';
+            document.getElementById('contact_details').value = theme.contact_details || '';
+            document.getElementById('sector_activity').value = theme.sector_activity || '';
+            document.getElementById('target_audience').value = theme.target_audience || '';
+            document.getElementById('mission').value = theme.mission || '';
+            document.getElementById('vision').value = theme.vision || '';
+            document.getElementById('core_values').value = theme.core_values || '';
+            document.getElementById('style_preference').value = theme.style_preference || '';
+            document.getElementById('colors').value = Array.isArray(theme.colors) ? theme.colors.join(', ') : theme.colors || '';
+            document.getElementById('typography').value = theme.typography || '';
+            document.getElementById('button_style').value = theme.button_style || '';
+            document.getElementById('tone_of_voice').value = theme.tone_of_voice || '';
+            
+            updateJsonOutput();
+        }
+
+        function generateRandomTheme() {
+            const keys = Object.keys(thematicClusters);
+            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            applyTheme(randomKey);
         }
 
         function clearForm() {
-            document.getElementById('prompt-form').reset();
-            currentCluster = null;
+            const formElements = document.querySelectorAll('#prompt-form .form-input');
+            formElements.forEach(input => input.value = '');
             updateJsonOutput();
         }
 
-        // Event Listeners
-        document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
-        document.getElementById('generate-random').addEventListener('click', generateRandomValues);
-        document.getElementById('clear-form').addEventListener('click', clearForm);
-
-        document.getElementById('copy-json').addEventListener('click', () => {
-            const jsonOutput = document.getElementById('json-output');
-            jsonOutput.select();
+        function copyJson() {
+            const output = document.getElementById('json-output');
+            output.select();
+            output.setSelectionRange(0, 99999);
             document.execCommand('copy');
             alert('JSON copied to clipboard!');
-        });
+        }
 
-        document.getElementById('export-json').addEventListener('click', () => {
-            const jsonOutput = document.getElementById('json-output').value;
-            const blob = new Blob([jsonOutput], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
+        function exportJson() {
+            const json = document.getElementById('json-output').value;
+            const blob = new Blob([json], { type: 'application/json' });
             const a = document.createElement('a');
-            a.href = url;
+            a.href = URL.createObjectURL(blob);
             a.download = 'website_prompt.json';
-            document.body.appendChild(a);
             a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
+            URL.revokeObjectURL(a.href);
+        }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateJsonOutput();
-            populateSuggestions();
-            createThemeBadges();
-        });
+        document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
+        document.getElementById('generate-random').addEventListener('click', generateRandomTheme);
+        document.getElementById('clear-form').addEventListener('click', clearForm);
+        document.getElementById('copy-json').addEventListener('click', copyJson);
+        document.getElementById('export-json').addEventListener('click', exportJson);
+
+        updateJsonOutput(); // Initial call
     </script>
 </body>
 </html>
