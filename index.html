@@ -375,7 +375,7 @@
             },
             "content_sections": [
                 "Fixed header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
-                "Hero section with a parallax fixed-cover background image (royalty-free Unsplash/Pexels/Pixabay)",
+                "Hero section with a parallax fixed-cover background image",
                 "About-us section with a few site-themed descriptive lines",
                 "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
 				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as GLightbox or SimpleLightbox",
@@ -389,8 +389,7 @@
 				  "google_map": {
 					"requirement": "Use a fully functional embed with a public, keyless embed URL from Google Maps (or OpenStreetMap as a fallback)"
 				  }
-				},
-            "images": "provide a fallback (e.g., a default placeholder image) if a resource from Unsplash/Pexels/Pixabay cannot be loaded",
+				},            
             "web_technologies": [
                 "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",         
                 "responsive menu with hamburger icon",                            
@@ -430,7 +429,7 @@
 			  "dom_manipulation": "Use document.querySelector safety: const el = document.querySelector('#id'); if (el) { ... }"
 			},
             "assets": {
-                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. As a fallback for images, use the placeholder service https://placehold.co. For example: onerror='this.src='https://placehold.co/600x400?text=Not+Found'",
+                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. If the image returns an error message (404, 403), use https://placeholder.co as a fallback. For example:src='https://placehold.co/600x400?text=use+image+here'",
                 "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
           }
         };
