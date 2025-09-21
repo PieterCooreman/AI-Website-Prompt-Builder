@@ -1,12 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Website Prompt Builder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body {
             background-color: #FFF;
@@ -255,25 +255,7 @@
                         </div>
 
                         <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">Imagery & Tone</h5>
-                            <div class="mb-3">
-                                <label for="photography" class="form-label">Photography/Illustrations</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="photography" placeholder="e.g., Stock photos of nature">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('photography').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="icons" class="form-label">Icons</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="icons" placeholder="e.g., Font Awesome icons">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('icons').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <h5 class="border-bottom pb-2 mb-3">Imagery & Tone</h5>                                     
                             <div class="mb-3">
                                 <label for="tone_of_voice" class="form-label">Tone of Voice</label>
                                 <div class="input-group">
@@ -313,12 +295,11 @@
         </div>
     </div>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
     <script>
-        // JSON Template
+        // JSON Template (legacy keys kept for backward compatibility)
         const jsonTemplate = {
-            "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html",
+            "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html. Ensure the header remains fixed at the top (CSS position: fixed), the Google Map uses a working key-less embed or OpenStreetMap fallback. Never display white (or light-colored) text on white backgrounds, and never display black (or dark) text on black or dark backgrounds. This makes the text unreadable. Keep this in mind EVERYWHERE you use text.",
+            "output": "one complete index.html file with inline <style> en <script> sections",
             "general_data": {
                 "sitetitle": "[SITETITLE]",
                 "siteslogan": "[SITESLOGAN]",
@@ -335,217 +316,349 @@
             "design": {
                 "style_preference": "[STYLE_PREFERENCE]",
                 "colors": "[COLORS]",
+                "color_contrast": "ensure WCAG 2.1 AA contrast",
                 "typography": "[TYPOGRAPHY]",
-                "button_style": "[BUTTON_STYLE]"
+                "button_style": "[BUTTON_STYLE]",
+                "favicon": "Generate a matching favicon",
+				"header_behavior": "Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
             },
-            "imagery_and_tone": {
-                "photography_illustrations": "[PHOTOGRAPHY]",
-                "icons": "[ICONS]",
+            "color_contrast": {
+              "minimum_ratio": "4.5:1",
+              "critical_areas": [
+                "all body text on backgrounds",
+                "navigation links",
+                "button text",
+                "form labels and input text"
+              ],
+              "testing_requirement": "All color combinations must pass WCAG 2.1 AA using WebAIM Contrast Checker",
+              "dark_mode": "Maintain 4.5:1 ratio for white text on dark backgrounds",
+              "constraints": [
+                "No text on gradients without overlay",
+                "Minimum 4.5:1 contrast for all text-background combinations"                
+              ]
+            },
+            "css_requirements": {
+              "text_readability": [                
+                "Minimum `line-height: 1.5` for body text",
+                "No text directly on gradient backgrounds without contrast overlay",
+                "Use `rgba(255,255,255,0.9)` minimum opacity for text on dark images",
+				"Ensure that all interactive elements, including navigation links in the header, buttons, and forms, have explicit color definitions for both light and dark modes. These definitions should be specific enough to override standard styles from libraries like Bootstrap and maintain the WCAG AA contrast ratio."
+              ],
+              "background_transparency": [
+                "Navigation: minimum 0.95 opacity on light, 0.9 on dark",
+                "Cards: solid backgrounds or minimum 0.1 opacity overlay",
+                "Hero overlays: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4))`"
+              ]
+            },
+            "validation": {
+              "contrast_check": [
+                "Generate color pairs and verify 4.5:1 ratio before implementation",
+                "Test all text elements in browser dev tools",
+                "Provide contrast ratios in code comments for each text/background combination"
+              ]              
+            },
+            "text_guidelines": [
+                "Body text: 16px minimum on backgrounds with 4.5:1 contrast",
+                "Headings: Bold with 3:1 minimum contrast",
+                "Links: Underlined or 3px color contrast with parent text"
+            ],
+            "icons": {
+                "required_library": "Bootstrap Icons",
+                "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
+                "implementation_rules": [
+                  "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",				  
+                  "Do NOT use inline SVG or data URIs"                  
+                ]				
+              },
+            "imagery_and_tone": {                            
                 "tone_of_voice": "[TONE_OF_VOICE]"
             },
-            "content": {
-               
-				"file_name": "index.html",
-				"sections": [
-					"Sticky header with mobile menu",
-					"Hero section with a site-themed cover image. Use only royalty-free images from Unsplash, Pexels, or Pixabay. Double check whether the images exist and do not return any error message! Use a 'fixed' background-cover with parallax scrolling.",
-					"An site-themed about-us section width some lines of text",
-					"A gallery with 6 site-themed images - use only royalty-free images from Unsplash, Pexels, or Pixabay",
-					"A site-themed call to action that guides visitors to the contact block",
-					"A gallery with royalty-free site-themed videos safe to use in a website without attribution",
-					"Contact - use the contact details specified above - Add a Google Map for the address",
-					"Privacy-modal: Provide a default privacy policy for a website that only uses technical cookies",
-					"Footer"
-					]                
-            },
+            "content_sections": [
+                "Fixed header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
+                "Hero section with a parallax fixed-cover background image (royalty-free Unsplash/Pexels/Pixabay)",
+                "About-us section with a few site-themed descriptive lines",
+                "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
+				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as GLightbox or SimpleLightbox",
+                "Call-to-action guiding visitors to the contact block",
+                "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
+                "Contact section with provided details and embedded Google Map",
+                "Privacy modal with a default policy for a site using only technical cookies",
+                "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button"
+              ],
+			  "contact_section": {
+				  "google_map": {
+					"requirement": "Use a fully functional embed with a public, keyless embed URL from Google Maps (or OpenStreetMap as a fallback)"
+				  }
+				},
+            "images": "provide a fallback (e.g., a default placeholder image) if a resource from Unsplash/Pexels/Pixabay cannot be loaded",
             "web_technologies": [
-                "use CDN where possible",
-                "create a sticky header",
-                "use the latest version of Bootstrap",
-                "responsive design (mobile first)",
-                "responsive menu with hamburger icon",
-                "subtle animate-on-scroll (AoS) animations on all blocks (subtle fades and slides)",
-                "cookie acceptance module with link that opens the privacy modal - clicking the accept button closes the widget",
-                "lightbox for images in the gallery (also add jQuery if you use a jQuery plugin)",
-                "dark/light mode (with icons in the header)",
-                "a back-to-top button at the bottom right",
-                "compatible with A11y standards for visually impaired/blind users",
-                "use smooth-scrolling everywhere",
-                "create a matching favicon",                
-                "add social icons for Facebook, Instagram, and YouTube",
-                "use hover effects for buttons, links, and images where possible",
-				"When using colors, ensure there is sufficient contrast between the background and the text"
-            ]
+                "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",         
+                "responsive menu with hamburger icon",                            
+                "use hover effects for buttons, links, and images where possible"				
+            ],
+            "functionality": {
+                "animations": "Subtle animate-on-scroll (fade/slide)",
+                "cookie_consent": "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits.",
+                "smooth_scrolling": true,
+                "hover_effects": "Buttons, links, and images",
+                "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation"
+              },
+			"code_validation": {
+			  "requirements": [
+				"All JavaScript must be syntactically valid and pass ESLint",
+				"Test all event listeners and DOM manipulations",
+				"Verify all string concatenation and template literals",
+				"Ensure proper quote escaping in HTML attributes",
+				"Validate all CSS custom properties and selectors"
+			  ]
+			},
+			"code_quality": {				
+				"error_prevention": {
+				  "javascript": "Use defensive programming: check if elements exist before manipulation, wrap all event listeners in try-catch, validate all data types",
+				  "common_issues_to_avoid": [
+					"Unclosed string literals",
+					"Missing semicolons in critical locations", 
+					"Malformed regex patterns",
+					"Incorrect quote escaping in HTML attributes",
+					"Global variable scope conflicts"
+				  ]
+				}
+			  },
+			"javascript_specifics": {
+			  "string_handling": "Use single quotes for HTML attributes, double quotes for JavaScript strings, and template literals only when necessary",
+			  "event_listeners": "Always check if target element exists: if (element) { element.addEventListener(...) }",
+			  "dom_manipulation": "Use document.querySelector safety: const el = document.querySelector('#id'); if (el) { ... }"
+			},
+            "assets": {
+                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. As a fallback for images, use the placeholder service https://placehold.co. For example: onerror='this.src='https://placehold.co/600x400?text=Not+Found'",
+                "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
+          }
+        };
+
+        // -------------------------
+        // Backwards-compatible wrappers
+        // -------------------------
+        // These wrappers provide the improved hierarchical structure (project_info, design_system, etc.)
+        // while referencing the existing legacy objects so your current JS still works unchanged.
+        jsonTemplate.project_info = {
+            general_data: jsonTemplate.general_data,
+            context_and_brand_identity: jsonTemplate.context_and_brand_identity
+        };
+        jsonTemplate.design_system = {
+            design: jsonTemplate.design,
+            color_contrast: jsonTemplate.color_contrast,
+            css_requirements: jsonTemplate.css_requirements,
+            text_guidelines: jsonTemplate.text_guidelines
+        };
+        jsonTemplate.media_and_tone = {
+            imagery_and_tone: jsonTemplate.imagery_and_tone,
+            icons: jsonTemplate.icons,
+            assets: jsonTemplate.assets
+        };
+        jsonTemplate.site_structure = {
+            content_sections: jsonTemplate.content_sections,
+            images: jsonTemplate.images,
+            web_technologies: jsonTemplate.web_technologies,
+            functionality: jsonTemplate.functionality
+        };
+        jsonTemplate.quality_checks = {
+            validation: jsonTemplate.validation
         };
 
         // Thematic Clusters - each cluster contains all related suggestions
        const thematicClusters = {
-    tech_startup: {
-        name: "Tech Startup",
-        color: "primary",
-        sitetitle: "The Innovation Hub",
-        siteslogan: "The future is now",
-        sitelanguage: "English",
-        contact_details: "1 Wall Street, New York, USA",
-        sector: "Tech",
-        target_audience: "Tech enthusiasts",
-        mission: "To improve the world through innovation",
-        vision: "To lead innovation",
-        core_values: "Integrity, Innovation, Sustainability",
-        style_preference: "Modern minimalist",
-        colors: "Blue, White, Gray",
-        typography: "Headings: Montserrat (Modern, Geometric Sans-Serif), Body: Roboto (Clean, Neutral Sans-Serif)",
-        button_style: "Rounded corners with a subtle glow on hover",
-        photography: "Realistic 3D models",
-        icons: "Line icons",
-        tone_of_voice: "Direct and to the point"
+
+    "tech_startup": {
+        "name": "Tech Startup",
+        "color": "primary",
+        "sitetitle": "The Innovation Hub",
+        "siteslogan": "The future is now",
+        "sitelanguage": "English",
+        "contact_details": "1 Wall Street, New York, USA",
+        "sector": "Tech",
+        "target_audience": "Tech enthusiasts",
+        "mission": "To improve the world through innovation",
+        "vision": "To lead innovation",
+        "core_values": "Integrity, Innovation, Sustainability",
+        "style_preference": "Modern minimalist",
+        "colors": [
+            "#1E3A8A (Deep Blue)",
+            "#3B82F6 (Electric Blue)",
+            "#F8FAFC (Cool White)",
+            "#64748B (Slate Gray)"
+        ],
+        "typography": "Headings: Montserrat (Modern, Geometric Sans-Serif), Body: Roboto (Clean, Neutral Sans-Serif)",
+        "button_style": "Rounded corners with a subtle glow on hover",        
+        "tone_of_voice": "Direct and to the point"
     },
-    health_wellness: {
-        name: "Health & Wellness",
-        color: "success",
-        sitetitle: "Vital Life",
-        siteslogan: "Harmony for body and mind",
-        sitelanguage: "English",
-        contact_details: "25 Main Street, Utrecht, Netherlands",
-        sector: "Healthcare",
-        target_audience: "Health-conscious individuals",
-        mission: "To empower people to reach their potential",
-        vision: "Health accessible to everyone",
-        core_values: "Sustainability, Innovation, Inclusivity",
-        style_preference: "Organic and natural",
-        colors: "Green, Blue, White",
-        typography: "Headings: Lora (Elegant, Serif), Body: Source Serif Pro (Classic, Readable Serif)",
-        button_style: "Soft edges with a calm color transition on hover",
-        photography: "Stock photos of nature",
-        icons: "Filled icons",
-        tone_of_voice: "Calm and reassuring"
+    "health_wellness": {
+        "name": "Health & Wellness",
+        "color": "success",
+        "sitetitle": "Vital Life",
+        "siteslogan": "Harmony for body and mind",
+        "sitelanguage": "English",
+        "contact_details": "25 Main Street, Utrecht, Netherlands",
+        "sector": "Healthcare",
+        "target_audience": "Health-conscious individuals",
+        "mission": "To empower people to reach their potential",
+        "vision": "Health accessible to everyone",
+        "core_values": "Sustainability, Innovation, Inclusivity",
+        "style_preference": "Organic and natural",
+        "colors": [
+            "#059669 (Emerald Green)",
+            "#10B981 (Mint Green)",
+            "#ECFCCB (Sage White)",
+            "#0891B2 (Ocean Blue)"
+        ],
+        "typography": "Headings: Lora (Elegant, Serif), Body: Source Serif Pro (Classic, Readable Serif)",
+        "button_style": "Soft edges with a calm color transition on hover",        
+        "tone_of_voice": "Calm and reassuring"
     },
-    creative_agency: {
-        name: "Creative Agency",
-        color: "warning",
-        sitetitle: "Creative Souls",
-        siteslogan: "Where imagination comes to life",
-        sitelanguage: "English",
-        contact_details: "101 Champs-Élysées, Paris, France",
-        sector: "Media & Entertainment",
-        target_audience: "Creatives",
-        mission: "To protect cultural heritage",
-        vision: "A world where technology is human",
-        core_values: "Passion, Growth, Result-oriented",
-        style_preference: "Bold and colorful",
-        colors: "Bright colors such as Orange, Turquoise, Magenta",
-        typography: "Logo/Decorative: Great Vibes (Flowing, Script), Body: Lato (Friendly, Humanist Sans-Serif)",
-        button_style: "Gradient buttons with a dynamic drop shadow on hover",
-        photography: "Abstract illustrations",
-        icons: "Illustrative icons",
-        tone_of_voice: "Playful and informal"
+    "creative_agency": {
+        "name": "Creative Agency",
+        "color": "warning",
+        "sitetitle": "Creative Souls",
+        "siteslogan": "Where imagination comes to life",
+        "sitelanguage": "English",
+        "contact_details": "101 Champs-Élysées, Paris, France",
+        "sector": "Media & Entertainment",
+        "target_audience": "Creatives",
+        "mission": "To protect cultural heritage",
+        "vision": "A world where technology is human",
+        "core_values": "Passion, Growth, Result-oriented",
+        "style_preference": "Bold and colorful",
+        "colors": [
+            "#F97316 (Vibrant Orange)",
+            "#06B6D4 (Turquoise)",
+            "#EC4899 (Hot Pink)",
+            "#8B5CF6 (Electric Purple)"
+        ],
+        "typography": "Logo/Decorative: Great Vibes (Flowing, Script), Body: Lato (Friendly, Humanist Sans-Serif)",
+        "button_style": "Gradient buttons with a dynamic drop shadow on hover",        
+        "tone_of_voice": "Playful and informal"
     },
-    financial_services: {
-        name: "Financial Services",
-        color: "info",
-        sitetitle: "Financial Freedom",
-        siteslogan: "Building success together",
-        sitelanguage: "English",
-        contact_details: "7 Bahnhofstrasse, Zurich, Switzerland",
-        sector: "Financial services",
-        target_audience: "Young professionals",
-        mission: "Financial independence for everyone",
-        vision: "To make a global impact",
-        core_values: "Integrity, Innovation, Sustainability",
-        style_preference: "Elegant and luxurious",
-        colors: "Dark blue, Gold, Ivory",
-        typography: "Headings: Playfair Display (Elegant, High-contrast Serif), Body: Source Sans Pro (Professional, Neutral Sans-Serif)",
-        button_style: "Sharp buttons with a subtle 3D-like effect and a slight sheen",
-        photography: "Professional portraits",
-        icons: "Monochromatic icons",
-        tone_of_voice: "Formal and authoritative"
+    "financial_services": {
+        "name": "Financial Services",
+        "color": "info",
+        "sitetitle": "Financial Freedom",
+        "siteslogan": "Building success together",
+        "sitelanguage": "English",
+        "contact_details": "7 Bahnhofstrasse, Zurich, Switzerland",
+        "sector": "Financial services",
+        "target_audience": "Young professionals",
+        "mission": "Financial independence for everyone",
+        "vision": "To make a global impact",
+        "core_values": "Integrity, Innovation, Sustainability",
+        "style_preference": "Elegant and luxurious",
+        "colors": [
+            "#1E293B (Navy Blue)",
+            "#F59E0B (Gold)",
+            "#FEF7CD (Ivory)",
+            "#374151 (Charcoal Gray)"
+        ],
+        "typography": "Headings: Playfair Display (Elegant, High-contrast Serif), Body: Source Sans Pro (Professional, Neutral Sans-Serif)",
+        "button_style": "Sharp buttons with a subtle 3D-like effect and a slight sheen",        
+        "tone_of_voice": "Formal and authoritative"
     },
-    restaurant_food: {
-        name: "Restaurant & Food",
-        color: "danger",
-        sitetitle: "The Palate",
-        siteslogan: "Where every meal tells a story",
-        sitelanguage: "English",
-        contact_details: "20 Viale Roma, Rome, Italy",
-        sector: "Tourism & Hospitality",
-        target_audience: "Local communities",
-        mission: "To provide unforgettable experiences",
-        vision: "To create a platform for connection",
-        core_values: "Quality, Service, Accessibility",
-        style_preference: "Cozy and warm",
-        colors: "Brown, Green, Orange",
-        typography: "Headings: Lobster (Playful, Bold Script), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
-        button_style: "Buttons with icons, rounded corners, and a light shadow",
-        photography: "Own product photos",
-        icons: "Font Awesome icons",
-        tone_of_voice: "Friendly and professional"
+    "restaurant_food": {
+        "name": "Restaurant & Food",
+        "color": "danger",
+        "sitetitle": "The Palate",
+        "siteslogan": "Where every meal tells a story",
+        "sitelanguage": "English",
+        "contact_details": "20 Viale Roma, Rome, Italy",
+        "sector": "Tourism & Hospitality",
+        "target_audience": "Local communities",
+        "mission": "To provide unforgettable experiences",
+        "vision": "To create a platform for connection",
+        "core_values": "Quality, Service, Accessibility",
+        "style_preference": "Cozy and warm",
+        "colors": [
+            "#92400E (Rich Brown)",
+            "#16A34A (Forest Green)",
+            "#EA580C (Warm Orange)",
+            "#FEF3C7 (Cream)"
+        ],
+        "typography": "Headings: Lobster (Playful, Bold Script), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
+        "button_style": "Buttons with icons, rounded corners, and a light shadow",
+        "tone_of_voice": "Friendly and professional"
     },
-    education_online: {
-        name: "Online Education",
-        color: "secondary",
-        sitetitle: "Education Online",
-        siteslogan: "Discover, learn, grow",
-        sitelanguage: "English",
-        contact_details: "123 Main St, New York, USA",
-        sector: "Education",
-        target_audience: "Students",
-        mission: "To democratize access to knowledge",
-        vision: "A culture of lifelong learning",
-        core_values: "Openness, Curiosity, Eagerness to learn",
-        style_preference: "Clean and functional",
-        colors: "Blue, White, Gray",
-        typography: "Headings: Poppins (Clean, Geometric Sans-Serif), Body: Open Sans (Highly readable, Neutral Sans-Serif)",
-        button_style: "Flat design with a slight background change on hover",
-        photography: "Minimalist line drawings",
-        icons: "Material icons",
-        tone_of_voice: "Inspiring and motivating"
+    "education_online": {
+        "name": "Online Education",
+        "color": "secondary",
+        "sitetitle": "Education Online",
+        "siteslogan": "Discover, learn, grow",
+        "sitelanguage": "English",
+        "contact_details": "123 Main St, New York, USA",
+        "sector": "Education",
+        "target_audience": "Students",
+        "mission": "To democratize access to knowledge",
+        "vision": "A culture of lifelong learning",
+        "core_values": "Openness, Curiosity, Eagerness to learn",
+        "style_preference": "Clean and functional",
+        "colors": [
+            "#2563EB (Royal Blue)",
+            "#F8FAFC (Pure White)",
+            "#E2E8F0 (Light Gray)",
+            "#475569 (Slate Blue)"
+        ],
+        "typography": "Headings: Poppins (Clean, Geometric Sans-Serif), Body: Open Sans (Highly readable, Neutral Sans-Serif)",
+        "button_style": "Flat design with a slight background change on hover",        
+        "tone_of_voice": "Inspiring and motivating"
     },
-    eco_sustainability: {
-        name: "Eco & Sustainability",
-        color: "success",
-        sitetitle: "Green Footprint",
-        siteslogan: "Your partner in growth",
-        sitelanguage: "English",
-        contact_details: "10 Grote Markt, Bruges, Belgium",
-        sector: "Energy",
-        target_audience: "Families with children",
-        mission: "To leave a healthy planet",
-        vision: "To make all homes sustainable",
-        core_values: "Sustainability, Innovation, Inclusivity",
-        style_preference: "Organic and natural",
-        colors: "Green, Blue, White",
-        typography: "Headings: Fredoka (Friendly, Rounded Sans-Serif), Body: Nunito (Soft, Balanced Sans-Serif)",
-        button_style: "Rounded corners with a natural 'pulse' effect on hover",
-        photography: "Photos of nature",
-        icons: "Line icons",
-        tone_of_voice: "Inspiring and motivating"
+    "eco_sustainability": {
+        "name": "Eco & Sustainability",
+        "color": "success",
+        "sitetitle": "Green Footprint",
+        "siteslogan": "Your partner in growth",
+        "sitelanguage": "English",
+        "contact_details": "10 Grote Markt, Bruges, Belgium",
+        "sector": "Energy",
+        "target_audience": "Families with children",
+        "mission": "To leave a healthy planet",
+        "vision": "To make all homes sustainable",
+        "core_values": "Sustainability, Innovation, Inclusivity",
+        "style_preference": "Organic and natural",
+        "colors": [
+            "#15803D (Earth Green)",
+            "#0284C7 (Sky Blue)",
+            "#F0FDF4 (Natural White)",
+            "#A3E635 (Fresh Lime)"
+        ],
+        "typography": "Headings: Fredoka (Friendly, Rounded Sans-Serif), Body: Nunito (Soft, Balanced Sans-Serif)",
+        "button_style": "Rounded corners with a natural 'pulse' effect on hover",        
+        "tone_of_voice": "Inspiring and motivating"
     },
-    travel_adventure: {
-        name: "Travel & Adventure",
-        color: "info",
-        sitetitle: "The World Discovered",
-        siteslogan: "Your compass for unforgettable journeys",
-        sitelanguage: "English",
-        contact_details: "500 Avenida Paulista, São Paulo, Brazil",
-        sector: "Tourism & Hospitality",
-        target_audience: "Travelers",
-        mission: "To provide unforgettable experiences",
-        vision: "A world without borders for communication",
-        core_values: "Openness, Curiosity, Eagerness to learn",
-        style_preference: "Playful and dynamic",
-        colors: "Bright colors such as Orange, Turquoise, Magenta",
-        typography: "Headings: Quicksand (Light, Rounded Sans-Serif), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
-        button_style: "Large, eye-catching buttons with a playful shadow on hover",
-        photography: "Atmospheric location photos",
-        icons: "Filled icons",
-        tone_of_voice: "Playful and informal"
+    "travel_adventure": {
+        "name": "Travel & Adventure",
+        "color": "info",
+        "sitetitle": "The World Discovered",
+        "siteslogan": "Your compass for unforgettable journeys",
+        "sitelanguage": "English",
+        "contact_details": "500 Avenida Paulista, São Paulo, Brazil",
+        "sector": "Tourism & Hospitality",
+        "target_audience": "Travelers",
+        "mission": "To provide unforgettable experiences",
+        "vision": "A world without borders for communication",
+        "core_values": "Openness, Curiosity, Eagerness to learn",
+        "style_preference": "Playful and dynamic",
+        "colors": [
+            "#F97316 (Sunset Orange)",
+            "#0891B2 (Adventure Blue)",
+            "#EC4899 (Tropical Pink)",
+            "#FEF9C3 (Sandy Yellow)"
+        ],
+        "typography": "Headings: Quicksand (Light, Rounded Sans-Serif), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
+        "button_style": "Large, eye-catching buttons with a playful shadow on hover",
+        "tone_of_voice": "Playful and informal"
     }
+
 };
         // Create individual suggestion arrays from clusters for dropdown menus
         const suggestions = {};
         const fields = ['sitetitle', 'siteslogan', 'sitelanguage', 'contact_details', 'sector', 'target_audience', 
                        'mission', 'vision', 'core_values', 'style_preference', 'colors', 'typography', 
-                       'button_style', 'photography', 'icons', 'tone_of_voice'];
+                       'button_style', 'tone_of_voice'];
         
         // Initialize suggestion arrays
         fields.forEach(field => {
@@ -627,14 +740,13 @@
                 style_preference: document.getElementById('style_preference').value,
                 colors: document.getElementById('colors').value,
                 typography: document.getElementById('typography').value,
-                button_style: document.getElementById('button_style').value,
-                photography: document.getElementById('photography').value,
-                icons: document.getElementById('icons').value,
+                button_style: document.getElementById('button_style').value,                
                 tone_of_voice: document.getElementById('tone_of_voice').value,
             };
 
             const populatedTemplate = JSON.parse(JSON.stringify(jsonTemplate)); // Deep clone
             
+            // keep using legacy keys so existing code works
             populatedTemplate.general_data.sitetitle = formData.sitetitle;
             populatedTemplate.general_data.siteslogan = formData.siteslogan;
             populatedTemplate.general_data.sitelanguage = formData.sitelanguage;
@@ -650,11 +762,35 @@
             populatedTemplate.design.style_preference = formData.style_preference;
             populatedTemplate.design.colors = formData.colors;
             populatedTemplate.design.typography = formData.typography;
-            populatedTemplate.design.button_style = formData.button_style;
+            populatedTemplate.design.button_style = formData.button_style;            
             
-            populatedTemplate.imagery_and_tone.photography_illustrations = formData.photography;
-            populatedTemplate.imagery_and_tone.icons = formData.icons;
             populatedTemplate.imagery_and_tone.tone_of_voice = formData.tone_of_voice;
+
+            // Also update the new grouped wrappers so both representations stay in sync
+            if (populatedTemplate.project_info) {
+                populatedTemplate.project_info.general_data = populatedTemplate.general_data;
+                populatedTemplate.project_info.context_and_brand_identity = populatedTemplate.context_and_brand_identity;
+            }
+            if (populatedTemplate.design_system) {
+                populatedTemplate.design_system.design = populatedTemplate.design;
+                populatedTemplate.design_system.color_contrast = populatedTemplate.color_contrast;
+                populatedTemplate.design_system.css_requirements = populatedTemplate.css_requirements;
+                populatedTemplate.design_system.text_guidelines = populatedTemplate.text_guidelines;
+            }
+            if (populatedTemplate.media_and_tone) {
+                populatedTemplate.media_and_tone.imagery_and_tone = populatedTemplate.imagery_and_tone;
+                populatedTemplate.media_and_tone.icons = populatedTemplate.icons;
+                populatedTemplate.media_and_tone.assets = populatedTemplate.assets;
+            }
+            if (populatedTemplate.site_structure) {
+                populatedTemplate.site_structure.content_sections = populatedTemplate.content_sections;
+                populatedTemplate.site_structure.images = populatedTemplate.images;
+                populatedTemplate.site_structure.web_technologies = populatedTemplate.web_technologies;
+                populatedTemplate.site_structure.functionality = populatedTemplate.functionality;
+            }
+            if (populatedTemplate.quality_checks) {
+                populatedTemplate.quality_checks.validation = populatedTemplate.validation;
+            }
 
             document.getElementById('json-output').value = JSON.stringify(populatedTemplate, null, 2);
         }
