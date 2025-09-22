@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -298,7 +299,7 @@
 
     <script>
         const jsonTemplate = {
-            "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html. Ensure the header remains fixed at the top (CSS position: fixed), the Google Map uses a working key-less embed or OpenStreetMap fallback. Never display white (or light-colored) text on white backgrounds, and never display black (or dark) text on black or dark backgrounds. This makes the text unreadable. Keep this in mind EVERYWHERE you use text.",
+            "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html. Ensure the full-width header remains fixed at the top (CSS position: fixed), the Google Map uses a working key-less embed or OpenStreetMap fallback. You must define a specific, high-contrast text color that works for each component unique background in both light and dark modes. Do not reuse the default body text variable if it creates a contrast issue.",
             "output": "one complete index.html file with inline <style> en <script> sections",
             "general_data": {
                 "sitetitle": "[SITETITLE]",
@@ -320,7 +321,7 @@
                 "typography": "[TYPOGRAPHY]",
                 "button_style": "[BUTTON_STYLE]",
                 "favicon": "Generate a matching favicon",
-                "header_behavior": "Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
+                "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
             },
             "color_contrast": {
               "minimum_ratio": "4.5:1",
@@ -339,24 +340,14 @@
             },
             "css_requirements": {
               "text_readability": [                
-                "Minimum `line-height: 1.5` for body text",
-                "No text directly on gradient backgrounds without contrast overlay",
-                "Use `rgba(255,255,255,0.9)` minimum opacity for text on dark images",
-                "Ensure that all interactive elements, including navigation links in the header, buttons, and forms, have explicit color definitions for both light and dark modes. These definitions should be specific enough to override standard styles from libraries like Bootstrap and maintain the WCAG AA contrast ratio."
+                "Minimum `line-height: 1.5` for body text"                     
               ],
               "background_transparency": [
                 "Navigation: minimum 0.95 opacity on light, 0.9 on dark",
                 "Cards: solid backgrounds or minimum 0.1 opacity overlay",
                 "Hero overlays: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4))`"
               ]
-            },
-            "validation": {
-              "contrast_check": [
-                "Generate color pairs and verify 4.5:1 ratio before implementation",
-                "Test all text elements in browser dev tools",
-                "Provide contrast ratios in code comments for each text/background combination"
-              ]                
-            },
+            },            
             "text_guidelines": [
                 "Body text: 16px minimum on backgrounds with 4.5:1 contrast",
                 "Headings: Bold with 3:1 minimum contrast",
@@ -374,7 +365,7 @@
                 "tone_of_voice": "[TONE_OF_VOICE]"
             },
             "content_sections": [
-                "Fixed header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
+                "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
                 "Hero section with a parallax fixed-cover background image",
                 "About-us section with a few site-themed descriptive lines",
                 "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
@@ -397,37 +388,13 @@
             ],
             "functionality": {
                 "animations": "Subtle animate-on-scroll (fade/slide)",
-                "cookie_consent": "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits.",
+                "cookie_consent": "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal.",
                 "smooth_scrolling": true,
                 "hover_effects": "Buttons, links, and images",
-                "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation"
+                "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
+				"Bootstrap": "use popular Bootstrap components like navbar, cards, buttons, carousels, tabs, ..."
               },
-            "code_validation": {
-              "requirements": [
-                "All JavaScript must be syntactically valid and pass ESLint",
-                "Test all event listeners and DOM manipulations",
-                "Verify all string concatenation and template literals",
-                "Ensure proper quote escaping in HTML attributes",
-                "Validate all CSS custom properties and selectors"
-              ]
-            },
-            "code_quality": {                
-                "error_prevention": {
-                  "javascript": "Use defensive programming: check if elements exist before manipulation, wrap all event listeners in try-catch, validate all data types",
-                  "common_issues_to_avoid": [
-                    "Unclosed string literals",
-                    "Missing semicolons in critical locations", 
-                    "Malformed regex patterns",
-                    "Incorrect quote escaping in HTML attributes",
-                    "Global variable scope conflicts"
-                  ]
-                }
-              },
-            "javascript_specifics": {
-              "string_handling": "Use single quotes for HTML attributes, double quotes for JavaScript strings, and template literals only when necessary",
-              "event_listeners": "Always check if target element exists: if (element) { element.addEventListener(...) }",
-              "dom_manipulation": "Use document.querySelector safety: const el = document.querySelector('#id'); if (el) { ... }"
-            },
+            "code_validation": "Ensure all JS follows ESLint rules and check element existence before manipulation.",
             "assets": {
                 "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
                 "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
