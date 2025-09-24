@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body {
-            background-color: transparent;
+            background-color: #FFFFFF;
             padding: 20px;
         }
         .form-section {
@@ -132,7 +132,7 @@
                                 <label for="sitetitle" class="form-label">Title</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('sitetitle').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -141,7 +141,7 @@
                                 <label for="siteslogan" class="form-label">Slogan</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('siteslogan').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -150,7 +150,7 @@
                                 <label for="sitelanguage" class="form-label">Language</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('sitelanguage').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -159,7 +159,7 @@
                                 <label for="contact_details" class="form-label">Contact Details</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('contact_details').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -172,7 +172,7 @@
                                 <label for="sector_activity" class="form-label">Sector/Activity</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('sector_activity').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -181,7 +181,7 @@
                                 <label for="target_audience" class="form-label">Target Audience</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('target_audience').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -190,7 +190,7 @@
                                 <label for="mission" class="form-label">Mission</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('mission').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -199,7 +199,7 @@
                                 <label for="vision" class="form-label">Vision</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('vision').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -208,7 +208,7 @@
                                 <label for="core_values" class="form-label">Core Values</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('core_values').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -221,7 +221,7 @@
                                 <label for="style_preference" class="form-label">Style Preference</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('style_preference').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -230,7 +230,7 @@
                                 <label for="colors" class="form-label">Colors</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('colors').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -239,7 +239,7 @@
                                 <label for="typography" class="form-label">Typography</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
-                                     <select class="form-select suggestion-select" onchange="document.getElementById('typography').value = this.value; updateJsonOutput();">
+                                     <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                      </select>
                                 </div>
@@ -248,7 +248,7 @@
                                 <label for="button_style" class="form-label">Button Style</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('button_style').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -261,7 +261,7 @@
                                 <label for="tone_of_voice" class="form-label">Tone of Voice</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
-                                    <select class="form-select suggestion-select" onchange="document.getElementById('tone_of_voice').value = this.value; updateJsonOutput();">
+                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                         <option value="">Suggestion</option>
                                     </select>
                                 </div>
@@ -298,7 +298,7 @@
 
     <script>
         const jsonTemplate = {
-            "instructions": "Build a responsive one-page webpage with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named: index.html. Ensure the full-width header remains fixed at the top (CSS position: fixed), the Google Map uses a working key-less embed or OpenStreetMap fallback. You must define a specific, high-contrast text color that works for each component unique background in both light and dark modes. Do not reuse the default body text variable if it creates a contrast issue.",
+            "instructions": "Build a responsive one-page website with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named index.html",
             "output": "one complete index.html file with inline <style> en <script> sections",
             "general_data": {
                 "sitetitle": "[SITETITLE]",
@@ -315,43 +315,19 @@
             },
             "design": {
                 "style_preference": "[STYLE_PREFERENCE]",
-                "colors": "[COLORS]",
-                "color_contrast": "ensure WCAG 2.1 AA contrast",
+                "colors": "[COLORS]",                
                 "typography": "[TYPOGRAPHY]",
                 "button_style": "[BUTTON_STYLE]",
                 "favicon": "Generate a matching favicon",
                 "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
-            },
-            "color_contrast": {
-              "minimum_ratio": "4.5:1",
-              "critical_areas": [
-                "all body text on backgrounds",
-                "navigation links",
-                "button text",
-                "form labels and input text"
-              ],
-              "testing_requirement": "All color combinations must pass WCAG 2.1 AA using WebAIM Contrast Checker",
-              "dark_mode": "Maintain 4.5:1 ratio for white text on dark backgrounds",
-              "constraints": [
-                "No text on gradients without overlay",
-                "Minimum 4.5:1 contrast for all text-background combinations"                
-              ]
-            },
-            "css_requirements": {
-              "text_readability": [                
-                "Minimum `line-height: 1.5` for body text"                     
-              ],
-              "background_transparency": [
-                "Navigation: minimum 0.95 opacity on light, 0.9 on dark",
-                "Cards: solid backgrounds or minimum 0.1 opacity overlay",
-                "Hero overlays: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4))`"
-              ]
-            },            
-            "text_guidelines": [
-                "Body text: 16px minimum on backgrounds with 4.5:1 contrast",
-                "Headings: Bold with 3:1 minimum contrast",
-                "Links: Underlined or 3px color contrast with parent text"
-            ],
+            },           
+			"text_readability": [                
+			"Minimum line-height: 1.5 for body text",
+			"Minimum font-size body-text: 16px",
+			"Minimum font-size titles: 22px",			
+			"Maintain 4.5:1 color contrast ratio for all texts for both light and dark mode"			
+			],             
+                     
             "icons": {
                 "required_library": "Bootstrap Icons",
                 "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
@@ -366,28 +342,21 @@
             "content_sections": [
                 "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
                 "Hero section with a parallax fixed-cover background image",
-                "About-us section with a few site-themed descriptive lines",
-                "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
-                "For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox",
+                "About-us section with a few site-themed descriptive lines (in line with the mission, vision and core_values)",
+                "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",                
                 "Call-to-action guiding visitors to the contact block",
                 "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
-                "Contact section with provided details and embedded Google Map",
+                "Contact section with provided details and embedded map with a public, keyless embed URL from Google Maps",
                 "Privacy modal with a default policy for a site using only technical cookies",
-                "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button"
-              ],
-              "contact_section": {
-                "google_map": {
-                    "requirement": "Use a fully functional embed with a public, keyless embed URL from Google Maps (or OpenStreetMap as a fallback)"
-                }
-                },                
+                "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button",
+				"Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal."
+              ],              
             "web_technologies": [
-                "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",         
-                "responsive menu with hamburger icon",                      
-                "use hover effects for buttons, links, and images where possible"                
+                "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated." ,
+				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox"				
             ],
             "functionality": {
-                "animations": "Subtle animate-on-scroll (fade/slide)",
-                "cookie_consent": "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal.",
+                "animations": "Subtle animate-on-scroll (fade/slide)",                
                 "smooth_scrolling": true,
                 "hover_effects": "Buttons, links, and images",
                 "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
@@ -588,54 +557,66 @@
     }
 };
 
-        // The issue is in the functions that add options and badges. They are called multiple times,
-        // causing duplication. We need to clear the existing options before adding new ones.
+        // --- START OF FIX ---
 
-        // Fix 1: Refactor to a single, idempotent function to add theme options
-        function addThemeOptionsAndBadges() {
-            const selectElements = document.querySelectorAll('.suggestion-select');
+        function populateSuggestionsAndBadges() {
+            const suggestionSelects = document.querySelectorAll('.suggestion-select');
             const themeBadgesContainer = document.getElementById('theme-badges');
+            
+            // Clear existing content to prevent duplication
+            themeBadgesContainer.innerHTML = '';
 
-            // Clear existing options from all select elements
-            selectElements.forEach(select => {
-                // Keep the first option ("Suggestion")
+            // 1. Populate Theme Badges
+            for (const themeKey in thematicClusters) {
+                const theme = thematicClusters[themeKey];
+                const badge = document.createElement('span');
+                badge.className = `badge bg-${theme.color} theme-badge btn`;
+                badge.textContent = theme.name;
+                badge.onclick = () => applyTheme(themeKey);
+                themeBadgesContainer.appendChild(badge);
+            }
+
+            // 2. Populate each suggestion dropdown with relevant values
+            suggestionSelects.forEach(select => {
+                // Find the corresponding input field's ID (e.g., "sitetitle")
+                const input = select.previousElementSibling;
+                if (!input || !input.id) return;
+                const fieldId = input.id;
+
+                // Clear existing options, but keep the first "Suggestion" option
                 while (select.options.length > 1) {
                     select.remove(1);
                 }
-            });
 
-            // Clear existing badges
-            themeBadgesContainer.innerHTML = '';
+                // Populate with theme-specific suggestions for this field
+                for (const themeKey in thematicClusters) {
+                    const theme = thematicClusters[themeKey];
+                    // Check if the theme has a value for this specific field
+                    if (theme.hasOwnProperty(fieldId)) {
+                        let suggestionValue = theme[fieldId];
+                        
+                        // If the value is an array (like colors), convert it to a string
+                        if (Array.isArray(suggestionValue)) {
+                            suggestionValue = suggestionValue.join(', ');
+                        }
 
-            for (const key in thematicClusters) {
-                if (thematicClusters.hasOwnProperty(key)) {
-                    const theme = thematicClusters[key];
-                    
-                    // Add badge
-                    const badge = document.createElement('span');
-                    badge.className = `badge bg-${theme.color} theme-badge btn`;
-                    badge.textContent = theme.name;
-                    badge.onclick = () => applyTheme(key);
-                    themeBadgesContainer.appendChild(badge);
-                    
-                    // Add option to each select
-                    const themeOption = document.createElement('option');
-                    themeOption.value = key;
-                    themeOption.textContent = `${theme.name} Theme`;
-                    
-                    selectElements.forEach(select => {
-                        select.appendChild(themeOption.cloneNode(true));
-                    });
+                        const option = document.createElement('option');
+                        option.value = suggestionValue;
+                        option.textContent = `${suggestionValue}`; // e.g., "Tech Startup: The Innovation Hub"
+                        select.appendChild(option);
+                    }
                 }
-            }
+            });
         }
-
-        // Call this function once on page load
-        document.addEventListener('DOMContentLoaded', addThemeOptionsAndBadges);
+        
+        // Call the setup function once when the page loads
+        document.addEventListener('DOMContentLoaded', populateSuggestionsAndBadges);
+        
+        // --- END OF FIX ---
 
 
         // -------------------------
-        // Core Logic
+        // Core Logic (Unchanged)
         // -------------------------
 
         function getFormData() {
@@ -670,7 +651,6 @@
             
             replacePlaceholders(clonedTemplate);
             
-            // Clean up empty placeholder objects and arrays
             const cleanTemplate = JSON.parse(JSON.stringify(clonedTemplate, (key, value) => {
                 if (Array.isArray(value) && value.length === 0) return undefined;
                 if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return undefined;
