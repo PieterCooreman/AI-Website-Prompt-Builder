@@ -353,7 +353,7 @@
               ],              
             "web_technologies": [
                 "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated." ,
-				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox"				
+				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox. For the images, use a dynamic drop shadow on hover."				
             ],
             "functionality": {
                 "animations": "Subtle animate-on-scroll (fade/slide)",                
@@ -370,8 +370,8 @@
         };
  
 
-        const thematicClusters = {
-        "tech_startup": {
+       const thematicClusters = {
+    "tech_startup": {
         "name": "Tech Startup",
         "color": "primary",
         "sitetitle": "The Innovation Hub",
@@ -391,7 +391,7 @@
             "#64748B (Slate Gray)"
         ],
         "typography": "Headings: Montserrat (Modern, Geometric Sans-Serif), Body: Roboto (Clean, Neutral Sans-Serif)",
-        "button_style": "Rounded corners with a subtle glow on hover",        
+        "button_style": "Rounded corners with a subtle glow on hover",
         "tone_of_voice": "Direct and to the point"
     },
     "health_wellness": {
@@ -414,7 +414,7 @@
             "#0891B2 (Ocean Blue)"
         ],
         "typography": "Headings: Lora (Elegant, Serif), Body: Source Serif Pro (Classic, Readable Serif)",
-        "button_style": "Soft edges with a calm color transition on hover",        
+        "button_style": "Soft edges with a calm color transition on hover",
         "tone_of_voice": "Calm and reassuring"
     },
     "creative_agency": {
@@ -437,7 +437,7 @@
             "#8B5CF6 (Electric Purple)"
         ],
         "typography": "Logo/Decorative: Great Vibes (Flowing, Script), Body: Lato (Friendly, Humanist Sans-Serif)",
-        "button_style": "Gradient buttons with a dynamic drop shadow on hover",        
+        "button_style": "Gradient buttons with a dynamic drop shadow on hover",
         "tone_of_voice": "Playful and informal"
     },
     "financial_services": {
@@ -460,7 +460,7 @@
             "#374151 (Charcoal Gray)"
         ],
         "typography": "Headings: Playfair Display (Elegant, High-contrast Serif), Body: Source Sans Pro (Professional, Neutral Sans-Serif)",
-        "button_style": "Sharp buttons with a subtle 3D-like effect and a slight sheen",        
+        "button_style": "Sharp buttons with a subtle 3D-like effect and a slight sheen",
         "tone_of_voice": "Formal and authoritative"
     },
     "restaurant_food": {
@@ -506,7 +506,7 @@
             "#475569 (Slate Blue)"
         ],
         "typography": "Headings: Poppins (Clean, Geometric Sans-Serif), Body: Open Sans (Highly readable, Neutral Sans-Serif)",
-        "button_style": "Flat design with a slight background change on hover",        
+        "button_style": "Flat design with a slight background change on hover",
         "tone_of_voice": "Inspiring and motivating"
     },
     "eco_sustainability": {
@@ -529,7 +529,7 @@
             "#A3E635 (Fresh Lime)"
         ],
         "typography": "Headings: Fredoka (Friendly, Rounded Sans-Serif), Body: Nunito (Soft, Balanced Sans-Serif)",
-        "button_style": "Rounded corners with a natural 'pulse' effect on hover",        
+        "button_style": "Rounded corners with a natural 'pulse' effect on hover",
         "tone_of_voice": "Inspiring and motivating"
     },
     "travel_adventure": {
@@ -554,6 +554,259 @@
         "typography": "Headings: Quicksand (Light, Rounded Sans-Serif), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
         "button_style": "Large, eye-catching buttons with a playful shadow on hover",
         "tone_of_voice": "Playful and informal"
+    },
+    "fitness_sports": {
+        "name": "Fitness & Sports",
+        "color": "danger",
+        "sitetitle": "Peak Performance",
+        "siteslogan": "Unleash your inner champion",
+        "sitelanguage": "English",
+        "contact_details": "45 Olympic Boulevard, Los Angeles, USA",
+        "sector_activity": "Sports & Recreation",
+        "target_audience": "Athletes and fitness enthusiasts",
+        "mission": "To inspire people to reach their physical potential",
+        "vision": "A world where everyone leads an active lifestyle",
+        "core_values": "Discipline, Excellence, Perseverance",
+        "style_preference": "Bold and energetic",
+        "colors": [
+            "#DC2626 (Intense Red)",
+            "#1F2937 (Charcoal Black)",
+            "#F3F4F6 (Light Gray)",
+            "#F59E0B (Energetic Orange)"
+        ],
+        "typography": "Headings: Oswald (Strong, Condensed Sans-Serif), Body: Nunito Sans (Athletic, Clean Sans-Serif)",
+        "button_style": "Bold rectangular buttons with strong borders and hover animations",
+        "tone_of_voice": "Motivational and energetic"
+    },
+    "luxury_fashion": {
+        "name": "Luxury Fashion",
+        "color": "dark",
+        "sitetitle": "Élégance Couture",
+        "siteslogan": "Where sophistication meets style",
+        "sitelanguage": "English",
+        "contact_details": "33 Avenue Montaigne, Paris, France",
+        "sector_activity": "Fashion & Retail",
+        "target_audience": "High-end fashion consumers",
+        "mission": "To define timeless elegance and luxury",
+        "vision": "To be the pinnacle of fashion excellence",
+        "core_values": "Craftsmanship, Exclusivity, Heritage",
+        "style_preference": "Sophisticated and minimal",
+        "colors": [
+            "#000000 (Pure Black)",
+            "#D4AF37 (Luxury Gold)",
+            "#FFFFFF (Pristine White)",
+            "#8B7355 (Champagne Taupe)"
+        ],
+        "typography": "Headings: Didot (Elegant, High-fashion Serif), Body: Avenir (Refined, Geometric Sans-Serif)",
+        "button_style": "Minimal buttons with elegant borders and subtle gold accents",
+        "tone_of_voice": "Sophisticated and exclusive"
+    },
+    "real_estate": {
+        "name": "Real Estate",
+        "color": "info",
+        "sitetitle": "Dream Properties",
+        "siteslogan": "Your home, your future",
+        "sitelanguage": "English",
+        "contact_details": "200 Park Avenue, New York, USA",
+        "sector_activity": "Real Estate",
+        "target_audience": "Homebuyers and investors",
+        "mission": "To help people find their perfect home",
+        "vision": "Making homeownership accessible to all",
+        "core_values": "Trust, Transparency, Excellence",
+        "style_preference": "Professional and trustworthy",
+        "colors": [
+            "#1E40AF (Professional Blue)",
+            "#065F46 (Deep Green)",
+            "#F9FAFB (Clean White)",
+            "#6B7280 (Neutral Gray)"
+        ],
+        "typography": "Headings: Inter (Modern, Professional Sans-Serif), Body: System UI (Clean, Reliable Sans-Serif)",
+        "button_style": "Clean, professional buttons with subtle shadows",
+        "tone_of_voice": "Professional and trustworthy"
+    },
+    "coffee_cafe": {
+        "name": "Coffee & Café",
+        "color": "warning",
+        "sitetitle": "The Coffee Corner",
+        "siteslogan": "Where every cup tells a story",
+        "sitelanguage": "English",
+        "contact_details": "78 Coffee Street, Seattle, USA",
+        "sector_activity": "Food & Beverage",
+        "target_audience": "Coffee enthusiasts",
+        "mission": "To create the perfect coffee experience",
+        "vision": "Bringing communities together through great coffee",
+        "core_values": "Quality, Community, Passion",
+        "style_preference": "Cozy and artisanal",
+        "colors": [
+            "#92400E (Rich Coffee Brown)",
+            "#FEF3C7 (Cream)",
+            "#451A03 (Dark Roast)",
+            "#F59E0B (Golden Honey)"
+        ],
+        "typography": "Headings: Amatic SC (Handwritten, Casual), Body: Source Sans Pro (Friendly, Readable Sans-Serif)",
+        "button_style": "Rounded buttons with coffee-inspired textures and warm hover effects",
+        "tone_of_voice": "Warm and welcoming"
+    },
+    "gaming_esports": {
+        "name": "Gaming & Esports",
+        "color": "secondary",
+        "sitetitle": "GameZone Elite",
+        "siteslogan": "Level up your game",
+        "sitelanguage": "English",
+        "contact_details": "88 Gaming Boulevard, Tokyo, Japan",
+        "sector_activity": "Gaming & Entertainment",
+        "target_audience": "Gamers and esports fans",
+        "mission": "To elevate the gaming experience",
+        "vision": "Making gaming accessible and competitive for everyone",
+        "core_values": "Innovation, Competition, Community",
+        "style_preference": "Futuristic and dynamic",
+        "colors": [
+            "#7C3AED (Electric Purple)",
+            "#06FFA5 (Neon Green)",
+            "#1F2937 (Dark Gray)",
+            "#F59E0B (Gaming Gold)"
+        ],
+        "typography": "Headings: Orbitron (Futuristic, Tech-inspired Sans-Serif), Body: Roboto (Clean, Modern Sans-Serif)",
+        "button_style": "Futuristic buttons with neon glow effects and animated borders",
+        "tone_of_voice": "Energetic and competitive"
+    },
+    "photography_studio": {
+        "name": "Photography Studio",
+        "color": "dark",
+        "sitetitle": "Captured Moments",
+        "siteslogan": "Every moment is a masterpiece",
+        "sitelanguage": "English",
+        "contact_details": "12 Art District, Barcelona, Spain",
+        "sector_activity": "Creative Services",
+        "target_audience": "Art lovers and clients seeking photography services",
+        "mission": "To capture life's most precious moments",
+        "vision": "Creating timeless visual stories",
+        "core_values": "Artistry, Authenticity, Excellence",
+        "style_preference": "Artistic and minimal",
+        "colors": [
+            "#111827 (Deep Black)",
+            "#F3F4F6 (Soft White)",
+            "#6B7280 (Medium Gray)",
+            "#D97706 (Warm Accent Orange)"
+        ],
+        "typography": "Headings: Crimson Text (Artistic, Serif), Body: Inter (Clean, Modern Sans-Serif)",
+        "button_style": "Minimal buttons with subtle animations and artistic hover effects",
+        "tone_of_voice": "Artistic and passionate"
+    },
+    "yoga_meditation": {
+        "name": "Yoga & Meditation",
+        "color": "success",
+        "sitetitle": "Serenity Space",
+        "siteslogan": "Find your inner peace",
+        "sitelanguage": "English",
+        "contact_details": "108 Zen Garden Way, Ubud, Bali",
+        "sector_activity": "Wellness & Spirituality",
+        "target_audience": "Mindfulness seekers",
+        "mission": "To guide people toward inner peace and wellness",
+        "vision": "A world where everyone finds balance within",
+        "core_values": "Mindfulness, Peace, Balance",
+        "style_preference": "Peaceful and zen",
+        "colors": [
+            "#E0E7FF (Lavender Light)",
+            "#8B5CF6 (Peaceful Purple)",
+            "#F0FDF4 (Soft Green White)",
+            "#059669 (Nature Green)"
+        ],
+        "typography": "Headings: Poppins (Gentle, Rounded Sans-Serif), Body: Noto Sans (Calm, Balanced Sans-Serif)",
+        "button_style": "Soft, rounded buttons with gentle transitions and calming effects",
+        "tone_of_voice": "Peaceful and nurturing"
+    },
+    "crypto_blockchain": {
+        "name": "Crypto & Blockchain",
+        "color": "warning",
+        "sitetitle": "CryptoVerse",
+        "siteslogan": "Decentralizing the future",
+        "sitelanguage": "English",
+        "contact_details": "99 Blockchain Avenue, Singapore",
+        "sector_activity": "Cryptocurrency & Technology",
+        "target_audience": "Crypto traders and blockchain enthusiasts",
+        "mission": "To democratize access to cryptocurrency",
+        "vision": "A decentralized financial future for all",
+        "core_values": "Innovation, Decentralization, Security",
+        "style_preference": "Modern tech and futuristic",
+        "colors": [
+            "#F59E0B (Bitcoin Orange)",
+            "#1F2937 (Dark Gray)",
+            "#10B981 (Ethereum Green)",
+            "#3B82F6 (Tech Blue)"
+        ],
+        "typography": "Headings: Space Mono (Tech, Monospace), Body: Inter (Modern, Professional Sans-Serif)",
+        "button_style": "Tech-inspired buttons with gradient backgrounds and crypto-themed animations",
+        "tone_of_voice": "Technical and innovative"
+    },
+    "pet_services": {
+        "name": "Pet Services",
+        "color": "success",
+        "sitetitle": "Paws & Care",
+        "siteslogan": "Because your pets deserve the best",
+        "sitelanguage": "English",
+        "contact_details": "456 Pet Park Lane, Austin, USA",
+        "sector_activity": "Pet Care Services",
+        "target_audience": "Pet owners",
+        "mission": "To provide exceptional care for beloved pets",
+        "vision": "Happy, healthy pets in every home",
+        "core_values": "Compassion, Care, Trust",
+        "style_preference": "Friendly and colorful",
+        "colors": [
+            "#F97316 (Playful Orange)",
+            "#0891B2 (Sky Blue)",
+            "#FEF3C7 (Warm Cream)",
+            "#16A34A (Nature Green)"
+        ],
+        "typography": "Headings: Fredoka One (Playful, Rounded), Body: Open Sans (Friendly, Easy-to-read Sans-Serif)",
+        "button_style": "Playful, rounded buttons with pet-themed icons and bouncy hover effects",
+        "tone_of_voice": "Caring and playful"
+    },
+    "music_studio": {
+        "name": "Music Studio",
+        "color": "secondary",
+        "sitetitle": "Sound Waves Studio",
+        "siteslogan": "Where music comes alive",
+        "sitelanguage": "English",
+        "contact_details": "21 Music Row, Nashville, USA",
+        "sector_activity": "Music & Audio Production",
+        "target_audience": "Musicians and audio professionals",
+        "mission": "To create exceptional musical experiences",
+        "vision": "Bringing artists' visions to life through sound",
+        "core_values": "Creativity, Quality, Collaboration",
+        "style_preference": "Modern and artistic",
+        "colors": [
+            "#7C2D12 (Deep Brown)",
+            "#F59E0B (Golden Yellow)",
+            "#1F2937 (Charcoal Gray)",
+            "#EF4444 (Vibrant Red)"
+        ],
+        "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
+        "button_style": "Music-inspired buttons with wave animations and sound-themed hover effects",
+        "tone_of_voice": "Creative and passionate"
+    },
+    "wedding_events": {
+        "name": "Wedding & Events",
+        "color": "info",
+        "sitetitle": "Eternal Moments",
+        "siteslogan": "Creating memories that last forever",
+        "sitelanguage": "English",
+        "contact_details": "15 Romance Avenue, Venice, Italy",
+        "sector_activity": "Event Planning & Wedding Services",
+        "target_audience": "Couples and event planners",
+        "mission": "To create unforgettable celebrations",
+        "vision": "Making every moment magical",
+        "core_values": "Romance, Elegance, Perfection",
+        "style_preference": "Romantic and elegant",
+        "colors": [
+            "#FDF2F8 (Soft Pink)",
+            "#EC4899 (Rose Pink)",
+            "#F3E8FF (Lavender Light)",
+            "#D4AF37 (Elegant Gold)"
+        ],
+        "typography": "Headings: Dancing Script (Romantic, Script), Body: Libre Baskerville (Elegant, Readable Serif)",
+        "button_style": "Elegant buttons with romantic gradients and delicate hover animations",
+        "tone_of_voice": "Romantic and elegant"
     }
 };
 
