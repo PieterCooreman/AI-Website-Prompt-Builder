@@ -307,8 +307,8 @@
                         <textarea class="form-control border-0 flex-grow-1" id="json-output" readonly placeholder="Fill in the form to generate JSON..."></textarea>
                     </div>
 					
-					<!-- NEW: HTML Preview Section -->
-					  <div class="row mt-5">
+									   
+					<div class="row mt-5">
 						<div class="col-12">
 						  <div class="card">
 							<div class="card-header bg-dark text-white">
@@ -318,14 +318,14 @@
 							  <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
 							  <textarea id="ai-html-input" style="max-height:150px" class="form-control preview-textarea mb-1" placeholder="Paste generated HTML here..."></textarea>
 							   <button id="preview-btn" class="btn btn-primary flex-fill mb-1">
-								  <i class="bi bi-display"></i> Preview
-								</button>
+								  <i class="bi bi-display"></i> Preview, edit &amp; download
+								</button>								
 								<button id="download-btn" class="btn btn-success flex-fill mb-1">
-								  <i class="bi bi-download"></i> Download website
+								  <i class="bi bi-download"></i> Download
 								</button>
-								<a id="edit-btn" href="https://phcode.dev/" target="_blank" class="btn btn-warning flex-fill mb-1">
+								<!--<a id="edit-btn" href="https://phcode.dev/" target="_blank" class="btn btn-warning flex-fill mb-1">
 								  <i class="bi bi-pen"></i> Edit with Phcode.io
-								</a>
+								</a-->
 								
 								
 							</div>
@@ -338,17 +338,24 @@
     </div>
 	
 	
-	<!-- NEW: Fullscreen Modal -->
+							   
 	<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
 	  <div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
 		  <div class="modal-header">
-			<h5 class="modal-title">Website Preview</h5>
+			<h5 class="modal-title">Live Preview (Editable)</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		  </div>
 		  <div class="modal-body p-0">
 			<iframe id="preview-iframe" style="border:0;width:100%;height:100%;"></iframe>
 		  </div>
+          <div class="modal-footer">
+            <small class="text-muted me-auto">You can click directly on the texts in the preview to edit them.</small>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" id="download-edited-btn">
+                <i class="bi bi-download"></i> Download Edited HTML
+            </button>
+          </div>
 		</div>
 	  </div>
 	</div>
@@ -867,16 +874,16 @@
     }
 };
 
-        // --- START OF FIX ---
+							   
 
         function populateSuggestionsAndBadges() {
             const suggestionSelects = document.querySelectorAll('.suggestion-select');
             const themeBadgesContainer = document.getElementById('theme-badges');
             
-            // Clear existing content to prevent duplication
+															
             themeBadgesContainer.innerHTML = '';
 
-            // 1. Populate Theme Badges
+									   
             for (const themeKey in thematicClusters) {
                 const theme = thematicClusters[themeKey];
                 const badge = document.createElement('span');
@@ -886,48 +893,48 @@
                 themeBadgesContainer.appendChild(badge);
             }
 
-            // 2. Populate each suggestion dropdown with relevant values
+																		
             suggestionSelects.forEach(select => {
-                // Find the corresponding input field's ID (e.g., "sitetitle")
+																			  
                 const input = select.previousElementSibling;
                 if (!input || !input.id) return;
                 const fieldId = input.id;
 
-                // Clear existing options, but keep the first "Suggestion" option
+																				 
                 while (select.options.length > 1) {
                     select.remove(1);
                 }
 
-                // Populate with theme-specific suggestions for this field
+																		  
                 for (const themeKey in thematicClusters) {
                     const theme = thematicClusters[themeKey];
-                    // Check if the theme has a value for this specific field
+																			 
                     if (theme.hasOwnProperty(fieldId)) {
                         let suggestionValue = theme[fieldId];
                         
-                        // If the value is an array (like colors), convert it to a string
+																													  
                         if (Array.isArray(suggestionValue)) {
                             suggestionValue = suggestionValue.join(', ');
                         }
 
                         const option = document.createElement('option');
                         option.value = suggestionValue;
-                        option.textContent = `${suggestionValue}`; // e.g., "Tech Startup: The Innovation Hub"
+                        option.textContent = `${suggestionValue}`;
                         select.appendChild(option);
                     }
                 }
             });
         }
         
-        // Call the setup function once when the page loads
+														   
         document.addEventListener('DOMContentLoaded', populateSuggestionsAndBadges);
-        
-        // --- END OF FIX ---
+		
+							 
 
 
-        // -------------------------
-        // Core Logic (Unchanged)
-        // -------------------------
+									
+								 
+									
 
         function getFormData() {
             const data = {};
@@ -1000,8 +1007,8 @@
         }
 
         function clearForm() {
-            const formElements = document.querySelectorAll('#prompt-form .form-input');
-            formElements.forEach(input => input.value = '');
+            document.querySelectorAll('#prompt-form .form-input').forEach(input => input.value = '');
+															
             updateJsonOutput();
 			document.getElementById('ai-html-input').value = '';
         }
@@ -1030,66 +1037,126 @@
         document.getElementById('copy-json').addEventListener('click', copyJson);
         document.getElementById('export-json').addEventListener('click', exportJson);
 
-        updateJsonOutput(); // Initial call
+        updateJsonOutput();
     </script>
 	
 	<script>
-	
-	
-	/* 🔹 Preview logic with Blob URL (anchors now work) */
-const iframe = document.getElementById('preview-iframe');
-let currentBlobURL = null;
+ 
+ 
+														  
+	const iframe = document.getElementById('preview-iframe');
+    let currentBlobURL = null;
 
-document.getElementById('preview-btn').addEventListener('click', function () {
-  const html = document.getElementById('ai-html-input').value.trim();
-  if (!html) {
-    alert('Please paste some HTML first.');
-    return;
-  }
+    document.getElementById('preview-btn').addEventListener('click', function () {
+        const html = document.getElementById('ai-html-input').value.trim();
+        if (!html) {
+            alert('Please paste some HTML first.');
+            return;
+        }
 
-  // Clean up previous blob to avoid leaks
-  if (currentBlobURL) {
-    URL.revokeObjectURL(currentBlobURL);
-    currentBlobURL = null;
-  }
+										  
+        if (currentBlobURL) {
+            URL.revokeObjectURL(currentBlobURL);
+						  
+        }
 
-  // Create a blob URL from the pasted HTML
-  const blob = new Blob([html], { type: 'text/html' });
-  currentBlobURL = URL.createObjectURL(blob);
+										   
+        const blob = new Blob([html], { type: 'text/html' });
+        currentBlobURL = URL.createObjectURL(blob);
 
-  // Load blob URL in iframe
-  iframe.src = currentBlobURL;
+        iframe.onload = () => {
+            try {
+                const doc = iframe.contentDocument;
+                if (!doc) return;
   
-  
-  
 
-  // Show modal
-  new bootstrap.Modal(document.getElementById('previewModal')).show();
-});
+                const style = doc.createElement('style');
+                style.id = 'editable-style';
+                style.textContent = `
+                    [contenteditable="true"]:hover { outline: 2px dashed #0d6efd; cursor: text; }
+                    [contenteditable="true"]:focus { outline: 2px solid #0d6efd; background-color: rgba(13, 110, 253, 0.1); }
+                `;
+                doc.head.appendChild(style);
 
-/* 🔹 Optional: Clean blob URL when modal closes */
-document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
-  if (currentBlobURL) {
-    URL.revokeObjectURL(currentBlobURL);
-    currentBlobURL = null;
-    iframe.removeAttribute('src');
-  }
-});
+                // **FIX:** Added 'div' to the selector list to find text within divs.
+                const selector = 'p, h1, h2, h3, h4, h5, h6, a, li, button, span, strong, em, blockquote, figcaption, td, th, dd, div, small, body';
+                doc.querySelectorAll(selector).forEach(el => {
+                    const childNodes = Array.from(el.childNodes);
+                    
+                    childNodes.forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                            const span = doc.createElement('span');
+                            span.textContent = node.textContent;
+                            span.contentEditable = true;
+                            el.replaceChild(span, node);
+                        }
+                    });
+                });
+            } catch (e) {
+                console.error("Error making iframe content editable:", e);
+                alert("Could not make preview editable. See browser console for details.");
+            }
+        };
 
-/* 🔹 Download logic */
-document.getElementById('download-btn').addEventListener('click', function () {
-  const html = document.getElementById('ai-html-input').value.trim();
-  if (!html) { alert('Please paste some HTML first.'); return; }
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'index.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-});
+        iframe.src = currentBlobURL;
+        new bootstrap.Modal(document.getElementById('previewModal')).show();
+    });
+
+    // Download logic for the original, unedited HTML
+    document.getElementById('download-btn').addEventListener('click', function () {
+        const html = document.getElementById('ai-html-input').value.trim();
+        if (!html) { alert('Please paste some HTML first.'); return; }
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // Download logic for the MODIFIED HTML from the modal preview
+    document.getElementById('download-edited-btn').addEventListener('click', function() {
+        const doc = iframe.contentDocument;
+        if (!doc) {
+            alert('Could not access the preview content to download.');
+            return;
+        }
+
+        const cloneDoc = doc.cloneNode(true);
+
+        cloneDoc.getElementById('editable-style')?.remove();
+        
+        // In the clone, find our editable spans and unwrap them
+        cloneDoc.querySelectorAll('span[contenteditable="true"]').forEach(span => {
+            const textNode = document.createTextNode(span.textContent);
+            span.parentNode.replaceChild(textNode, span);
+        });
+
+        const finalHtml = '<!DOCTYPE html>\n' + cloneDoc.documentElement.outerHTML;
+
+        // Trigger the download
+        const blob = new Blob([finalHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index_edited.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // Clean up blob URL when the modal is closed
+    document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
+        if (currentBlobURL) {
+            URL.revokeObjectURL(currentBlobURL);
+            currentBlobURL = null;
+            iframe.removeAttribute('src');
+        }
+    });
 </script>	
 	
 
