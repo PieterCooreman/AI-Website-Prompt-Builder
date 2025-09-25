@@ -317,12 +317,17 @@
 							<div class="card-body">
 							  <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
 							  <textarea id="ai-html-input" style="max-height:150px" class="form-control preview-textarea mb-1" placeholder="Paste generated HTML here..."></textarea>
-							   <button id="preview-btn" class="btn btn-primary flex-fill">
+							   <button id="preview-btn" class="btn btn-primary flex-fill mb-1">
 								  <i class="bi bi-display"></i> Preview
 								</button>
-								<button id="download-btn" class="btn btn-success flex-fill">
-								  <i class="bi bi-download"></i> Download Website
+								<button id="download-btn" class="btn btn-success flex-fill mb-1">
+								  <i class="bi bi-download"></i> Download website
 								</button>
+								<a id="edit-btn" href="https://phcode.dev/" target="_blank" class="btn btn-warning flex-fill mb-1">
+								  <i class="bi bi-pen"></i> Edit with Phcode.io
+								</a>
+								
+								
 							</div>
 						  </div>
 						</div>
@@ -1054,6 +1059,9 @@ document.getElementById('preview-btn').addEventListener('click', function () {
 
   // Load blob URL in iframe
   iframe.src = currentBlobURL;
+  
+  
+  
 
   // Show modal
   new bootstrap.Modal(document.getElementById('previewModal')).show();
