@@ -88,8 +88,16 @@
             .header-actions {
                 margin-bottom: 15px;
             }
-        }
-    </style>
+        }		
+		
+		.preview-textarea {
+		  height:200px;
+		  resize:vertical;
+		}
+		.modal-fullscreen .modal-content{
+		  height:100%;
+		}
+		</style>
 </head>
 <body>
     <div class="container-fluid">
@@ -98,7 +106,7 @@
                 <div class="main-header">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div class="d-flex align-items-center flex-grow-1">
-                            <h1 class="mb-0 me-3">Site Prompt Builder</h1>
+                            <h1 class="mb-0 me-3">AI Site Builder</h1>
                             <a href="https://github.com/PieterCooreman/AI-Website-Prompt-Builder" class="btn btn-sm btn-outline-dark" target="_blank" title="View on GitHub">
                                 <i class="bi bi-github"></i>
                             </a>
@@ -127,7 +135,7 @@
                 <div class="form-container">
                     <form id="prompt-form">
                         <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">General Information</h5>
+                            <h5 class="border-bottom pb-2 mb-3">Step 1: Provide General Information</h5>
                             <div class="mb-3">
                                 <label for="sitetitle" class="form-label">Title</label>
                                 <div class="input-group">
@@ -275,8 +283,7 @@
                 <div class="json-container">
                     <div class="json-header d-flex justify-content-between align-items-center">
                         <div>
-                            <h5 class="mb-0">Generated JSON Prompt</h5>
-                            <span class="badge bg-secondary">Output</span>
+                            <h5 class="mb-0">Step 2: Copy/paste JSON Prompt in any GenAI</h5>                            
                         </div>
                         <div class="btn-group btn-group-sm" role="group">
                             <button class="btn btn-outline-success" id="copy-json" title="Copy to clipboard">
@@ -288,13 +295,50 @@
                         </div>
                     </div>
                     
-                    <div class="json-output-container">
+                    <div class="json-output-container" style="max-height:200px">
                         <textarea class="form-control border-0 flex-grow-1" id="json-output" readonly placeholder="Fill in the form to generate JSON..."></textarea>
                     </div>
+					
+					<!-- NEW: HTML Preview Section -->
+					  <div class="row mt-5">
+						<div class="col-12">
+						  <div class="card">
+							<div class="card-header bg-dark text-white">
+							  <i class="bi bi-eye"></i> Step 3: Paste AI-generated HTML, preview and download!
+							</div>
+							<div class="card-body">
+							  <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
+							  <textarea id="ai-html-input" style="max-height:150px" class="form-control preview-textarea mb-1" placeholder="Paste generated HTML here..."></textarea>
+							   <button id="preview-btn" class="btn btn-primary flex-fill">
+								  <i class="bi bi-display"></i> Preview
+								</button>
+								<button id="download-btn" class="btn btn-success flex-fill">
+								  <i class="bi bi-download"></i> Download Website
+								</button>
+							</div>
+						  </div>
+						</div>
+					  </div>					
                 </div>
-            </div>
+            </div>		
         </div>
     </div>
+	
+	
+	<!-- NEW: Fullscreen Modal -->
+	<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+	  <div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title">Website Preview</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body p-0">
+			<iframe id="preview-iframe" style="border:0;width:100%;height:100%;"></iframe>
+		  </div>
+		</div>
+	  </div>
+	</div>
 
     <script>
         const jsonTemplate = {
@@ -946,6 +990,7 @@
             const formElements = document.querySelectorAll('#prompt-form .form-input');
             formElements.forEach(input => input.value = '');
             updateJsonOutput();
+			document.getElementById('ai-html-input').value = '';
         }
 
         function copyJson() {
@@ -953,7 +998,7 @@
             output.select();
             output.setSelectionRange(0, 99999);
             document.execCommand('copy');
-            alert('JSON copied to clipboard!');
+            alert('JSON copied to clipboard! Paste this in your GenAI prompt!');
         }
 
         function exportJson() {
@@ -974,5 +1019,63 @@
 
         updateJsonOutput(); // Initial call
     </script>
+	
+	<script>
+	
+	
+	/* 🔹 Preview logic with Blob URL (anchors now work) */
+const iframe = document.getElementById('preview-iframe');
+let currentBlobURL = null;
+
+document.getElementById('preview-btn').addEventListener('click', function () {
+  const html = document.getElementById('ai-html-input').value.trim();
+  if (!html) {
+    alert('Please paste some HTML first.');
+    return;
+  }
+
+  // Clean up previous blob to avoid leaks
+  if (currentBlobURL) {
+    URL.revokeObjectURL(currentBlobURL);
+    currentBlobURL = null;
+  }
+
+  // Create a blob URL from the pasted HTML
+  const blob = new Blob([html], { type: 'text/html' });
+  currentBlobURL = URL.createObjectURL(blob);
+
+  // Load blob URL in iframe
+  iframe.src = currentBlobURL;
+
+  // Show modal
+  new bootstrap.Modal(document.getElementById('previewModal')).show();
+});
+
+/* 🔹 Optional: Clean blob URL when modal closes */
+document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
+  if (currentBlobURL) {
+    URL.revokeObjectURL(currentBlobURL);
+    currentBlobURL = null;
+    iframe.removeAttribute('src');
+  }
+});
+
+/* 🔹 Download logic */
+document.getElementById('download-btn').addEventListener('click', function () {
+  const html = document.getElementById('ai-html-input').value.trim();
+  if (!html) { alert('Please paste some HTML first.'); return; }
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'index.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+</script>	
+	
+
 </body>
 </html>
