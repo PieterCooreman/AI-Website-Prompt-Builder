@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,344 +98,346 @@
 		.modal-fullscreen .modal-content{
 		  height:100%;
 		}
+		
+		.row.g-4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch; /* make column heights equal */
+}
+
+.card {
+  height: 450px; /* fixed height, adjust as needed */
+  overflow-y: auto; /* enable vertical scrollbar if needed */
+  display: flex;
+  flex-direction: column;
+}
+.card-body {
+  flex-grow: 1;
+  overflow-y: auto; /* also scroll content inside card body */
+}
+
+
+
+
 		</style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row g-4">
-            <div class="col-lg-6">
-                <div class="main-header">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <h1 class="mb-0 me-3">AI Site Builder</h1>
-                            <a href="https://github.com/PieterCooreman/AI-Website-Prompt-Builder" class="btn btn-sm btn-outline-dark" target="_blank" title="View on GitHub">
-                                <i class="bi bi-github"></i>
-                            </a>
-                        </div>
-                        <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-outline-primary" id="generate-random" title="Generate random themed values">
-                                <i class="bi bi-shuffle"></i> Random Theme
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary" id="clear-form" title="Clear all fields">
-                                <i class="bi bi-eraser"></i> Clear Form
-                            </button>
-                        </div>
-                    </div>
-                    <p class="text-muted mt-3 mb-0">Fill in the fields to build a <b>JSON prompt</b>. This structured output can be copied and used directly in a Generative AI model to produce a one-paged webpage based on your specifications.</p>
-                    
-                    <div class="theme-selector mt-3">
-                        <div class="row">
-                            <div class="col-12">
-                                <label class="form-label small fw-bold">Theme Clusters:</label>
-                                <div id="theme-badges"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-container">
-                    <form id="prompt-form">
-                        <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">Step 1: Provide General Information</h5>
-                            <div class="mb-3">
-                                <label for="sitetitle" class="form-label">Title</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="siteslogan" class="form-label">Slogan</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="sitelanguage" class="form-label">Language</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
-                                    <select class="form-select suggestion-select-n" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-										<option value="English">English</option>
-										<option value="Nederlands">Nederlands</option>
-										<option value="Français">Français</option>
-										<option value="Deutsch">Deutsch</option>
-										<option value="Español">Español</option>
-										<option value="Português">Português</option>										 
-										<option value="中文">中文</option>
-										<option value="العربية">العربية</option>										
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="contact_details" class="form-label">Contact Details</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">Context & Brand Identity</h5>
-                            <div class="mb-3">
-                                <label for="sector_activity" class="form-label">Sector/Activity</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="target_audience" class="form-label">Target Audience</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="mission" class="form-label">Mission</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="vision" class="form-label">Vision</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="core_values" class="form-label">Core Values</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">Design</h5>
-                            <div class="mb-3">
-                                <label for="style_preference" class="form-label">Style Preference</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="colors" class="form-label">Colors</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="typography" class="form-label">Typography</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
-                                     <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                     </select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="button_style" class="form-label">Button Style</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h5 class="border-bottom pb-2 mb-3">Imagery & Tone</h5>                            
-                            <div class="mb-3">
-                                <label for="tone_of_voice" class="form-label">Tone of Voice</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
-                                    <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                        <option value="">Suggestion</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<div class="container-fluid">
+   <div class="row g-4">
+      <!-- Card 1: General explanation -->
+      <div class="col-lg-6">
+         <div class="card p-3">
+            <div class="card-body">
+               <h1 class="card-title">AI Site Builder</h1>
+               <p class="card-text text-muted">
+                  Fill in the fields to build a <b>JSON prompt</b>. This structured output can be copied and used directly in a Generative AI model to produce a one-paged webpage based on your specifications.
+               </p>
+               <div class="theme-selector mt-3">
+                  <label class="form-label small fw-bold">Theme Clusters:</label>
+                  <div id="theme-badges"></div>
+               </div>
+               <div class="btn-group btn-group-sm mt-3" role="group">
+                  <button type="button" class="btn btn-outline-primary" id="generate-random" title="Generate random themed values">
+                  <i class="bi bi-shuffle"></i> Random Theme
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" id="clear-form" title="Clear all fields">
+                  <i class="bi bi-eraser"></i> Clear Form
+                  </button>
+                  <a href="https://github.com/PieterCooreman/AI-Website-Prompt-Builder" class="btn btn-outline-dark" target="_blank" title="View on GitHub">
+                  <i class="bi bi-github"></i> GitHub
+                  </a>
+               </div>
             </div>
-
-            <div class="col-lg-6">
-                <div class="json-container">
-                    <div class="json-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-0">Step 2: Copy/paste JSON Prompt in any GenAI</h5>                            
+         </div>
+      </div>
+      <!-- Card 2: Input fields with suggestions (form) -->
+      <div class="col-lg-6">
+         <div class="card p-3">
+            <div class="card-body">
+               <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">Step 1: Provide General Information</h5>
+               </div>
+               <form id="prompt-form">
+                  <div class="form-section">
+                     <h5 class="border-bottom pb-2 mb-3"></h5>
+                     <div class="mb-3">
+                        <label for="sitetitle" class="form-label">Title</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
                         </div>
-                        <div class="btn-group btn-group-sm" role="group">
-                            <button class="btn btn-outline-success" id="copy-json" title="Copy to clipboard">
-                                <i class="bi bi-copy"></i>
-                            </button>
-                            <button class="btn btn-outline-info" id="export-json" title="Download as file">
-                                <i class="bi bi-download"></i>
-                            </button>
+                     </div>
+                     <div class="mb-3">
+                        <label for="siteslogan" class="form-label">Slogan</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
                         </div>
-                    </div>
-                    
-                    <div class="json-output-container" style="max-height:200px">
-                        <textarea class="form-control border-0 flex-grow-1" id="json-output" readonly placeholder="Fill in the form to generate JSON..."></textarea>
-                    </div>
-					
-									   
-					<div class="row mt-5">
-						<div class="col-12">
-						  <div class="card">
-							<div class="card-header bg-dark text-white">
-							  <i class="bi bi-eye"></i> Step 3: Paste AI-generated HTML, preview and download!
-							</div>
-							<div class="card-body">
-							  <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
-							  <textarea id="ai-html-input" style="max-height:150px" class="form-control preview-textarea mb-1" placeholder="Paste generated HTML here..."></textarea>
-							   <button id="preview-btn" class="btn btn-primary flex-fill mb-1">
-								  <i class="bi bi-display"></i> Preview, edit &amp; download
-								</button>								
-								<button id="download-btn" class="btn btn-success flex-fill mb-1">
-								  <i class="bi bi-download"></i> Download
-								</button>
-								<!--<a id="edit-btn" href="https://phcode.dev/" target="_blank" class="btn btn-warning flex-fill mb-1">
-								  <i class="bi bi-pen"></i> Edit with Phcode.io
-								</a-->
-								
-								
-							</div>
-						  </div>
-						</div>
-					  </div>					
-                </div>
-            </div>		
-        </div>
-    </div>
-	
-	
-							   
-	<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog modal-fullscreen">
-		<div class="modal-content">
-		  <div class="modal-header">
-			<h5 class="modal-title">Live Preview (Editable)</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		  </div>
-		  <div class="modal-body p-0">
-			<iframe id="preview-iframe" style="border:0;width:100%;height:100%;"></iframe>
-		  </div>
-          <div class="modal-footer">
+                     </div>
+                     <div class="mb-3">
+                        <label for="sitelanguage" class="form-label">Language</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
+                           <select class="form-select suggestion-select-n" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                              <option value="English">English</option>
+                              <option value="Nederlands">Nederlands</option>
+                              <option value="Français">Français</option>
+                              <option value="Deutsch">Deutsch</option>
+                              <option value="Español">Español</option>
+                              <option value="Português">Português</option>
+                              <option value="中文">中文</option>
+                              <option value="العربية">العربية</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="contact_details" class="form-label">Contact Details</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-section">
+                     <h5 class="border-bottom pb-2 mb-3">Context & Brand Identity</h5>
+                     <div class="mb-3">
+                        <label for="sector_activity" class="form-label">Sector/Activity</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="target_audience" class="form-label">Target Audience</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="mission" class="form-label">Mission</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="vision" class="form-label">Vision</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="core_values" class="form-label">Core Values</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-section">
+                     <h5 class="border-bottom pb-2 mb-3">Design</h5>
+                     <div class="mb-3">
+                        <label for="style_preference" class="form-label">Style Preference</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="colors" class="form-label">Colors</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="typography" class="form-label">Typography</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="button_style" class="form-label">Button Style</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="mb-3">
+                        <label for="tone_of_voice" class="form-label">Tone of Voice</label>
+                        <div class="input-group">
+                           <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
+                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                              <option value="">Suggestion</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- Card 3: Copy/paste JSON prompt -->
+      <div class="col-lg-6">
+         <div class="card p-3">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+               <h5 class="mb-0">Step 2: Copy/paste JSON Prompt in any GenAI</h5>
+               <div class="btn-group btn-group-sm" role="group">
+                  <button class="btn btn-outline-info" id="copy-json" title="Copy to clipboard">
+                  <i class="bi bi-copy text-white"></i>
+                  </button>
+                  <button class="btn btn-outline-info" id="export-json" title="Download as file">
+                  <i class="bi bi-download text-white"></i>
+                  </button>
+               </div>
+            </div>
+            <textarea class="form-control border-0 flex-grow-1" id="json-output" style="max-height:350px" readonly placeholder="Fill in the form to generate JSON..."></textarea>
+         </div>
+      </div>
+      <!-- Card 4: Paste AI-generated HTML, preview and download -->
+      <div class="col-lg-6">
+         <div class="card p-3">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+               <h5 class="mb-0">Step 3: Paste AI-generated HTML, preview, edit and download!</h5>
+            </div>
+            <div class="card-body">
+               <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
+               <textarea id="ai-html-input" class="form-control preview-textarea mb-1" style="max-height:120px" placeholder="Paste generated HTML here..."></textarea>
+               <button id="preview-btn" class="btn btn-primary w-100 mb-1">
+               <i class="bi bi-display"></i> Preview, edit &amp; download
+               </button>
+               <button id="download-btn" class="btn btn-success w-100">
+               <i class="bi bi-download"></i> Download
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Live Preview (Editable)</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body p-0">
+            <iframe id="preview-iframe" style="border:0;width:100%;height:100%;"></iframe>
+         </div>
+         <div class="modal-footer">
             <small class="text-muted me-auto">You can click directly on the texts in the preview to edit them.</small>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-success" id="download-edited-btn">
-                <i class="bi bi-download"></i> Download Edited HTML
+            <i class="bi bi-download"></i> Download Edited HTML
             </button>
-          </div>
-		</div>
-	  </div>
-	</div>
+         </div>
+      </div>
+   </div>
+</div>    
 
-    <script>
-        const jsonTemplate = {
-            "instructions": "Build a responsive one-page website with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named index.html",
-            "output": "one complete index.html file with inline <style> en <script> sections",
-            "general_data": {
-                "sitetitle": "[SITETITLE]",
-                "siteslogan": "[SITESLOGAN]",
-                "sitelanguage": "[SITELANGUAGE]",
-                "contact_details": "[CONTACT_DETAILS]"               
-            },
-            "context_and_brand_identity": {
-                "sector_activity": "[SECTOR_ACTIVITY]",
-                "target_audience": "[TARGET_AUDIENCE]",
-                "mission": "[MISSION]",
-                "vision": "[VISION]",
-                "core_values": "[CORE_VALUES]"
-            },
-            "design": {
-                "style_preference": "[STYLE_PREFERENCE]",
-                "colors": "[COLORS]",                
-                "typography": "[TYPOGRAPHY]",
-                "button_style": "[BUTTON_STYLE]",
-                "favicon": "Generate a matching favicon",
-                "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
-            },           
-			"text_readability": [                
-			"Minimum line-height: 1.5 for body text",
-			"Minimum font-size body-text: 16px",
-			"Minimum font-size titles: 22px",			
-			"Maintain 4.5:1 color contrast ratio for all texts for both light and dark mode"			
-			],             
-                     
-            "icons": {
-                "required_library": "Bootstrap Icons",
-                "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
-                "implementation_rules": [
-                  "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",                 
-                  "Do NOT use inline SVG or data URIs"                   
-                ]                
-            },
-            "imagery_and_tone": {                      
-                "tone_of_voice": "[TONE_OF_VOICE]"
-            },
-            "content_sections": [
-                "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
-                "Hero section with a parallax fixed-cover background image",
-                "About-us section with a few site-themed descriptive lines (in line with the mission, vision and core_values)",
-                "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",                
-                "Call-to-action guiding visitors to the contact block",
-                "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
-                "Contact section with provided details and embedded map with a public, keyless embed URL from Google Maps",
-                "Privacy modal with a default policy for a site using only technical cookies",
-                "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button",
-				"Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal."
-              ],              
-            "web_technologies": [
-                "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated." ,
-				"For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox. For the images, use a dynamic drop shadow on hover."				
-            ],
-            "functionality": {
-                "animations": "Subtle animate-on-scroll (fade/slide)",                
-                "smooth_scrolling": true,
-                "hover_effects": "Buttons, links, and images",
-                "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
-				"Bootstrap": "use popular Bootstrap components like navbar, cards, buttons, carousels, tabs, ..."
-              },
-            "code_validation": "Ensure all JS follows ESLint rules and check element existence before manipulation.",
-            "assets": {
-                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
-                "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
-          }
-        };
- 
+ <script>
+	const jsonTemplate = {
+    "instructions": "Build a responsive one-page website with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named index.html",
+    "output": "one complete index.html file with inline <style> en <script> sections",
+    "general_data": {
+        "sitetitle": "[SITETITLE]",
+        "siteslogan": "[SITESLOGAN]",
+        "sitelanguage": "[SITELANGUAGE]",
+        "contact_details": "[CONTACT_DETAILS]"
+    },
+    "context_and_brand_identity": {
+        "sector_activity": "[SECTOR_ACTIVITY]",
+        "target_audience": "[TARGET_AUDIENCE]",
+        "mission": "[MISSION]",
+        "vision": "[VISION]",
+        "core_values": "[CORE_VALUES]"
+    },
+    "design": {
+        "style_preference": "[STYLE_PREFERENCE]",
+        "colors": "[COLORS]",
+        "typography": "[TYPOGRAPHY]",
+        "button_style": "[BUTTON_STYLE]",
+        "favicon": "Generate a matching favicon",
+        "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
+    },
+    "text_readability": [
+        "Minimum line-height: 1.5 for body text",
+        "Minimum font-size body-text: 16px",
+        "Minimum font-size titles: 22px",
+        "Maintain 4.5:1 color contrast ratio for all texts for both light and dark mode"
+    ],
 
-       const thematicClusters = {
+    "icons": {
+        "required_library": "Bootstrap Icons",
+        "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
+        "implementation_rules": [
+            "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",
+            "Do NOT use inline SVG or data URIs"
+        ]
+    },
+    "imagery_and_tone": {
+        "tone_of_voice": "[TONE_OF_VOICE]"
+    },
+    "content_sections": [
+        "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
+        "Hero section with a parallax fixed-cover background image",
+        "About-us section with a few site-themed descriptive lines (in line with the mission, vision and core_values)",
+        "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
+        "Call-to-action guiding visitors to the contact block",
+        "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
+        "Contact section with provided details and embedded map with a public, keyless embed URL from Google Maps",
+        "Privacy modal with a default policy for a site using only technical cookies",
+        "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button",
+        "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal."
+    ],
+    "web_technologies": [
+        "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",
+        "For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox. For the images, use a dynamic drop shadow on hover."
+    ],
+    "functionality": {
+        "animations": "Subtle animate-on-scroll (fade/slide)",
+        "smooth_scrolling": true,
+        "hover_effects": "Buttons, links, and images",
+        "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
+        "Bootstrap": "use popular Bootstrap components like navbar, cards, buttons, carousels, tabs, ..."
+    },
+    "code_validation": "Ensure all JS follows ESLint rules and check element existence before manipulation.",
+    "assets": {
+        "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
+        "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
+    }
+};
+
+
+const thematicClusters = {
     "tech_startup": {
         "name": "Tech Startup",
         "color": "primary",
@@ -849,6 +852,61 @@
         "button_style": "Music-inspired buttons with wave animations and sound-themed hover effects",
         "tone_of_voice": "Creative and passionate"
     },
+
+
+
+    "bakery": {
+        "name": "Bakery",
+        "color": "warning",
+        "sitetitle": "Sweet Crumbs Bakery",
+        "siteslogan": "Freshly Baked Happiness Daily",
+        "sitelanguage": "English",
+        "contact_details": "21 Music Row, Nashville, USA",
+        "sector_activity": "Bakery, Pastry, Cafe",
+        "target_audience": "Local community, Families, Food lovers",
+        "mission": "To serve delightful freshly baked goods that bring joy and comfort.",
+        "vision": "To be the neighborhood's favorite bakery known for quality and warmth.",
+        "core_values": "Freshness, Quality ingredients, Community, Sustainability",
+        "style_preference": "Rustic, Warm, Inviting",
+        "colors": [
+            "#F9A825 (Warm Yellow)",
+            "#EF6C00 (Burnt Orange)",
+            "#FFD54F (Golden Honey)",
+            "#F57C00 (Pumpkin)",
+            "#6D4C41 (Brown)"
+        ],
+        "typography": "Cursive, Handwritten, Soft Rounded",
+        "button_style": "Rounded, Soft Shadows",
+        "tone_of_voice": "Friendly, Warm, Inviting"
+    },
+
+    "musicband": {
+        "name": "Music Band",
+        "color": "danger",
+        "sitetitle": "EchoVibes Band",
+        "siteslogan": "Feel the Rhythm, Live the Moment",
+        "sitelanguage": "English",
+        "contact_details": "contact@echovibesband.com - +987 654 3210",
+        "sector_activity": "Music, Live Performance, Entertainment",
+        "target_audience": "Music fans, Concert goers, Event organizers",
+        "mission": "To create unforgettable live music experiences that inspire and unite.",
+        "vision": "To be the sound that resonates across generations and stages.",
+        "core_values": "Creativity, Passion, Connect with fans, Energy",
+        "style_preference": "Edgy, Modern, Dynamic",
+        "colors": [
+            "#1F2937 (Charcoal Black)",
+            "#E74C3C (Passionate Red)",
+            "#34495E (Steel Blue)",
+            "#9B59B6 (Vibrant Purple)",
+            "#F1C40F (Electric Yellow)"
+        ],
+        "typography": "Bold, Modern Sans-serif, Condensed",
+        "button_style": "Sharp edges, High contrast",
+        "tone_of_voice": "Energetic, Passionate, Engaging"
+    },
+
+
+
     "wedding_events": {
         "name": "Wedding & Events",
         "color": "info",
@@ -874,290 +932,308 @@
     }
 };
 
-							   
-
-        function populateSuggestionsAndBadges() {
-            const suggestionSelects = document.querySelectorAll('.suggestion-select');
-            const themeBadgesContainer = document.getElementById('theme-badges');
-            
-															
-            themeBadgesContainer.innerHTML = '';
-
-									   
-            for (const themeKey in thematicClusters) {
-                const theme = thematicClusters[themeKey];
-                const badge = document.createElement('span');
-                badge.className = `badge bg-${theme.color} theme-badge btn`;
-                badge.textContent = theme.name;
-                badge.onclick = () => applyTheme(themeKey);
-                themeBadgesContainer.appendChild(badge);
-            }
-
-																		
-            suggestionSelects.forEach(select => {
-																			  
-                const input = select.previousElementSibling;
-                if (!input || !input.id) return;
-                const fieldId = input.id;
-
-																				 
-                while (select.options.length > 1) {
-                    select.remove(1);
-                }
-
-																		  
-                for (const themeKey in thematicClusters) {
-                    const theme = thematicClusters[themeKey];
-																			 
-                    if (theme.hasOwnProperty(fieldId)) {
-                        let suggestionValue = theme[fieldId];
-                        
-																													  
-                        if (Array.isArray(suggestionValue)) {
-                            suggestionValue = suggestionValue.join(', ');
-                        }
-
-                        const option = document.createElement('option');
-                        option.value = suggestionValue;
-                        option.textContent = `${suggestionValue}`;
-                        select.appendChild(option);
-                    }
-                }
-            });
-        }
-        
-														   
-        document.addEventListener('DOMContentLoaded', populateSuggestionsAndBadges);
-		
-							 
 
 
-									
-								 
-									
+function populateSuggestionsAndBadges() {
+    const suggestionSelects = document.querySelectorAll('.suggestion-select');
+    const themeBadgesContainer = document.getElementById('theme-badges');
+    themeBadgesContainer.innerHTML = '';
 
-        function getFormData() {
-            const data = {};
-            const formElements = document.querySelectorAll('#prompt-form .form-input');
-            formElements.forEach(input => {
-                data[input.id] = input.value;
-            });
-            return data;
-        }
-
-        function updateJsonOutput() {
-            const formData = getFormData();
-            const clonedTemplate = JSON.parse(JSON.stringify(jsonTemplate));
-
-            function replacePlaceholders(obj) {
-                for (const key in obj) {
-                    if (typeof obj[key] === 'string') {
-                        let value = formData[key];
-                        if (key === 'colors' && Array.isArray(value)) {
-                            value = value.join(', ');
-                        }
-                        if (value) {
-                            const placeholder = `[${key.toUpperCase()}]`;
-                            obj[key] = obj[key].replace(placeholder, value);
-                        }
-                    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                        replacePlaceholders(obj[key]);
-                    }
-                }
-            }
-            
-            replacePlaceholders(clonedTemplate);
-            
-            const cleanTemplate = JSON.parse(JSON.stringify(clonedTemplate, (key, value) => {
-                if (Array.isArray(value) && value.length === 0) return undefined;
-                if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return undefined;
-                if (typeof value === 'string' && value.startsWith('[') && value.endsWith(']')) return undefined;
-                return value;
-            }, 2));
-            
-            document.getElementById('json-output').value = JSON.stringify(cleanTemplate, null, 2);
-        }
-
-        function applyTheme(themeKey) {
+    // Helper function to collect unique suggestions from all themes for a field
+    function collectUniqueSortedSuggestions(fieldId) {
+        const allValues = new Set();
+        for (const themeKey in thematicClusters) {
             const theme = thematicClusters[themeKey];
-            if (!theme) return;
-            
-            document.getElementById('sitetitle').value = theme.sitetitle || '';
-            document.getElementById('siteslogan').value = theme.siteslogan || '';
-            document.getElementById('sitelanguage').value = theme.sitelanguage || '';
-            document.getElementById('contact_details').value = theme.contact_details || '';
-            document.getElementById('sector_activity').value = theme.sector_activity || '';
-            document.getElementById('target_audience').value = theme.target_audience || '';
-            document.getElementById('mission').value = theme.mission || '';
-            document.getElementById('vision').value = theme.vision || '';
-            document.getElementById('core_values').value = theme.core_values || '';
-            document.getElementById('style_preference').value = theme.style_preference || '';
-            document.getElementById('colors').value = Array.isArray(theme.colors) ? theme.colors.join(', ') : theme.colors || '';
-            document.getElementById('typography').value = theme.typography || '';
-            document.getElementById('button_style').value = theme.button_style || '';
-            document.getElementById('tone_of_voice').value = theme.tone_of_voice || '';
-            
-            updateJsonOutput();
+            if (theme.hasOwnProperty(fieldId)) {
+                let val = theme[fieldId];
+                if (Array.isArray(val)) {
+                    val.forEach(v => allValues.add(v));
+                } else if (val) {
+                    allValues.add(val);
+                }
+            }
+        }
+        return Array.from(allValues).sort((a, b) => a.localeCompare(b));
+    }
+
+    // Populate suggestion selects with unique sorted suggestions
+    suggestionSelects.forEach(select => {
+        const input = select.previousElementSibling;
+        if (!input || !input.id) return;
+        const fieldId = input.id;
+
+        while (select.options.length > 1) {
+            select.remove(1);
         }
 
-        function generateRandomTheme() {
-            const keys = Object.keys(thematicClusters);
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
-            applyTheme(randomKey);
+        const uniqueSuggestions = collectUniqueSortedSuggestions(fieldId);
+        uniqueSuggestions.forEach(sugg => {
+            const option = document.createElement('option');
+            option.value = sugg;
+            option.textContent = sugg;
+            select.appendChild(option);
+        });
+    });
+
+    // Create theme badges for quick selection
+    for (const themeKey in thematicClusters) {
+        const theme = thematicClusters[themeKey];
+        const badge = document.createElement('span');
+        badge.className = `badge bg-${theme.color} theme-badge btn`;
+        badge.textContent = theme.name;
+        badge.onclick = () => applyTheme(themeKey);
+        themeBadgesContainer.appendChild(badge);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', populateSuggestionsAndBadges);
+
+
+
+
+function getFormData() {
+    const data = {};
+    const formElements = document.querySelectorAll('#prompt-form .form-input');
+    formElements.forEach(input => {
+        data[input.id] = input.value;
+    });
+    return data;
+}
+
+function updateJsonOutput() {
+    const formData = getFormData();
+    const clonedTemplate = JSON.parse(JSON.stringify(jsonTemplate));
+
+    function replacePlaceholders(obj) {
+        for (const key in obj) {
+            if (typeof obj[key] === 'string') {
+                let value = formData[key];
+                if (key === 'colors' && Array.isArray(value)) {
+                    value = value.join(', ');
+                }
+                if (value) {
+                    const placeholder = `[${key.toUpperCase()}]`;
+                    obj[key] = obj[key].replace(placeholder, value);
+                }
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                replacePlaceholders(obj[key]);
+            }
         }
+    }
 
-        function clearForm() {
-            document.querySelectorAll('#prompt-form .form-input').forEach(input => input.value = '');
-															
-            updateJsonOutput();
-			document.getElementById('ai-html-input').value = '';
-        }
+    replacePlaceholders(clonedTemplate);
 
-        function copyJson() {
-            const output = document.getElementById('json-output');
-            output.select();
-            output.setSelectionRange(0, 99999);
-            document.execCommand('copy');
-            alert('JSON copied to clipboard! Paste this in your GenAI prompt!');
-        }
+    const cleanTemplate = JSON.parse(JSON.stringify(clonedTemplate, (key, value) => {
+        if (Array.isArray(value) && value.length === 0) return undefined;
+        if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return undefined;
+        if (typeof value === 'string' && value.startsWith('[') && value.endsWith(']')) return undefined;
+        return value;
+    }, 2));
 
-        function exportJson() {
-            const json = document.getElementById('json-output').value;
-            const blob = new Blob([json], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'website_prompt.json';
-            a.click();
-            URL.revokeObjectURL(a.href);
-        }
+    document.getElementById('json-output').value = JSON.stringify(cleanTemplate, null, 2);
+}
 
-        document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
-        document.getElementById('generate-random').addEventListener('click', generateRandomTheme);
-        document.getElementById('clear-form').addEventListener('click', clearForm);
-        document.getElementById('copy-json').addEventListener('click', copyJson);
-        document.getElementById('export-json').addEventListener('click', exportJson);
+function applyTheme(themeKey) {
+    const theme = thematicClusters[themeKey];
+    if (!theme) return;
 
-        updateJsonOutput();
-    </script>
-	
-	<script>
- 
- 
-														  
-	const iframe = document.getElementById('preview-iframe');
-    let currentBlobURL = null;
+    document.getElementById('sitetitle').value = theme.sitetitle || '';
+    document.getElementById('siteslogan').value = theme.siteslogan || '';
+    document.getElementById('sitelanguage').value = theme.sitelanguage || '';
+    document.getElementById('contact_details').value = theme.contact_details || '';
+    document.getElementById('sector_activity').value = theme.sector_activity || '';
+    document.getElementById('target_audience').value = theme.target_audience || '';
+    document.getElementById('mission').value = theme.mission || '';
+    document.getElementById('vision').value = theme.vision || '';
+    document.getElementById('core_values').value = theme.core_values || '';
+    document.getElementById('style_preference').value = theme.style_preference || '';
+    document.getElementById('colors').value = Array.isArray(theme.colors) ? theme.colors.join(', ') : theme.colors || '';
+    document.getElementById('typography').value = theme.typography || '';
+    document.getElementById('button_style').value = theme.button_style || '';
+    document.getElementById('tone_of_voice').value = theme.tone_of_voice || '';
 
-    document.getElementById('preview-btn').addEventListener('click', function () {
-        const html = document.getElementById('ai-html-input').value.trim();
-        if (!html) {
-            alert('Please paste some HTML first.');
-            return;
-        }
+    updateJsonOutput();
+}
 
-										  
-        if (currentBlobURL) {
-            URL.revokeObjectURL(currentBlobURL);
-						  
-        }
+function generateRandomTheme() {
+    const keys = Object.keys(thematicClusters);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    applyTheme(randomKey);
+}
 
-										   
-        const blob = new Blob([html], { type: 'text/html' });
-        currentBlobURL = URL.createObjectURL(blob);
+function clearForm() {
+    document.querySelectorAll('#prompt-form .form-input').forEach(input => input.value = '');
 
-        iframe.onload = () => {
-            try {
-                const doc = iframe.contentDocument;
-                if (!doc) return;
-  
+    updateJsonOutput();
+    document.getElementById('ai-html-input').value = '';
+}
 
-                const style = doc.createElement('style');
-                style.id = 'editable-style';
-                style.textContent = `
+function copyJson() {
+    const output = document.getElementById('json-output');
+    output.select();
+    output.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    alert('JSON copied to clipboard! Paste this in your GenAI prompt!');
+}
+
+function exportJson() {
+    const json = document.getElementById('json-output').value;
+    const blob = new Blob([json], {
+        type: 'application/json'
+    });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'website_prompt.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
+document.getElementById('generate-random').addEventListener('click', generateRandomTheme);
+document.getElementById('clear-form').addEventListener('click', clearForm);
+document.getElementById('copy-json').addEventListener('click', copyJson);
+document.getElementById('export-json').addEventListener('click', exportJson);
+
+updateJsonOutput();
+
+
+
+const iframe = document.getElementById('preview-iframe');
+let currentBlobURL = null;
+
+document.getElementById('preview-btn').addEventListener('click', function() {
+    const html = document.getElementById('ai-html-input').value.trim();
+    if (!html) {
+        alert('Please paste some HTML first.');
+        return;
+    }
+
+
+    if (currentBlobURL) {
+        URL.revokeObjectURL(currentBlobURL);
+
+    }
+
+
+    const blob = new Blob([html], {
+        type: 'text/html'
+    });
+    currentBlobURL = URL.createObjectURL(blob);
+
+    iframe.onload = () => {
+        try {
+            const doc = iframe.contentDocument;
+            if (!doc) return;
+
+
+            const style = doc.createElement('style');
+            style.id = 'editable-style';
+            style.textContent = `
                     [contenteditable="true"]:hover { outline: 2px dashed #0d6efd; cursor: text; }
                     [contenteditable="true"]:focus { outline: 2px solid #0d6efd; background-color: rgba(13, 110, 253, 0.1); }
                 `;
-                doc.head.appendChild(style);
+            doc.head.appendChild(style);
 
-                // **FIX:** Added 'div' to the selector list to find text within divs.
-                const selector = 'p, h1, h2, h3, h4, h5, h6, a, li, button, span, strong, em, blockquote, figcaption, td, th, dd, div, small, body';
-                doc.querySelectorAll(selector).forEach(el => {
-                    const childNodes = Array.from(el.childNodes);
-                    
-                    childNodes.forEach(node => {
-                        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
-                            const span = doc.createElement('span');
-                            span.textContent = node.textContent;
-                            span.contentEditable = true;
-                            el.replaceChild(span, node);
+            // **FIX:** Added 'div' to the selector list to find text within divs.
+            const selector = 'p, h1, h2, h3, h4, h5, h6, a, li, button, span, strong, strike, em, blockquote, figcaption, td, th, dd, div, small, body, address, i, b, s';
+            doc.querySelectorAll(selector).forEach(el => {
+                const childNodes = Array.from(el.childNodes);
+
+                childNodes.forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                        const span = doc.createElement('span');
+                        span.textContent = node.textContent;
+                        span.contentEditable = true;
+                        el.replaceChild(span, node);
+                    }
+                });
+
+                // Prevent links and buttons from triggering navigation or actions while editing
+                doc.querySelectorAll('a, button').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        // Optionally, put the focus in the editable child span if present
+                        const editableSpan = el.querySelector('span[contenteditable="true"]');
+                        if (editableSpan) {
+                            editableSpan.focus();
                         }
                     });
                 });
-            } catch (e) {
-                console.error("Error making iframe content editable:", e);
-                alert("Could not make preview editable. See browser console for details.");
-            }
-        };
-
-        iframe.src = currentBlobURL;
-        new bootstrap.Modal(document.getElementById('previewModal')).show();
-    });
-
-    // Download logic for the original, unedited HTML
-    document.getElementById('download-btn').addEventListener('click', function () {
-        const html = document.getElementById('ai-html-input').value.trim();
-        if (!html) { alert('Please paste some HTML first.'); return; }
-        const blob = new Blob([html], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'index.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    });
-
-    // Download logic for the MODIFIED HTML from the modal preview
-    document.getElementById('download-edited-btn').addEventListener('click', function() {
-        const doc = iframe.contentDocument;
-        if (!doc) {
-            alert('Could not access the preview content to download.');
-            return;
+            });
+        } catch (e) {
+            console.error("Error making iframe content editable:", e);
+            alert("Could not make preview editable. See browser console for details.");
         }
+    };
 
-        const cloneDoc = doc.cloneNode(true);
+    iframe.src = currentBlobURL;
+    new bootstrap.Modal(document.getElementById('previewModal')).show();
+});
 
-        cloneDoc.getElementById('editable-style')?.remove();
-        
-        // In the clone, find our editable spans and unwrap them
-        cloneDoc.querySelectorAll('span[contenteditable="true"]').forEach(span => {
-            const textNode = document.createTextNode(span.textContent);
-            span.parentNode.replaceChild(textNode, span);
-        });
+// Download logic for the original, unedited HTML
+document.getElementById('download-btn').addEventListener('click', function() {
+    const html = document.getElementById('ai-html-input').value.trim();
+    if (!html) {
+        alert('Please paste some HTML first.');
+        return;
+    }
+    const blob = new Blob([html], {
+        type: 'text/html'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
 
-        const finalHtml = '<!DOCTYPE html>\n' + cloneDoc.documentElement.outerHTML;
+// Download logic for the MODIFIED HTML from the modal preview
+document.getElementById('download-edited-btn').addEventListener('click', function() {
+    const doc = iframe.contentDocument;
+    if (!doc) {
+        alert('Could not access the preview content to download.');
+        return;
+    }
 
-        // Trigger the download
-        const blob = new Blob([finalHtml], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'index_edited.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+    const cloneDoc = doc.cloneNode(true);
+
+    cloneDoc.getElementById('editable-style')?.remove();
+
+    // In the clone, find our editable spans and unwrap them
+    cloneDoc.querySelectorAll('span[contenteditable="true"]').forEach(span => {
+        const textNode = document.createTextNode(span.textContent);
+        span.parentNode.replaceChild(textNode, span);
     });
 
-    // Clean up blob URL when the modal is closed
-    document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
-        if (currentBlobURL) {
-            URL.revokeObjectURL(currentBlobURL);
-            currentBlobURL = null;
-            iframe.removeAttribute('src');
-        }
+    const finalHtml = '<!DOCTYPE html>\n' + cloneDoc.documentElement.outerHTML;
+
+    // Trigger the download
+    const blob = new Blob([finalHtml], {
+        type: 'text/html'
     });
-</script>	
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index_edited.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+
+// Clean up blob URL when the modal is closed
+document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
+    if (currentBlobURL) {
+        URL.revokeObjectURL(currentBlobURL);
+        currentBlobURL = null;
+        iframe.removeAttribute('src');
+    }
+});
+	</script>
 	
 
 </body>
