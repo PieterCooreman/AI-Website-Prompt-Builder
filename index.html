@@ -1,1247 +1,1341 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Website Prompt Builder</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body {
-            background-color: #FFFFFF;
-            padding: 20px;
+            background-color: #f8f9fa;
         }
-        .form-section {
-            margin-bottom: 30px;
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 80px 0 60px 0;
+            position: relative;
+            overflow: hidden;
         }
-        .suggestion-select {
-            width: auto;
-            flex: 0 0 200px;
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
         }
-        #json-output {
-            height: 80vh;
-            font-family: monospace;
-            font-size: 0.9rem;
-            resize: vertical;
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
-        .form-container {
-            height: 80vh;
-            overflow-y: auto;
-        }
-        .json-container {
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .json-header {
-            border-bottom: 1px solid #dee2e6;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-        .json-output-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .form-input {
-            min-height: 38px;
-        }
-        .btn-group-sm .btn {
-            font-size: 0.8rem;
-        }
-        .header-actions {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            margin-bottom: 20px;
-        }
-        .main-header {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            margin-bottom: 20px;
-        }
+        
         .theme-selector {
             margin-bottom: 15px;
         }
+        
         .theme-badge {
             font-size: 0.8rem;
             margin-right: 5px;
             margin-bottom: 5px;
         }
-		
+        
+        /* Main content */
+        .main-content {
+            padding: 60px 0;
+            min-height: 70vh;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .suggestion-select {
+            width: auto;
+            flex: 0 0 200px;
+        }
+        
+        #json-output {
+            height: 350px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+        
+        .form-container {
+            height: 600px;
+            overflow-y: auto;
+        }
+        
+        .json-container {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-input {
+            min-height: 38px;
+        }
+        
+        .btn-group-sm .btn {
+            font-size: 0.8rem;
+        }
+        
+        .card-4 {
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-body-4 {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        .preview-textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        
+        .modal-fullscreen .modal-content {
+            height: 100%;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0 20px 0;
+        }
+        
+        .footer h5, .footer h6, .footer p {
+            color: white;
+        }
+        
+        .footer a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            color: white;
+        }
+        
+        .footer .text-muted {
+            color: #adb5bd !important;
+        }
+        
+        /* Navbar brand enhancement */
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
         @media (max-width: 991px) {
-            .form-container, .json-container {
+            .hero-section {
+                padding: 60px 0 40px 0;
+            }
+            
+            .main-content {
+                padding: 40px 0;
+            }
+            
+            .form-container, .json-container, .card-4 {
                 margin-bottom: 20px;
                 height: auto;
             }
+            
             #json-output {
-                height: 400px;
+                height: 300px;
             }
-            .header-actions {
-                margin-bottom: 15px;
-            }
-        }		
-		
-		.preview-textarea {
-		  height:200px;
-		  resize:vertical;
-		}
-		.modal-fullscreen .modal-content{
-		  height:100%;
-		}
-		
-		.row.g-4 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch; /* make column heights equal */
-}
-
-.card-4 {
-  height: 444px; /* fixed height, adjust as needed */
-  overflow-y: auto; /* enable vertical scrollbar if needed */
-  display: flex;
-  flex-direction: column;
-}
-.card-body-4 {
-  flex-grow: 1;
-  overflow-y: auto; /* also scroll content inside card body */
-}
-
-
-
-
-		</style>
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluid">
-   <div class="row g-4">
-      <!-- Card 1: General explanation -->
-      <div class="col-lg-6">
-         <div class="card p-2 bg-success text-white">
-            <div class="card-body">
-               <h1 class="card-title">AI Site Builder</h1>
-               <p class="card-text text-white">
-                  Fill in the fields to build a <b>JSON prompt</b>. This structured output can be copied and used directly in a Generative AI model to produce a one-paged webpage.
-               </p>
-               <div class="theme-selector mt-3">
-                  <label class="form-label small fw-bold">Theme Clusters:</label>
-                  <div id="theme-badges" class="bg-light p-3 rounded"></div>
-               </div>
-               <div class="btn-group btn-group-sm mt-3" role="group">
-                  <button type="button" class="btn btn-outline-light" id="generate-random" title="Generate random themed values">
-                  <i class="bi bi-shuffle"></i> Random Theme
-                  </button>
-                  <button type="button" class="btn btn-outline-light" id="clear-form" title="Clear all fields">
-                  <i class="bi bi-eraser"></i> Clear Form
-                  </button>
-                  <a href="https://github.com/PieterCooreman/AI-Website-Prompt-Builder" class="btn btn-outline-light" target="_blank" title="View on GitHub">
-                  <i class="bi bi-github"></i> GitHub
-                  </a>
-               </div>
-            </div>
-         </div>
-      </div>
-	  
-	  
-	    
-	  
-	  
-	  
-      <!-- Card 2: Input fields with suggestions (form) -->
-      <div class="col-lg-6">
-         <div class="card p-1 card-4">
-            <div class="card-body card-body-4" style="padding:4px">
-				<div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Step 1: Provide General Information</h5>
-                 
-               </div>
-               <form id="prompt-form">
-                  <div class="form-section">
-                     <h5 class="border-bottom pb-2 mb-3"></h5>
-                     <div class="mb-3">
-                        <label for="sitetitle" class="form-label">Title</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="siteslogan" class="form-label">Slogan</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="sitelanguage" class="form-label">Language</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
-                           <select class="form-select suggestion-select-n" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                              <option value="English">English</option>
-                              <option value="Nederlands">Nederlands</option>
-                              <option value="Français">Français</option>
-                              <option value="Deutsch">Deutsch</option>
-                              <option value="Español">Español</option>
-                              <option value="Português">Português</option>
-                              <option value="中文">中文</option>
-                              <option value="العربية">العربية</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="contact_details" class="form-label">Contact Details</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="form-section">
-                     <h5 class="border-bottom pb-2 mb-3">Context & Brand Identity</h5>
-                     <div class="mb-3">
-                        <label for="sector_activity" class="form-label">Sector/Activity</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="target_audience" class="form-label">Target Audience</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="mission" class="form-label">Mission</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="vision" class="form-label">Vision</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="core_values" class="form-label">Core Values</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="form-section">
-                     <h5 class="border-bottom pb-2 mb-3">Design</h5>
-                     <div class="mb-3">
-                        <label for="style_preference" class="form-label">Style Preference</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="colors" class="form-label">Colors</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="typography" class="form-label">Typography</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="button_style" class="form-label">Button Style</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="mb-3">
-                        <label for="tone_of_voice" class="form-label">Tone of Voice</label>
-                        <div class="input-group">
-                           <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
-                           <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                              <option value="">Suggestion</option>
-                           </select>
-                        </div>
-                     </div>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-      <!-- Card 3: Copy/paste JSON prompt -->
-      <div class="col-lg-6">
-         <div class="card p-2">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-               <h5 class="mb-0">Step 2: Copy/paste JSON Prompt in any GenAI</h5>
-               <div class="btn-group btn-group-sm" role="group">
-                  <button class="btn btn-outline-info" id="copy-json" title="Copy to clipboard">
-                  <i class="bi bi-copy text-white"></i>
-                  </button>
-                  <button class="btn btn-outline-info" id="export-json" title="Download as file">
-                  <i class="bi bi-download text-white"></i>
-                  </button>
-               </div>
-            </div>
-            <textarea class="form-control border-0 flex-grow-1" id="json-output" style="max-height:250px" readonly placeholder="Fill in the form to generate JSON..."></textarea>
-         </div>
-      </div>
-      <!-- Card 4: Paste AI-generated HTML, preview and download -->
-      <div class="col-lg-6">
-         <div class="card p-2">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-               <h5 class="mb-0">Step 3: Paste AI-generated HTML, preview, edit and download!</h5>
-            </div>
-            <div class="card-body">
-               <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
-               <textarea id="ai-html-input" class="form-control preview-textarea mb-1" style="max-height:100px" placeholder="Paste generated HTML here..."></textarea>
-               <button id="preview-btn" class="btn btn-primary w-100 mb-1">
-               <i class="bi bi-display"></i> Preview, edit &amp; download
-               </button>
-               <button id="download-btn" class="btn btn-success w-100">
-               <i class="bi bi-download"></i> Download
-               </button>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
-<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
-   <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">Live Preview (Editable)</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body p-0">
-            <iframe id="preview-iframe" style="border:0;width:100%;height:100%;"></iframe>
-         </div>
-         <div class="modal-footer">
-            <small class="text-muted me-auto">You can click directly on the texts in the preview to edit them.</small>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success" id="download-edited-btn">
-            <i class="bi bi-download"></i> Download Edited HTML
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-code-square me-2"></i>WebPrompt Studio
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
-         </div>
-      </div>
-   </div>
-</div>    
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="ms-auto d-flex">
+                    <button type="button" class="btn btn-outline-light btn-sm me-2" id="generate-random" title="Generate random themed values">
+                        <i class="bi bi-shuffle"></i> Random Theme
+                    </button>
+                    <button type="button" class="btn btn-outline-light btn-sm me-2" id="clear-form" title="Clear all fields">
+                        <i class="bi bi-eraser"></i> Clear Form
+                    </button>
+                    <a href="https://github.com/PieterCooreman/WebPrompt-Studio" class="btn btn-outline-light btn-sm" target="_blank" title="View on GitHub">
+                        <i class="bi bi-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
- <script>
-	const jsonTemplate = {
-    "instructions": "Build a responsive one-page website with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named index.html",
-    "output": "one complete index.html file with inline <style> en <script> sections",
-    "general_data": {
-        "sitetitle": "[SITETITLE]",
-        "siteslogan": "[SITESLOGAN]",
-        "sitelanguage": "[SITELANGUAGE]",
-        "contact_details": "[CONTACT_DETAILS]"
-    },
-    "context_and_brand_identity": {
-        "sector_activity": "[SECTOR_ACTIVITY]",
-        "target_audience": "[TARGET_AUDIENCE]",
-        "mission": "[MISSION]",
-        "vision": "[VISION]",
-        "core_values": "[CORE_VALUES]"
-    },
-    "design": {
-        "style_preference": "[STYLE_PREFERENCE]",
-        "colors": "[COLORS]",
-        "typography": "[TYPOGRAPHY]",
-        "button_style": "[BUTTON_STYLE]",
-        "favicon": "Generate a matching favicon",
-        "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
-    },
-    "text_readability": [
-        "Minimum line-height: 1.5 for body text",
-        "Minimum font-size body-text: 16px",
-        "Minimum font-size titles: 22px",
-        "Maintain 4.5:1 color contrast ratio for all texts for both light and dark mode"
-    ],
+    <!-- Hero Section -->
+    <section class="hero-section" id="builder">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center hero-content">
+                    <h1 class="display-4 fw-bold mb-4">WebPrompt Studio</h1>
+                    <p class="lead mb-4">
+                        Build better websites with AI. Answer a few questions about your brand and goals, then get a proven prompt template that creates professional sites instantly.
+                    </p>
+                    
+                    <div class="theme-selector mt-4">
+                        <h5 class="fw-bold mb-3">Theme Clusters:</h5>
+                        <div id="theme-badges" class="bg-white bg-opacity-10 p-4 rounded-3 backdrop-blur"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    "icons": {
-        "required_library": "Bootstrap Icons",
-        "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
-        "implementation_rules": [
-            "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",
-            "Do NOT use inline SVG or data URIs"
-        ]
-    },
-    "imagery_and_tone": {
-        "tone_of_voice": "[TONE_OF_VOICE]"
-    },
-    "content_sections": [
-        "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
-        "Hero section with a parallax fixed-cover background image",
-        "About-us section with a few site-themed descriptive lines (in line with the mission, vision and core_values)",
-        "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
-        "Call-to-action guiding visitors to the contact block",
-        "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
-        "Contact section with provided details and embedded map with a public, keyless embed URL from Google Maps",
-        "Privacy modal with a default policy for a site using only technical cookies",
-        "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button",
-        "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal."
-    ],
-    "web_technologies": [
-        "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",
-        "For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox. For the images, use a dynamic drop shadow on hover."
-    ],
-    "functionality": {
-        "animations": "Subtle animate-on-scroll (fade/slide)",
-        "smooth_scrolling": true,
-        "hover_effects": "Buttons, links, and images",
-        "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
-        "Bootstrap": "use popular Bootstrap components like navbar, cards, buttons, carousels, tabs, ..."
-    },
-    "code_validation": "Ensure all JS follows ESLint rules and check element existence before manipulation.",
-    "assets": {
-        "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
-        "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
-    }
-};
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Left Column: Form -->
+                <div class="col-lg-6">
+                    <div class="card shadow-sm card-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Step 1: Provide General Information</h5>
+                        </div>
+                        <div class="card-body card-body-4" style="padding: 15px">
+                            <form id="prompt-form">
+                                <div class="form-section">
+                                    <h6 class="border-bottom pb-2 mb-3 text-primary">General Information</h6>
+                                    <div class="mb-3">
+                                        <label for="sitetitle" class="form-label">Title</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="siteslogan" class="form-label">Slogan</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sitelanguage" class="form-label">Language</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
+                                            <select class="form-select suggestion-select-n" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                                <option value="English">English</option>
+                                                <option value="Nederlands">Nederlands</option>
+                                                <option value="Français">Français</option>
+                                                <option value="Deutsch">Deutsch</option>
+                                                <option value="Español">Español</option>
+                                                <option value="Português">Português</option>
+                                                <option value="中文">中文</option>
+                                                <option value="العربية">العربية</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact_details" class="form-label">Contact Details</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h6 class="border-bottom pb-2 mb-3 text-primary">Context & Brand Identity</h6>
+                                    <div class="mb-3">
+                                        <label for="sector_activity" class="form-label">Sector/Activity</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target_audience" class="form-label">Target Audience</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mission" class="form-label">Mission</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vision" class="form-label">Vision</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="core_values" class="form-label">Core Values</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h6 class="border-bottom pb-2 mb-3 text-primary">Design</h6>
+                                    <div class="mb-3">
+                                        <label for="style_preference" class="form-label">Style Preference</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="colors" class="form-label">Colors</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="typography" class="form-label">Typography</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="button_style" class="form-label">Button Style</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tone_of_voice" class="form-label">Tone of Voice</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
+                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                                <option value="">Suggestion</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: JSON Output and Preview -->
+                <div class="col-lg-6">
+                    <div class="row g-4">
+                        <!-- JSON Output Card -->
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="bi bi-code me-2"></i>Step 2: Copy/paste JSON Prompt in any GenAI</h5>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button class="btn btn-outline-info" id="copy-json" title="Copy to clipboard">
+                                            <i class="bi bi-copy text-white"></i>
+                                        </button>
+                                        <button class="btn btn-outline-info" id="export-json" title="Download as file">
+                                            <i class="bi bi-download text-white"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <textarea class="form-control border-0 rounded-0" id="json-output" readonly placeholder="Fill in the form to generate JSON..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preview Card -->
+                        <div class="col-12" id="preview">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-dark text-white">
+                                    <h5 class="mb-0"><i class="bi bi-display me-2"></i>Step 3: Paste AI-generated HTML, preview, edit and download!</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="small text-muted mb-2">Paste the complete <code>HTML</code> returned by the AI engine to see a live preview.</p>
+                                    <textarea id="ai-html-input" class="form-control preview-textarea mb-3" placeholder="Paste generated HTML here..."></textarea>
+                                    <div class="d-grid gap-2">
+                                        <button id="preview-btn" class="btn btn-primary">
+                                            <i class="bi bi-display"></i> Preview, edit & download
+                                        </button>
+                                        <button id="download-btn" class="btn btn-success">
+                                            <i class="bi bi-download"></i> Download
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-code-square me-2"></i>WebPrompt Studio</h5>
+                    <p class="text-muted">Create stunning websites with the power of AI. Build structured prompts that generate professional web content in seconds.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/PieterCooreman/WebPrompt-Studio" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+				<!--
+                <div class="col-md-3">
+                    <h6>Follow</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-github"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+				-->
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted small">&copy; 2025 WebPrompt Studio. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 text-muted small">Built with Bootstrap and love ❤️</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-const thematicClusters = {
-    "tech_startup": {
-        "name": "Tech Startup",
-        "color": "primary",
-        "sitetitle": "The Innovation Hub",
-        "siteslogan": "The future is now",
-        "sitelanguage": "English",
-        "contact_details": "1 Wall Street, New York, USA",
-        "sector_activity": "Tech",
-        "target_audience": "Tech enthusiasts",
-        "mission": "To improve the world through innovation",
-        "vision": "To lead innovation",
-        "core_values": "Integrity, Innovation, Sustainability",
-        "style_preference": "Modern minimalist",
-        "colors": [
-            "#1E3A8A (Deep Blue)",
-            "#3B82F6 (Electric Blue)",
-            "#F8FAFC (Cool White)",
-            "#64748B (Slate Gray)"
-        ],
-        "typography": "Headings: Montserrat (Modern, Geometric Sans-Serif), Body: Roboto (Clean, Neutral Sans-Serif)",
-        "button_style": "Rounded corners with a subtle glow on hover",
-        "tone_of_voice": "Direct and to the point"
-    },
-    "health_wellness": {
-        "name": "Health & Wellness",
-        "color": "success",
-        "sitetitle": "Vital Life",
-        "siteslogan": "Harmony for body and mind",
-        "sitelanguage": "English",
-        "contact_details": "25 Main Street, Utrecht, Netherlands",
-        "sector_activity": "Healthcare",
-        "target_audience": "Health-conscious individuals",
-        "mission": "To empower people to reach their potential",
-        "vision": "Health accessible to everyone",
-        "core_values": "Sustainability, Innovation, Inclusivity",
-        "style_preference": "Organic and natural",
-        "colors": [
-            "#059669 (Emerald Green)",
-            "#10B981 (Mint Green)",
-            "#ECFCCB (Sage White)",
-            "#0891B2 (Ocean Blue)"
-        ],
-        "typography": "Headings: Lora (Elegant, Serif), Body: Source Serif Pro (Classic, Readable Serif)",
-        "button_style": "Soft edges with a calm color transition on hover",
-        "tone_of_voice": "Calm and reassuring"
-    },
-    "creative_agency": {
-        "name": "Creative Agency",
-        "color": "warning",
-        "sitetitle": "Creative Souls",
-        "siteslogan": "Where imagination comes to life",
-        "sitelanguage": "English",
-        "contact_details": "101 Champs-Élysées, Paris, France",
-        "sector_activity": "Media & Entertainment",
-        "target_audience": "Creatives",
-        "mission": "To protect cultural heritage",
-        "vision": "A world where technology is human",
-        "core_values": "Passion, Growth, Result-oriented",
-        "style_preference": "Bold and colorful",
-        "colors": [
-            "#F97316 (Vibrant Orange)",
-            "#06B6D4 (Turquoise)",
-            "#EC4899 (Hot Pink)",
-            "#8B5CF6 (Electric Purple)"
-        ],
-        "typography": "Logo/Decorative: Great Vibes (Flowing, Script), Body: Lato (Friendly, Humanist Sans-Serif)",
-        "button_style": "Gradient buttons with a dynamic drop shadow on hover",
-        "tone_of_voice": "Playful and informal"
-    },
-    "financial_services": {
-        "name": "Financial Services",
-        "color": "info",
-        "sitetitle": "Financial Freedom",
-        "siteslogan": "Building success together",
-        "sitelanguage": "English",
-        "contact_details": "7 Bahnhofstrasse, Zurich, Switzerland",
-        "sector_activity": "Financial services",
-        "target_audience": "Young professionals",
-        "mission": "Financial independence for everyone",
-        "vision": "To make a global impact",
-        "core_values": "Integrity, Innovation, Sustainability",
-        "style_preference": "Elegant and luxurious",
-        "colors": [
-            "#1E293B (Navy Blue)",
-            "#F59E0B (Gold)",
-            "#FEF7CD (Ivory)",
-            "#374151 (Charcoal Gray)"
-        ],
-        "typography": "Headings: Playfair Display (Elegant, High-contrast Serif), Body: Source Sans Pro (Professional, Neutral Sans-Serif)",
-        "button_style": "Sharp buttons with a subtle 3D-like effect and a slight sheen",
-        "tone_of_voice": "Formal and authoritative"
-    },
-    "restaurant_food": {
-        "name": "Restaurant & Food",
-        "color": "danger",
-        "sitetitle": "The Palate",
-        "siteslogan": "Where every meal tells a story",
-        "sitelanguage": "English",
-        "contact_details": "20 Viale Roma, Rome, Italy",
-        "sector_activity": "Tourism & Hospitality",
-        "target_audience": "Local communities",
-        "mission": "To provide unforgettable experiences",
-        "vision": "To create a platform for connection",
-        "core_values": "Quality, Service, Accessibility",
-        "style_preference": "Cozy and warm",
-        "colors": [
-            "#92400E (Rich Brown)",
-            "#16A34A (Forest Green)",
-            "#EA580C (Warm Orange)",
-            "#FEF3C7 (Cream)"
-        ],
-        "typography": "Headings: Lobster (Playful, Bold Script), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
-        "button_style": "Buttons with icons, rounded corners, and a light shadow",
-        "tone_of_voice": "Friendly and professional"
-    },
-    "education_online": {
-        "name": "Online Education",
-        "color": "secondary",
-        "sitetitle": "Education Online",
-        "siteslogan": "Discover, learn, grow",
-        "sitelanguage": "English",
-        "contact_details": "123 Main St, New York, USA",
-        "sector_activity": "Education",
-        "target_audience": "Students",
-        "mission": "To democratize access to knowledge",
-        "vision": "A culture of lifelong learning",
-        "core_values": "Openness, Curiosity, Eagerness to learn",
-        "style_preference": "Clean and functional",
-        "colors": [
-            "#2563EB (Royal Blue)",
-            "#F8FAFC (Pure White)",
-            "#E2E8F0 (Light Gray)",
-            "#475569 (Slate Blue)"
-        ],
-        "typography": "Headings: Poppins (Clean, Geometric Sans-Serif), Body: Open Sans (Highly readable, Neutral Sans-Serif)",
-        "button_style": "Flat design with a slight background change on hover",
-        "tone_of_voice": "Inspiring and motivating"
-    },
-    "eco_sustainability": {
-        "name": "Eco & Sustainability",
-        "color": "success",
-        "sitetitle": "Green Footprint",
-        "siteslogan": "Your partner in growth",
-        "sitelanguage": "English",
-        "contact_details": "10 Grote Markt, Bruges, Belgium",
-        "sector_activity": "Energy",
-        "target_audience": "Families with children",
-        "mission": "To leave a healthy planet",
-        "vision": "To make all homes sustainable",
-        "core_values": "Sustainability, Innovation, Inclusivity",
-        "style_preference": "Organic and natural",
-        "colors": [
-            "#15803D (Earth Green)",
-            "#0284C7 (Sky Blue)",
-            "#F0FDF4 (Natural White)",
-            "#A3E635 (Fresh Lime)"
-        ],
-        "typography": "Headings: Fredoka (Friendly, Rounded Sans-Serif), Body: Nunito (Soft, Balanced Sans-Serif)",
-        "button_style": "Rounded corners with a natural 'pulse' effect on hover",
-        "tone_of_voice": "Inspiring and motivating"
-    },
-    "travel_adventure": {
-        "name": "Travel & Adventure",
-        "color": "info",
-        "sitetitle": "The World Discovered",
-        "siteslogan": "Your compass for unforgettable journeys",
-        "sitelanguage": "English",
-        "contact_details": "500 Avenida Paulista, São Paulo, Brazil",
-        "sector_activity": "Tourism & Hospitality",
-        "target_audience": "Travelers",
-        "mission": "To provide unforgettable experiences",
-        "vision": "A world without borders for communication",
-        "core_values": "Openness, Curiosity, Eagerness to learn",
-        "style_preference": "Playful and dynamic",
-        "colors": [
-            "#F97316 (Sunset Orange)",
-            "#0891B2 (Adventure Blue)",
-            "#EC4899 (Tropical Pink)",
-            "#FEF9C3 (Sandy Yellow)"
-        ],
-        "typography": "Headings: Quicksand (Light, Rounded Sans-Serif), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
-        "button_style": "Large, eye-catching buttons with a playful shadow on hover",
-        "tone_of_voice": "Playful and informal"
-    },
-    "fitness_sports": {
-        "name": "Fitness & Sports",
-        "color": "danger",
-        "sitetitle": "Peak Performance",
-        "siteslogan": "Unleash your inner champion",
-        "sitelanguage": "English",
-        "contact_details": "45 Olympic Boulevard, Los Angeles, USA",
-        "sector_activity": "Sports & Recreation",
-        "target_audience": "Athletes and fitness enthusiasts",
-        "mission": "To inspire people to reach their physical potential",
-        "vision": "A world where everyone leads an active lifestyle",
-        "core_values": "Discipline, Excellence, Perseverance",
-        "style_preference": "Bold and energetic",
-        "colors": [
-            "#DC2626 (Intense Red)",
-            "#1F2937 (Charcoal Black)",
-            "#F3F4F6 (Light Gray)",
-            "#F59E0B (Energetic Orange)"
-        ],
-        "typography": "Headings: Oswald (Strong, Condensed Sans-Serif), Body: Nunito Sans (Athletic, Clean Sans-Serif)",
-        "button_style": "Bold rectangular buttons with strong borders and hover animations",
-        "tone_of_voice": "Motivational and energetic"
-    },
-    "luxury_fashion": {
-        "name": "Luxury Fashion",
-        "color": "dark",
-        "sitetitle": "Élégance Couture",
-        "siteslogan": "Where sophistication meets style",
-        "sitelanguage": "English",
-        "contact_details": "33 Avenue Montaigne, Paris, France",
-        "sector_activity": "Fashion & Retail",
-        "target_audience": "High-end fashion consumers",
-        "mission": "To define timeless elegance and luxury",
-        "vision": "To be the pinnacle of fashion excellence",
-        "core_values": "Craftsmanship, Exclusivity, Heritage",
-        "style_preference": "Sophisticated and minimal",
-        "colors": [
-            "#000000 (Pure Black)",
-            "#D4AF37 (Luxury Gold)",
-            "#FFFFFF (Pristine White)",
-            "#8B7355 (Champagne Taupe)"
-        ],
-        "typography": "Headings: Didot (Elegant, High-fashion Serif), Body: Avenir (Refined, Geometric Sans-Serif)",
-        "button_style": "Minimal buttons with elegant borders and subtle gold accents",
-        "tone_of_voice": "Sophisticated and exclusive"
-    },
-    "real_estate": {
-        "name": "Real Estate",
-        "color": "info",
-        "sitetitle": "Dream Properties",
-        "siteslogan": "Your home, your future",
-        "sitelanguage": "English",
-        "contact_details": "200 Park Avenue, New York, USA",
-        "sector_activity": "Real Estate",
-        "target_audience": "Homebuyers and investors",
-        "mission": "To help people find their perfect home",
-        "vision": "Making homeownership accessible to all",
-        "core_values": "Trust, Transparency, Excellence",
-        "style_preference": "Professional and trustworthy",
-        "colors": [
-            "#1E40AF (Professional Blue)",
-            "#065F46 (Deep Green)",
-            "#F9FAFB (Clean White)",
-            "#6B7280 (Neutral Gray)"
-        ],
-        "typography": "Headings: Inter (Modern, Professional Sans-Serif), Body: System UI (Clean, Reliable Sans-Serif)",
-        "button_style": "Clean, professional buttons with subtle shadows",
-        "tone_of_voice": "Professional and trustworthy"
-    },
-    "coffee_cafe": {
-        "name": "Coffee & Café",
-        "color": "warning",
-        "sitetitle": "The Coffee Corner",
-        "siteslogan": "Where every cup tells a story",
-        "sitelanguage": "English",
-        "contact_details": "78 Coffee Street, Seattle, USA",
-        "sector_activity": "Food & Beverage",
-        "target_audience": "Coffee enthusiasts",
-        "mission": "To create the perfect coffee experience",
-        "vision": "Bringing communities together through great coffee",
-        "core_values": "Quality, Community, Passion",
-        "style_preference": "Cozy and artisanal",
-        "colors": [
-            "#92400E (Rich Coffee Brown)",
-            "#FEF3C7 (Cream)",
-            "#451A03 (Dark Roast)",
-            "#F59E0B (Golden Honey)"
-        ],
-        "typography": "Headings: Amatic SC (Handwritten, Casual), Body: Source Sans Pro (Friendly, Readable Sans-Serif)",
-        "button_style": "Rounded buttons with coffee-inspired textures and warm hover effects",
-        "tone_of_voice": "Warm and welcoming"
-    },
-    "gaming_esports": {
-        "name": "Gaming & Esports",
-        "color": "secondary",
-        "sitetitle": "GameZone Elite",
-        "siteslogan": "Level up your game",
-        "sitelanguage": "English",
-        "contact_details": "88 Gaming Boulevard, Tokyo, Japan",
-        "sector_activity": "Gaming & Entertainment",
-        "target_audience": "Gamers and esports fans",
-        "mission": "To elevate the gaming experience",
-        "vision": "Making gaming accessible and competitive for everyone",
-        "core_values": "Innovation, Competition, Community",
-        "style_preference": "Futuristic and dynamic",
-        "colors": [
-            "#7C3AED (Electric Purple)",
-            "#06FFA5 (Neon Green)",
-            "#1F2937 (Dark Gray)",
-            "#F59E0B (Gaming Gold)"
-        ],
-        "typography": "Headings: Orbitron (Futuristic, Tech-inspired Sans-Serif), Body: Roboto (Clean, Modern Sans-Serif)",
-        "button_style": "Futuristic buttons with neon glow effects and animated borders",
-        "tone_of_voice": "Energetic and competitive"
-    },
-    "photography_studio": {
-        "name": "Photography Studio",
-        "color": "dark",
-        "sitetitle": "Captured Moments",
-        "siteslogan": "Every moment is a masterpiece",
-        "sitelanguage": "English",
-        "contact_details": "12 Art District, Barcelona, Spain",
-        "sector_activity": "Creative Services",
-        "target_audience": "Art lovers and clients seeking photography services",
-        "mission": "To capture life's most precious moments",
-        "vision": "Creating timeless visual stories",
-        "core_values": "Artistry, Authenticity, Excellence",
-        "style_preference": "Artistic and minimal",
-        "colors": [
-            "#111827 (Deep Black)",
-            "#F3F4F6 (Soft White)",
-            "#6B7280 (Medium Gray)",
-            "#D97706 (Warm Accent Orange)"
-        ],
-        "typography": "Headings: Crimson Text (Artistic, Serif), Body: Inter (Clean, Modern Sans-Serif)",
-        "button_style": "Minimal buttons with subtle animations and artistic hover effects",
-        "tone_of_voice": "Artistic and passionate"
-    },
-    "yoga_meditation": {
-        "name": "Yoga & Meditation",
-        "color": "success",
-        "sitetitle": "Serenity Space",
-        "siteslogan": "Find your inner peace",
-        "sitelanguage": "English",
-        "contact_details": "108 Zen Garden Way, Ubud, Bali",
-        "sector_activity": "Wellness & Spirituality",
-        "target_audience": "Mindfulness seekers",
-        "mission": "To guide people toward inner peace and wellness",
-        "vision": "A world where everyone finds balance within",
-        "core_values": "Mindfulness, Peace, Balance",
-        "style_preference": "Peaceful and zen",
-        "colors": [
-            "#E0E7FF (Lavender Light)",
-            "#8B5CF6 (Peaceful Purple)",
-            "#F0FDF4 (Soft Green White)",
-            "#059669 (Nature Green)"
-        ],
-        "typography": "Headings: Poppins (Gentle, Rounded Sans-Serif), Body: Noto Sans (Calm, Balanced Sans-Serif)",
-        "button_style": "Soft, rounded buttons with gentle transitions and calming effects",
-        "tone_of_voice": "Peaceful and nurturing"
-    },
-    "crypto_blockchain": {
-        "name": "Crypto & Blockchain",
-        "color": "warning",
-        "sitetitle": "CryptoVerse",
-        "siteslogan": "Decentralizing the future",
-        "sitelanguage": "English",
-        "contact_details": "99 Blockchain Avenue, Singapore",
-        "sector_activity": "Cryptocurrency & Technology",
-        "target_audience": "Crypto traders and blockchain enthusiasts",
-        "mission": "To democratize access to cryptocurrency",
-        "vision": "A decentralized financial future for all",
-        "core_values": "Innovation, Decentralization, Security",
-        "style_preference": "Modern tech and futuristic",
-        "colors": [
-            "#F59E0B (Bitcoin Orange)",
-            "#1F2937 (Dark Gray)",
-            "#10B981 (Ethereum Green)",
-            "#3B82F6 (Tech Blue)"
-        ],
-        "typography": "Headings: Space Mono (Tech, Monospace), Body: Inter (Modern, Professional Sans-Serif)",
-        "button_style": "Tech-inspired buttons with gradient backgrounds and crypto-themed animations",
-        "tone_of_voice": "Technical and innovative"
-    },
-    "pet_services": {
-        "name": "Pet Services",
-        "color": "success",
-        "sitetitle": "Paws & Care",
-        "siteslogan": "Because your pets deserve the best",
-        "sitelanguage": "English",
-        "contact_details": "456 Pet Park Lane, Austin, USA",
-        "sector_activity": "Pet Care Services",
-        "target_audience": "Pet owners",
-        "mission": "To provide exceptional care for beloved pets",
-        "vision": "Happy, healthy pets in every home",
-        "core_values": "Compassion, Care, Trust",
-        "style_preference": "Friendly and colorful",
-        "colors": [
-            "#F97316 (Playful Orange)",
-            "#0891B2 (Sky Blue)",
-            "#FEF3C7 (Warm Cream)",
-            "#16A34A (Nature Green)"
-        ],
-        "typography": "Headings: Fredoka One (Playful, Rounded), Body: Open Sans (Friendly, Easy-to-read Sans-Serif)",
-        "button_style": "Playful, rounded buttons with pet-themed icons and bouncy hover effects",
-        "tone_of_voice": "Caring and playful"
-    },
-    "music_studio": {
-        "name": "Music Studio",
-        "color": "secondary",
-        "sitetitle": "Sound Waves Studio",
-        "siteslogan": "Where music comes alive",
-        "sitelanguage": "English",
-        "contact_details": "21 Music Row, Nashville, USA",
-        "sector_activity": "Music & Audio Production",
-        "target_audience": "Musicians and audio professionals",
-        "mission": "To create exceptional musical experiences",
-        "vision": "Bringing artists' visions to life through sound",
-        "core_values": "Creativity, Quality, Collaboration",
-        "style_preference": "Modern and artistic",
-        "colors": [
-            "#7C2D12 (Deep Brown)",
-            "#F59E0B (Golden Yellow)",
-            "#1F2937 (Charcoal Gray)",
-            "#EF4444 (Vibrant Red)"
-        ],
-        "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
-        "button_style": "Music-inspired buttons with wave animations and sound-themed hover effects",
-        "tone_of_voice": "Creative and passionate"
-    },
+    <!-- Modal for Preview -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Live Preview (Editable)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="preview-iframe" style="border:0;width:100%;height:100%;"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <small class="text-muted me-auto">You can click directly on the texts in the preview to edit them.</small>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="download-edited-btn">
+                        <i class="bi bi-download"></i> Download Edited HTML
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>    
 
-
-
-    "bakery": {
-        "name": "Bakery",
-        "color": "warning",
-        "sitetitle": "Sweet Crumbs Bakery",
-        "siteslogan": "Freshly Baked Happiness Daily",
-        "sitelanguage": "English",
-        "contact_details": "21 Music Row, Nashville, USA",
-        "sector_activity": "Bakery, Pastry, Cafe",
-        "target_audience": "Local community, Families, Food lovers",
-        "mission": "To serve delightful freshly baked goods that bring joy and comfort.",
-        "vision": "To be the neighborhood's favorite bakery known for quality and warmth.",
-        "core_values": "Freshness, Quality ingredients, Community, Sustainability",
-        "style_preference": "Rustic, Warm, Inviting",
-        "colors": [
-            "#F9A825 (Warm Yellow)",
-            "#EF6C00 (Burnt Orange)",
-            "#FFD54F (Golden Honey)",
-            "#F57C00 (Pumpkin)",
-            "#6D4C41 (Brown)"
-        ],
-        "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
-        "button_style": "Rounded, Soft Shadows",
-        "tone_of_voice": "Friendly, Warm, Inviting"
-    },
-
-    "musicband": {
-        "name": "Music Band",
-        "color": "danger",
-        "sitetitle": "EchoVibes Band",
-        "siteslogan": "Feel the Rhythm, Live the Moment",
-        "sitelanguage": "English",
-        "contact_details": "contact@echovibesband.com - +987 654 3210",
-        "sector_activity": "Music, Live Performance, Entertainment",
-        "target_audience": "Music fans, Concert goers, Event organizers",
-        "mission": "To create unforgettable live music experiences that inspire and unite.",
-        "vision": "To be the sound that resonates across generations and stages.",
-        "core_values": "Creativity, Passion, Connect with fans, Energy",
-        "style_preference": "Edgy, Modern, Dynamic",
-        "colors": [
-            "#1F2937 (Charcoal Black)",
-            "#E74C3C (Passionate Red)",
-            "#34495E (Steel Blue)",
-            "#9B59B6 (Vibrant Purple)",
-            "#F1C40F (Electric Yellow)"
-        ],
-        "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
-        "button_style": "Sharp edges, High contrast",
-        "tone_of_voice": "Energetic, Passionate, Engaging"
-    },
-
-
-
-    "wedding_events": {
-        "name": "Wedding & Events",
-        "color": "info",
-        "sitetitle": "Eternal Moments",
-        "siteslogan": "Creating memories that last forever",
-        "sitelanguage": "English",
-        "contact_details": "15 Romance Avenue, Venice, Italy",
-        "sector_activity": "Event Planning & Wedding Services",
-        "target_audience": "Couples and event planners",
-        "mission": "To create unforgettable celebrations",
-        "vision": "Making every moment magical",
-        "core_values": "Romance, Elegance, Perfection",
-        "style_preference": "Romantic and elegant",
-        "colors": [
-            "#FDF2F8 (Soft Pink)",
-            "#EC4899 (Rose Pink)",
-            "#F3E8FF (Lavender Light)",
-            "#D4AF37 (Elegant Gold)"
-        ],
-        "typography": "Headings: Dancing Script (Romantic, Script), Body: Libre Baskerville (Elegant, Readable Serif)",
-        "button_style": "Elegant buttons with romantic gradients and delicate hover animations",
-        "tone_of_voice": "Romantic and elegant"
-    }
-};
-
-
-
-function populateSuggestionsAndBadges() {
-    const suggestionSelects = document.querySelectorAll('.suggestion-select');
-    const themeBadgesContainer = document.getElementById('theme-badges');
-    themeBadgesContainer.innerHTML = '';
-
-    // Helper function to collect unique suggestions from all themes for a field
-    function collectUniqueSortedSuggestions(fieldId) {
-        const allValues = new Set();
-        for (const themeKey in thematicClusters) {
-            const theme = thematicClusters[themeKey];
-            if (theme.hasOwnProperty(fieldId)) {
-                let val = theme[fieldId];
-                if (Array.isArray(val)) {
-                    val.forEach(v => allValues.add(v));
-                } else if (val) {
-                    allValues.add(val);
-                }
+    <script>
+        const jsonTemplate = {
+            "instructions": "Build a responsive one-page website with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named index.html",
+            "output": "one complete index.html file with inline <style> en <script> sections",
+            "general_data": {
+                "sitetitle": "[SITETITLE]",
+                "siteslogan": "[SITESLOGAN]",
+                "sitelanguage": "[SITELANGUAGE]",
+                "contact_details": "[CONTACT_DETAILS]"
+            },
+            "context_and_brand_identity": {
+                "sector_activity": "[SECTOR_ACTIVITY]",
+                "target_audience": "[TARGET_AUDIENCE]",
+                "mission": "[MISSION]",
+                "vision": "[VISION]",
+                "core_values": "[CORE_VALUES]"
+            },
+            "design": {
+                "style_preference": "[STYLE_PREFERENCE]",
+                "colors": "[COLORS]",
+                "typography": "[TYPOGRAPHY]",
+                "button_style": "[BUTTON_STYLE]",
+                "favicon": "Generate a matching favicon",
+                "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
+            },
+            "text_readability": [
+                "Minimum line-height: 1.5 for body text",
+                "Minimum font-size body-text: 16px",
+                "Minimum font-size titles: 22px",
+                "Maintain 4.5:1 color contrast ratio for all texts for both light and dark mode"
+            ],
+            "icons": {
+                "required_library": "Bootstrap Icons",
+                "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
+                "implementation_rules": [
+                    "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",
+                    "Do NOT use inline SVG or data URIs"
+                ]
+            },
+            "imagery_and_tone": {
+                "tone_of_voice": "[TONE_OF_VOICE]"
+            },
+            "content_sections": [
+                "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
+                "Hero section with a parallax fixed-cover background image",
+                "About-us section with a few site-themed descriptive lines (in line with the mission, vision and core_values)",
+                "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
+                "Call-to-action guiding visitors to the contact block",
+                "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
+                "Contact section with provided details and embedded map with a public, keyless embed URL from Google Maps",
+                "Privacy modal with a default policy for a site using only technical cookies",
+                "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button",
+                "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal."
+            ],
+            "web_technologies": [
+                "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",
+                "For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox. For the images, use a dynamic drop shadow on hover."
+            ],
+            "functionality": {
+                "animations": "Subtle animate-on-scroll (fade/slide)",
+                "smooth_scrolling": true,
+                "hover_effects": "Buttons, links, and images",
+                "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
+                "Bootstrap": "use popular Bootstrap components like navbar, cards, buttons, carousels, tabs, ..."
+            },
+            "code_validation": "Ensure all JS follows ESLint rules and check element existence before manipulation.",
+            "assets": {
+                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
+                "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
             }
-        }
-        return Array.from(allValues).sort((a, b) => a.localeCompare(b));
-    }
+        };
 
-    // Populate suggestion selects with unique sorted suggestions
-    suggestionSelects.forEach(select => {
-        const input = select.previousElementSibling;
-        if (!input || !input.id) return;
-        const fieldId = input.id;
-
-        while (select.options.length > 1) {
-            select.remove(1);
-        }
-
-        const uniqueSuggestions = collectUniqueSortedSuggestions(fieldId);
-        uniqueSuggestions.forEach(sugg => {
-            const option = document.createElement('option');
-            option.value = sugg;
-            option.textContent = sugg;
-            select.appendChild(option);
-        });
-    });
-
-    // Create theme badges for quick selection
-    for (const themeKey in thematicClusters) {
-        const theme = thematicClusters[themeKey];
-        const badge = document.createElement('span');
-        badge.className = `badge bg-${theme.color} theme-badge btn`;
-        badge.textContent = theme.name;
-        badge.onclick = () => applyTheme(themeKey);
-        themeBadgesContainer.appendChild(badge);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', populateSuggestionsAndBadges);
-
-
-
-
-function getFormData() {
-    const data = {};
-    const formElements = document.querySelectorAll('#prompt-form .form-input');
-    formElements.forEach(input => {
-        data[input.id] = input.value;
-    });
-    return data;
-}
-
-function updateJsonOutput() {
-    const formData = getFormData();
-    const clonedTemplate = JSON.parse(JSON.stringify(jsonTemplate));
-
-    function replacePlaceholders(obj) {
-        for (const key in obj) {
-            if (typeof obj[key] === 'string') {
-                let value = formData[key];
-                if (key === 'colors' && Array.isArray(value)) {
-                    value = value.join(', ');
-                }
-                if (value) {
-                    const placeholder = `[${key.toUpperCase()}]`;
-                    obj[key] = obj[key].replace(placeholder, value);
-                }
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                replacePlaceholders(obj[key]);
+        const thematicClusters = {
+            "tech_startup": {
+                "name": "Tech Startup",
+                "color": "primary",
+                "sitetitle": "The Innovation Hub",
+                "siteslogan": "The future is now",
+                "sitelanguage": "English",
+                "contact_details": "1 Wall Street, New York, USA",
+                "sector_activity": "Tech",
+                "target_audience": "Tech enthusiasts",
+                "mission": "To improve the world through innovation",
+                "vision": "To lead innovation",
+                "core_values": "Integrity, Innovation, Sustainability",
+                "style_preference": "Modern minimalist",
+                "colors": [
+                    "#1E3A8A (Deep Blue)",
+                    "#3B82F6 (Electric Blue)",
+                    "#F8FAFC (Cool White)",
+                    "#64748B (Slate Gray)"
+                ],
+                "typography": "Headings: Montserrat (Modern, Geometric Sans-Serif), Body: Roboto (Clean, Neutral Sans-Serif)",
+                "button_style": "Rounded corners with a subtle glow on hover",
+                "tone_of_voice": "Direct and to the point"
+            },
+            "health_wellness": {
+                "name": "Health & Wellness",
+                "color": "success",
+                "sitetitle": "Vital Life",
+                "siteslogan": "Harmony for body and mind",
+                "sitelanguage": "English",
+                "contact_details": "25 Main Street, Utrecht, Netherlands",
+                "sector_activity": "Healthcare",
+                "target_audience": "Health-conscious individuals",
+                "mission": "To empower people to reach their potential",
+                "vision": "Health accessible to everyone",
+                "core_values": "Sustainability, Innovation, Inclusivity",
+                "style_preference": "Organic and natural",
+                "colors": [
+                    "#059669 (Emerald Green)",
+                    "#10B981 (Mint Green)",
+                    "#ECFCCB (Sage White)",
+                    "#0891B2 (Ocean Blue)"
+                ],
+                "typography": "Headings: Lora (Elegant, Serif), Body: Source Serif Pro (Classic, Readable Serif)",
+                "button_style": "Soft edges with a calm color transition on hover",
+                "tone_of_voice": "Calm and reassuring"
+            },
+            "creative_agency": {
+                "name": "Creative Agency",
+                "color": "warning",
+                "sitetitle": "Creative Souls",
+                "siteslogan": "Where imagination comes to life",
+                "sitelanguage": "English",
+                "contact_details": "101 Champs-Élysées, Paris, France",
+                "sector_activity": "Media & Entertainment",
+                "target_audience": "Creatives",
+                "mission": "To protect cultural heritage",
+                "vision": "A world where technology is human",
+                "core_values": "Passion, Growth, Result-oriented",
+                "style_preference": "Bold and colorful",
+                "colors": [
+                    "#F97316 (Vibrant Orange)",
+                    "#06B6D4 (Turquoise)",
+                    "#EC4899 (Hot Pink)",
+                    "#8B5CF6 (Electric Purple)"
+                ],
+                "typography": "Logo/Decorative: Great Vibes (Flowing, Script), Body: Lato (Friendly, Humanist Sans-Serif)",
+                "button_style": "Gradient buttons with a dynamic drop shadow on hover",
+                "tone_of_voice": "Playful and informal"
+            },
+            "financial_services": {
+                "name": "Financial Services",
+                "color": "info",
+                "sitetitle": "Financial Freedom",
+                "siteslogan": "Building success together",
+                "sitelanguage": "English",
+                "contact_details": "7 Bahnhofstrasse, Zurich, Switzerland",
+                "sector_activity": "Financial services",
+                "target_audience": "Young professionals",
+                "mission": "Financial independence for everyone",
+                "vision": "To make a global impact",
+                "core_values": "Integrity, Innovation, Sustainability",
+                "style_preference": "Elegant and luxurious",
+                "colors": [
+                    "#1E293B (Navy Blue)",
+                    "#F59E0B (Gold)",
+                    "#FEF7CD (Ivory)",
+                    "#374151 (Charcoal Gray)"
+                ],
+                "typography": "Headings: Playfair Display (Elegant, High-contrast Serif), Body: Source Sans Pro (Professional, Neutral Sans-Serif)",
+                "button_style": "Sharp buttons with a subtle 3D-like effect and a slight sheen",
+                "tone_of_voice": "Formal and authoritative"
+            },
+            "restaurant_food": {
+                "name": "Restaurant & Food",
+                "color": "danger",
+                "sitetitle": "The Palate",
+                "siteslogan": "Where every meal tells a story",
+                "sitelanguage": "English",
+                "contact_details": "20 Viale Roma, Rome, Italy",
+                "sector_activity": "Tourism & Hospitality",
+                "target_audience": "Local communities",
+                "mission": "To provide unforgettable experiences",
+                "vision": "To create a platform for connection",
+                "core_values": "Quality, Service, Accessibility",
+                "style_preference": "Cozy and warm",
+                "colors": [
+                    "#92400E (Rich Brown)",
+                    "#16A34A (Forest Green)",
+                    "#EA580C (Warm Orange)",
+                    "#FEF3C7 (Cream)"
+                ],
+                "typography": "Headings: Lobster (Playful, Bold Script), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
+                "button_style": "Buttons with icons, rounded corners, and a light shadow",
+                "tone_of_voice": "Friendly and professional"
+            },
+            "education_online": {
+                "name": "Online Education",
+                "color": "secondary",
+                "sitetitle": "Education Online",
+                "siteslogan": "Discover, learn, grow",
+                "sitelanguage": "English",
+                "contact_details": "123 Main St, New York, USA",
+                "sector_activity": "Education",
+                "target_audience": "Students",
+                "mission": "To democratize access to knowledge",
+                "vision": "A culture of lifelong learning",
+                "core_values": "Openness, Curiosity, Eagerness to learn",
+                "style_preference": "Clean and functional",
+                "colors": [
+                    "#2563EB (Royal Blue)",
+                    "#F8FAFC (Pure White)",
+                    "#E2E8F0 (Light Gray)",
+                    "#475569 (Slate Blue)"
+                ],
+                "typography": "Headings: Poppins (Clean, Geometric Sans-Serif), Body: Open Sans (Highly readable, Neutral Sans-Serif)",
+                "button_style": "Flat design with a slight background change on hover",
+                "tone_of_voice": "Inspiring and motivating"
+            },
+            "eco_sustainability": {
+                "name": "Eco & Sustainability",
+                "color": "success",
+                "sitetitle": "Green Footprint",
+                "siteslogan": "Your partner in growth",
+                "sitelanguage": "English",
+                "contact_details": "10 Grote Markt, Bruges, Belgium",
+                "sector_activity": "Energy",
+                "target_audience": "Families with children",
+                "mission": "To leave a healthy planet",
+                "vision": "To make all homes sustainable",
+                "core_values": "Sustainability, Innovation, Inclusivity",
+                "style_preference": "Organic and natural",
+                "colors": [
+                    "#15803D (Earth Green)",
+                    "#0284C7 (Sky Blue)",
+                    "#F0FDF4 (Natural White)",
+                    "#A3E635 (Fresh Lime)"
+                ],
+                "typography": "Headings: Fredoka (Friendly, Rounded Sans-Serif), Body: Nunito (Soft, Balanced Sans-Serif)",
+                "button_style": "Rounded corners with a natural 'pulse' effect on hover",
+                "tone_of_voice": "Inspiring and motivating"
+            },
+            "travel_adventure": {
+                "name": "Travel & Adventure",
+                "color": "info",
+                "sitetitle": "The World Discovered",
+                "siteslogan": "Your compass for unforgettable journeys",
+                "sitelanguage": "English",
+                "contact_details": "500 Avenida Paulista, São Paulo, Brazil",
+                "sector_activity": "Tourism & Hospitality",
+                "target_audience": "Travelers",
+                "mission": "To provide unforgettable experiences",
+                "vision": "A world without borders for communication",
+                "core_values": "Openness, Curiosity, Eagerness to learn",
+                "style_preference": "Playful and dynamic",
+                "colors": [
+                    "#F97316 (Sunset Orange)",
+                    "#0891B2 (Adventure Blue)",
+                    "#EC4899 (Tropical Pink)",
+                    "#FEF9C3 (Sandy Yellow)"
+                ],
+                "typography": "Headings: Quicksand (Light, Rounded Sans-Serif), Body: Raleway (Clean, Sans-Serif with a touch of elegance)",
+                "button_style": "Large, eye-catching buttons with a playful shadow on hover",
+                "tone_of_voice": "Playful and informal"
+            },
+            "fitness_sports": {
+                "name": "Fitness & Sports",
+                "color": "danger",
+                "sitetitle": "Peak Performance",
+                "siteslogan": "Unleash your inner champion",
+                "sitelanguage": "English",
+                "contact_details": "45 Olympic Boulevard, Los Angeles, USA",
+                "sector_activity": "Sports & Recreation",
+                "target_audience": "Athletes and fitness enthusiasts",
+                "mission": "To inspire people to reach their physical potential",
+                "vision": "A world where everyone leads an active lifestyle",
+                "core_values": "Discipline, Excellence, Perseverance",
+                "style_preference": "Bold and energetic",
+                "colors": [
+                    "#DC2626 (Intense Red)",
+                    "#1F2937 (Charcoal Black)",
+                    "#F3F4F6 (Light Gray)",
+                    "#F59E0B (Energetic Orange)"
+                ],
+                "typography": "Headings: Oswald (Strong, Condensed Sans-Serif), Body: Nunito Sans (Athletic, Clean Sans-Serif)",
+                "button_style": "Bold rectangular buttons with strong borders and hover animations",
+                "tone_of_voice": "Motivational and energetic"
+            },
+            "luxury_fashion": {
+                "name": "Luxury Fashion",
+                "color": "dark",
+                "sitetitle": "Élégance Couture",
+                "siteslogan": "Where sophistication meets style",
+                "sitelanguage": "English",
+                "contact_details": "33 Avenue Montaigne, Paris, France",
+                "sector_activity": "Fashion & Retail",
+                "target_audience": "High-end fashion consumers",
+                "mission": "To define timeless elegance and luxury",
+                "vision": "To be the pinnacle of fashion excellence",
+                "core_values": "Craftsmanship, Exclusivity, Heritage",
+                "style_preference": "Sophisticated and minimal",
+                "colors": [
+                    "#000000 (Pure Black)",
+                    "#D4AF37 (Luxury Gold)",
+                    "#FFFFFF (Pristine White)",
+                    "#8B7355 (Champagne Taupe)"
+                ],
+                "typography": "Headings: Didot (Elegant, High-fashion Serif), Body: Avenir (Refined, Geometric Sans-Serif)",
+                "button_style": "Minimal buttons with elegant borders and subtle gold accents",
+                "tone_of_voice": "Sophisticated and exclusive"
+            },
+            "real_estate": {
+                "name": "Real Estate",
+                "color": "info",
+                "sitetitle": "Dream Properties",
+                "siteslogan": "Your home, your future",
+                "sitelanguage": "English",
+                "contact_details": "200 Park Avenue, New York, USA",
+                "sector_activity": "Real Estate",
+                "target_audience": "Homebuyers and investors",
+                "mission": "To help people find their perfect home",
+                "vision": "Making homeownership accessible to all",
+                "core_values": "Trust, Transparency, Excellence",
+                "style_preference": "Professional and trustworthy",
+                "colors": [
+                    "#1E40AF (Professional Blue)",
+                    "#065F46 (Deep Green)",
+                    "#F9FAFB (Clean White)",
+                    "#6B7280 (Neutral Gray)"
+                ],
+                "typography": "Headings: Inter (Modern, Professional Sans-Serif), Body: System UI (Clean, Reliable Sans-Serif)",
+                "button_style": "Clean, professional buttons with subtle shadows",
+                "tone_of_voice": "Professional and trustworthy"
+            },
+            "coffee_cafe": {
+                "name": "Coffee & Café",
+                "color": "warning",
+                "sitetitle": "The Coffee Corner",
+                "siteslogan": "Where every cup tells a story",
+                "sitelanguage": "English",
+                "contact_details": "78 Coffee Street, Seattle, USA",
+                "sector_activity": "Food & Beverage",
+                "target_audience": "Coffee enthusiasts",
+                "mission": "To create the perfect coffee experience",
+                "vision": "Bringing communities together through great coffee",
+                "core_values": "Quality, Community, Passion",
+                "style_preference": "Cozy and artisanal",
+                "colors": [
+                    "#92400E (Rich Coffee Brown)",
+                    "#FEF3C7 (Cream)",
+                    "#451A03 (Dark Roast)",
+                    "#F59E0B (Golden Honey)"
+                ],
+                "typography": "Headings: Amatic SC (Handwritten, Casual), Body: Source Sans Pro (Friendly, Readable Sans-Serif)",
+                "button_style": "Rounded buttons with coffee-inspired textures and warm hover effects",
+                "tone_of_voice": "Warm and welcoming"
+            },
+            "gaming_esports": {
+                "name": "Gaming & Esports",
+                "color": "secondary",
+                "sitetitle": "GameZone Elite",
+                "siteslogan": "Level up your game",
+                "sitelanguage": "English",
+                "contact_details": "88 Gaming Boulevard, Tokyo, Japan",
+                "sector_activity": "Gaming & Entertainment",
+                "target_audience": "Gamers and esports fans",
+                "mission": "To elevate the gaming experience",
+                "vision": "Making gaming accessible and competitive for everyone",
+                "core_values": "Innovation, Competition, Community",
+                "style_preference": "Futuristic and dynamic",
+                "colors": [
+                    "#7C3AED (Electric Purple)",
+                    "#06FFA5 (Neon Green)",
+                    "#1F2937 (Dark Gray)",
+                    "#F59E0B (Gaming Gold)"
+                ],
+                "typography": "Headings: Orbitron (Futuristic, Tech-inspired Sans-Serif), Body: Roboto (Clean, Modern Sans-Serif)",
+                "button_style": "Futuristic buttons with neon glow effects and animated borders",
+                "tone_of_voice": "Energetic and competitive"
+            },
+            "photography_studio": {
+                "name": "Photography Studio",
+                "color": "dark",
+                "sitetitle": "Captured Moments",
+                "siteslogan": "Every moment is a masterpiece",
+                "sitelanguage": "English",
+                "contact_details": "12 Art District, Barcelona, Spain",
+                "sector_activity": "Creative Services",
+                "target_audience": "Art lovers and clients seeking photography services",
+                "mission": "To capture life's most precious moments",
+                "vision": "Creating timeless visual stories",
+                "core_values": "Artistry, Authenticity, Excellence",
+                "style_preference": "Artistic and minimal",
+                "colors": [
+                    "#111827 (Deep Black)",
+                    "#F3F4F6 (Soft White)",
+                    "#6B7280 (Medium Gray)",
+                    "#D97706 (Warm Accent Orange)"
+                ],
+                "typography": "Headings: Crimson Text (Artistic, Serif), Body: Inter (Clean, Modern Sans-Serif)",
+                "button_style": "Minimal buttons with subtle animations and artistic hover effects",
+                "tone_of_voice": "Artistic and passionate"
+            },
+            "yoga_meditation": {
+                "name": "Yoga & Meditation",
+                "color": "success",
+                "sitetitle": "Serenity Space",
+                "siteslogan": "Find your inner peace",
+                "sitelanguage": "English",
+                "contact_details": "108 Zen Garden Way, Ubud, Bali",
+                "sector_activity": "Wellness & Spirituality",
+                "target_audience": "Mindfulness seekers",
+                "mission": "To guide people toward inner peace and wellness",
+                "vision": "A world where everyone finds balance within",
+                "core_values": "Mindfulness, Peace, Balance",
+                "style_preference": "Peaceful and zen",
+                "colors": [
+                    "#E0E7FF (Lavender Light)",
+                    "#8B5CF6 (Peaceful Purple)",
+                    "#F0FDF4 (Soft Green White)",
+                    "#059669 (Nature Green)"
+                ],
+                "typography": "Headings: Poppins (Gentle, Rounded Sans-Serif), Body: Noto Sans (Calm, Balanced Sans-Serif)",
+                "button_style": "Soft, rounded buttons with gentle transitions and calming effects",
+                "tone_of_voice": "Peaceful and nurturing"
+            },
+            "crypto_blockchain": {
+                "name": "Crypto & Blockchain",
+                "color": "warning",
+                "sitetitle": "CryptoVerse",
+                "siteslogan": "Decentralizing the future",
+                "sitelanguage": "English",
+                "contact_details": "99 Blockchain Avenue, Singapore",
+                "sector_activity": "Cryptocurrency & Technology",
+                "target_audience": "Crypto traders and blockchain enthusiasts",
+                "mission": "To democratize access to cryptocurrency",
+                "vision": "A decentralized financial future for all",
+                "core_values": "Innovation, Decentralization, Security",
+                "style_preference": "Modern tech and futuristic",
+                "colors": [
+                    "#F59E0B (Bitcoin Orange)",
+                    "#1F2937 (Dark Gray)",
+                    "#10B981 (Ethereum Green)",
+                    "#3B82F6 (Tech Blue)"
+                ],
+                "typography": "Headings: Space Mono (Tech, Monospace), Body: Inter (Modern, Professional Sans-Serif)",
+                "button_style": "Tech-inspired buttons with gradient backgrounds and crypto-themed animations",
+                "tone_of_voice": "Technical and innovative"
+            },
+            "pet_services": {
+                "name": "Pet Services",
+                "color": "success",
+                "sitetitle": "Paws & Care",
+                "siteslogan": "Because your pets deserve the best",
+                "sitelanguage": "English",
+                "contact_details": "456 Pet Park Lane, Austin, USA",
+                "sector_activity": "Pet Care Services",
+                "target_audience": "Pet owners",
+                "mission": "To provide exceptional care for beloved pets",
+                "vision": "Happy, healthy pets in every home",
+                "core_values": "Compassion, Care, Trust",
+                "style_preference": "Friendly and colorful",
+                "colors": [
+                    "#F97316 (Playful Orange)",
+                    "#0891B2 (Sky Blue)",
+                    "#FEF3C7 (Warm Cream)",
+                    "#16A34A (Nature Green)"
+                ],
+                "typography": "Headings: Fredoka One (Playful, Rounded), Body: Open Sans (Friendly, Easy-to-read Sans-Serif)",
+                "button_style": "Playful, rounded buttons with pet-themed icons and bouncy hover effects",
+                "tone_of_voice": "Caring and playful"
+            },
+            "music_studio": {
+                "name": "Music Studio",
+                "color": "secondary",
+                "sitetitle": "Sound Waves Studio",
+                "siteslogan": "Where music comes alive",
+                "sitelanguage": "English",
+                "contact_details": "21 Music Row, Nashville, USA",
+                "sector_activity": "Music & Audio Production",
+                "target_audience": "Musicians and audio professionals",
+                "mission": "To create exceptional musical experiences",
+                "vision": "Bringing artists' visions to life through sound",
+                "core_values": "Creativity, Quality, Collaboration",
+                "style_preference": "Modern and artistic",
+                "colors": [
+                    "#7C2D12 (Deep Brown)",
+                    "#F59E0B (Golden Yellow)",
+                    "#1F2937 (Charcoal Gray)",
+                    "#EF4444 (Vibrant Red)"
+                ],
+                "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
+                "button_style": "Music-inspired buttons with wave animations and sound-themed hover effects",
+                "tone_of_voice": "Creative and passionate"
+            },
+            "bakery": {
+                "name": "Bakery",
+                "color": "warning",
+                "sitetitle": "Sweet Crumbs Bakery",
+                "siteslogan": "Freshly Baked Happiness Daily",
+                "sitelanguage": "English",
+                "contact_details": "21 Music Row, Nashville, USA",
+                "sector_activity": "Bakery, Pastry, Cafe",
+                "target_audience": "Local community, Families, Food lovers",
+                "mission": "To serve delightful freshly baked goods that bring joy and comfort.",
+                "vision": "To be the neighborhood's favorite bakery known for quality and warmth.",
+                "core_values": "Freshness, Quality ingredients, Community, Sustainability",
+                "style_preference": "Rustic, Warm, Inviting",
+                "colors": [
+                    "#F9A825 (Warm Yellow)",
+                    "#EF6C00 (Burnt Orange)",
+                    "#FFD54F (Golden Honey)",
+                    "#F57C00 (Pumpkin)",
+                    "#6D4C41 (Brown)"
+                ],
+                "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
+                "button_style": "Rounded, Soft Shadows",
+                "tone_of_voice": "Friendly, Warm, Inviting"
+            },
+            "musicband": {
+                "name": "Music Band",
+                "color": "danger",
+                "sitetitle": "EchoVibes Band",
+                "siteslogan": "Feel the Rhythm, Live the Moment",
+                "sitelanguage": "English",
+                "contact_details": "contact@echovibesband.com - +987 654 3210",
+                "sector_activity": "Music, Live Performance, Entertainment",
+                "target_audience": "Music fans, Concert goers, Event organizers",
+                "mission": "To create unforgettable live music experiences that inspire and unite.",
+                "vision": "To be the sound that resonates across generations and stages.",
+                "core_values": "Creativity, Passion, Connect with fans, Energy",
+                "style_preference": "Edgy, Modern, Dynamic",
+                "colors": [
+                    "#1F2937 (Charcoal Black)",
+                    "#E74C3C (Passionate Red)",
+                    "#34495E (Steel Blue)",
+                    "#9B59B6 (Vibrant Purple)",
+                    "#F1C40F (Electric Yellow)"
+                ],
+                "typography": "Headings: Abril Fatface (Bold, Musical Display), Body: Source Sans Pro (Clean, Professional Sans-Serif)",
+                "button_style": "Sharp edges, High contrast",
+                "tone_of_voice": "Energetic, Passionate, Engaging"
+            },
+            "wedding_events": {
+                "name": "Wedding & Events",
+                "color": "info",
+                "sitetitle": "Eternal Moments",
+                "siteslogan": "Creating memories that last forever",
+                "sitelanguage": "English",
+                "contact_details": "15 Romance Avenue, Venice, Italy",
+                "sector_activity": "Event Planning & Wedding Services",
+                "target_audience": "Couples and event planners",
+                "mission": "To create unforgettable celebrations",
+                "vision": "Making every moment magical",
+                "core_values": "Romance, Elegance, Perfection",
+                "style_preference": "Romantic and elegant",
+                "colors": [
+                    "#FDF2F8 (Soft Pink)",
+                    "#EC4899 (Rose Pink)",
+                    "#F3E8FF (Lavender Light)",
+                    "#D4AF37 (Elegant Gold)"
+                ],
+                "typography": "Headings: Dancing Script (Romantic, Script), Body: Libre Baskerville (Elegant, Readable Serif)",
+                "button_style": "Elegant buttons with romantic gradients and delicate hover animations",
+                "tone_of_voice": "Romantic and elegant"
             }
-        }
-    }
+        };
 
-    replacePlaceholders(clonedTemplate);
+        function populateSuggestionsAndBadges() {
+            const suggestionSelects = document.querySelectorAll('.suggestion-select');
+            const themeBadgesContainer = document.getElementById('theme-badges');
+            themeBadgesContainer.innerHTML = '';
 
-    const cleanTemplate = JSON.parse(JSON.stringify(clonedTemplate, (key, value) => {
-        if (Array.isArray(value) && value.length === 0) return undefined;
-        if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return undefined;
-        if (typeof value === 'string' && value.startsWith('[') && value.endsWith(']')) return undefined;
-        return value;
-    }, 2));
-
-    document.getElementById('json-output').value = JSON.stringify(cleanTemplate, null, 2);
-}
-
-function applyTheme(themeKey) {
-    const theme = thematicClusters[themeKey];
-    if (!theme) return;
-
-    document.getElementById('sitetitle').value = theme.sitetitle || '';
-    document.getElementById('siteslogan').value = theme.siteslogan || '';
-    document.getElementById('sitelanguage').value = theme.sitelanguage || '';
-    document.getElementById('contact_details').value = theme.contact_details || '';
-    document.getElementById('sector_activity').value = theme.sector_activity || '';
-    document.getElementById('target_audience').value = theme.target_audience || '';
-    document.getElementById('mission').value = theme.mission || '';
-    document.getElementById('vision').value = theme.vision || '';
-    document.getElementById('core_values').value = theme.core_values || '';
-    document.getElementById('style_preference').value = theme.style_preference || '';
-    document.getElementById('colors').value = Array.isArray(theme.colors) ? theme.colors.join(', ') : theme.colors || '';
-    document.getElementById('typography').value = theme.typography || '';
-    document.getElementById('button_style').value = theme.button_style || '';
-    document.getElementById('tone_of_voice').value = theme.tone_of_voice || '';
-
-    updateJsonOutput();
-}
-
-function generateRandomTheme() {
-    const keys = Object.keys(thematicClusters);
-    const randomKey = keys[Math.floor(Math.random() * keys.length)];
-    applyTheme(randomKey);
-}
-
-function clearForm() {
-    document.querySelectorAll('#prompt-form .form-input').forEach(input => input.value = '');
-
-    updateJsonOutput();
-    document.getElementById('ai-html-input').value = '';
-}
-
-function copyJson() {
-    const output = document.getElementById('json-output');
-    output.select();
-    output.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    alert('JSON copied to clipboard! Paste this in your GenAI prompt!');
-}
-
-function exportJson() {
-    const json = document.getElementById('json-output').value;
-    const blob = new Blob([json], {
-        type: 'application/json'
-    });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'website_prompt.json';
-    a.click();
-    URL.revokeObjectURL(a.href);
-}
-
-document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
-document.getElementById('generate-random').addEventListener('click', generateRandomTheme);
-document.getElementById('clear-form').addEventListener('click', clearForm);
-document.getElementById('copy-json').addEventListener('click', copyJson);
-document.getElementById('export-json').addEventListener('click', exportJson);
-
-updateJsonOutput();
-
-
-
-const iframe = document.getElementById('preview-iframe');
-let currentBlobURL = null;
-
-document.getElementById('preview-btn').addEventListener('click', function() {
-    const html = document.getElementById('ai-html-input').value.trim();
-    if (!html) {
-        alert('Please paste some HTML first.');
-        return;
-    }
-
-
-    if (currentBlobURL) {
-        URL.revokeObjectURL(currentBlobURL);
-
-    }
-
-
-    const blob = new Blob([html], {
-        type: 'text/html'
-    });
-    currentBlobURL = URL.createObjectURL(blob);
-
-    iframe.onload = () => {
-        try {
-            const doc = iframe.contentDocument;
-            if (!doc) return;
-
-
-            const style = doc.createElement('style');
-            style.id = 'editable-style';
-            style.textContent = `
-                    [contenteditable="true"]:hover { outline: 2px dashed #0d6efd; cursor: text; }
-                    [contenteditable="true"]:focus { outline: 2px solid #0d6efd; background-color: rgba(13, 110, 253, 0.1); }
-                `;
-            doc.head.appendChild(style);
-
-            // **FIX:** Added 'div' to the selector list to find text within divs.
-            const selector = 'p, h1, h2, h3, h4, h5, h6, a, li, button, span, strong, strike, em, blockquote, figcaption, td, th, dd, div, small, body, address, i, b, s';
-            doc.querySelectorAll(selector).forEach(el => {
-                const childNodes = Array.from(el.childNodes);
-
-                childNodes.forEach(node => {
-                    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
-                        const span = doc.createElement('span');
-                        span.textContent = node.textContent;
-                        span.contentEditable = true;
-                        el.replaceChild(span, node);
-                    }
-                });
-
-                // Prevent links and buttons from triggering navigation or actions while editing
-                doc.querySelectorAll('a, button').forEach(el => {
-                    el.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        // Optionally, put the focus in the editable child span if present
-                        const editableSpan = el.querySelector('span[contenteditable="true"]');
-                        if (editableSpan) {
-                            editableSpan.focus();
+            // Helper function to collect unique suggestions from all themes for a field
+            function collectUniqueSortedSuggestions(fieldId) {
+                const allValues = new Set();
+                for (const themeKey in thematicClusters) {
+                    const theme = thematicClusters[themeKey];
+                    if (theme.hasOwnProperty(fieldId)) {
+                        let val = theme[fieldId];
+                        if (fieldId === 'colors' && Array.isArray(val)) {
+                            // For colors, join the array into a complete palette string
+                            allValues.add(val.join(', '));
+                        } else if (Array.isArray(val)) {
+                            val.forEach(v => allValues.add(v));
+                        } else if (val) {
+                            allValues.add(val);
                         }
-                    });
+                    }
+                }
+                return Array.from(allValues).sort((a, b) => a.localeCompare(b));
+            }
+
+            // Populate suggestion selects with unique sorted suggestions
+            suggestionSelects.forEach(select => {
+                const input = select.previousElementSibling;
+                if (!input || !input.id) return;
+                const fieldId = input.id;
+
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+
+                const uniqueSuggestions = collectUniqueSortedSuggestions(fieldId);
+                uniqueSuggestions.forEach(sugg => {
+                    const option = document.createElement('option');
+                    option.value = sugg;
+                    option.textContent = sugg;
+                    select.appendChild(option);
                 });
             });
-        } catch (e) {
-            console.error("Error making iframe content editable:", e);
-            alert("Could not make preview editable. See browser console for details.");
+
+            // Create theme badges for quick selection
+            for (const themeKey in thematicClusters) {
+                const theme = thematicClusters[themeKey];
+                const badge = document.createElement('span');
+                badge.className = `badge bg-${theme.color} theme-badge btn`;
+                badge.textContent = theme.name;
+                badge.onclick = () => applyTheme(themeKey);
+                themeBadgesContainer.appendChild(badge);
+            }
         }
-    };
 
-    iframe.src = currentBlobURL;
-    new bootstrap.Modal(document.getElementById('previewModal')).show();
-});
+        document.addEventListener('DOMContentLoaded', populateSuggestionsAndBadges);
 
-// Download logic for the original, unedited HTML
-document.getElementById('download-btn').addEventListener('click', function() {
-    const html = document.getElementById('ai-html-input').value.trim();
-    if (!html) {
-        alert('Please paste some HTML first.');
-        return;
-    }
-    const blob = new Blob([html], {
-        type: 'text/html'
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'index.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-});
+        function getFormData() {
+            const data = {};
+            const formElements = document.querySelectorAll('#prompt-form .form-input');
+            formElements.forEach(input => {
+                data[input.id] = input.value;
+            });
+            return data;
+        }
 
-// Download logic for the MODIFIED HTML from the modal preview
-document.getElementById('download-edited-btn').addEventListener('click', function() {
-    const doc = iframe.contentDocument;
-    if (!doc) {
-        alert('Could not access the preview content to download.');
-        return;
-    }
+        function updateJsonOutput() {
+            const formData = getFormData();
+            const clonedTemplate = JSON.parse(JSON.stringify(jsonTemplate));
 
-    const cloneDoc = doc.cloneNode(true);
+            function replacePlaceholders(obj) {
+                for (const key in obj) {
+                    if (typeof obj[key] === 'string') {
+                        let value = formData[key];
+                        if (key === 'colors' && Array.isArray(value)) {
+                            value = value.join(', ');
+                        }
+                        if (value) {
+                            const placeholder = `[${key.toUpperCase()}]`;
+                            obj[key] = obj[key].replace(placeholder, value);
+                        }
+                    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                        replacePlaceholders(obj[key]);
+                    }
+                }
+            }
 
-    cloneDoc.getElementById('editable-style')?.remove();
+            replacePlaceholders(clonedTemplate);
 
-    // In the clone, find our editable spans and unwrap them
-    cloneDoc.querySelectorAll('span[contenteditable="true"]').forEach(span => {
-        const textNode = document.createTextNode(span.textContent);
-        span.parentNode.replaceChild(textNode, span);
-    });
+            const cleanTemplate = JSON.parse(JSON.stringify(clonedTemplate, (key, value) => {
+                if (Array.isArray(value) && value.length === 0) return undefined;
+                if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) return undefined;
+                if (typeof value === 'string' && value.startsWith('[') && value.endsWith(']')) return undefined;
+                return value;
+            }, 2));
 
-    const finalHtml = '<!DOCTYPE html>\n' + cloneDoc.documentElement.outerHTML;
+            document.getElementById('json-output').value = JSON.stringify(cleanTemplate, null, 2);
+        }
 
-    // Trigger the download
-    const blob = new Blob([finalHtml], {
-        type: 'text/html'
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'index_edited.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-});
+        function applyTheme(themeKey) {
+            const theme = thematicClusters[themeKey];
+            if (!theme) return;
 
-// Clean up blob URL when the modal is closed
-document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
-    if (currentBlobURL) {
-        URL.revokeObjectURL(currentBlobURL);
-        currentBlobURL = null;
-        iframe.removeAttribute('src');
-    }
-});
-	</script>
-	
+            document.getElementById('sitetitle').value = theme.sitetitle || '';
+            document.getElementById('siteslogan').value = theme.siteslogan || '';
+            document.getElementById('sitelanguage').value = theme.sitelanguage || '';
+            document.getElementById('contact_details').value = theme.contact_details || '';
+            document.getElementById('sector_activity').value = theme.sector_activity || '';
+            document.getElementById('target_audience').value = theme.target_audience || '';
+            document.getElementById('mission').value = theme.mission || '';
+            document.getElementById('vision').value = theme.vision || '';
+            document.getElementById('core_values').value = theme.core_values || '';
+            document.getElementById('style_preference').value = theme.style_preference || '';
+            document.getElementById('colors').value = Array.isArray(theme.colors) ? theme.colors.join(', ') : theme.colors || '';
+            document.getElementById('typography').value = theme.typography || '';
+            document.getElementById('button_style').value = theme.button_style || '';
+            document.getElementById('tone_of_voice').value = theme.tone_of_voice || '';
 
+            updateJsonOutput();
+        }
+
+        function generateRandomTheme() {
+            const keys = Object.keys(thematicClusters);
+            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            applyTheme(randomKey);
+        }
+
+        function clearForm() {
+            document.querySelectorAll('#prompt-form .form-input').forEach(input => input.value = '');
+            updateJsonOutput();
+            document.getElementById('ai-html-input').value = '';
+        }
+
+        function copyJson() {
+            const output = document.getElementById('json-output');
+            output.select();
+            output.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            alert('JSON copied to clipboard! Paste this in your GenAI prompt!');
+        }
+
+        function exportJson() {
+            const json = document.getElementById('json-output').value;
+            const blob = new Blob([json], {
+                type: 'application/json'
+            });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'website_prompt.json';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        document.getElementById('prompt-form').addEventListener('input', updateJsonOutput);
+        document.getElementById('generate-random').addEventListener('click', generateRandomTheme);
+        document.getElementById('clear-form').addEventListener('click', clearForm);
+        document.getElementById('copy-json').addEventListener('click', copyJson);
+        document.getElementById('export-json').addEventListener('click', exportJson);
+
+        updateJsonOutput();
+
+        const iframe = document.getElementById('preview-iframe');
+        let currentBlobURL = null;
+
+        document.getElementById('preview-btn').addEventListener('click', function() {
+            const html = document.getElementById('ai-html-input').value.trim();
+            if (!html) {
+                alert('Please paste some HTML first.');
+                return;
+            }
+
+            if (currentBlobURL) {
+                URL.revokeObjectURL(currentBlobURL);
+            }
+
+            const blob = new Blob([html], {
+                type: 'text/html'
+            });
+            currentBlobURL = URL.createObjectURL(blob);
+
+            iframe.onload = () => {
+                try {
+                    const doc = iframe.contentDocument;
+                    if (!doc) return;
+
+                    const style = doc.createElement('style');
+                    style.id = 'editable-style';
+                    style.textContent = `
+                        [contenteditable="true"]:hover { outline: 2px dashed #0d6efd; cursor: text; }
+                        [contenteditable="true"]:focus { outline: 2px solid #0d6efd; background-color: rgba(13, 110, 253, 0.1); }
+                    `;
+                    doc.head.appendChild(style);
+
+                    const selector = 'p, h1, h2, h3, h4, h5, h6, a, li, button, span, strong, strike, em, blockquote, figcaption, td, th, dd, div, small, body, address, i, b, s';
+                    doc.querySelectorAll(selector).forEach(el => {
+                        const childNodes = Array.from(el.childNodes);
+
+                        childNodes.forEach(node => {
+                            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                                const span = doc.createElement('span');
+                                span.textContent = node.textContent;
+                                span.contentEditable = true;
+                                el.replaceChild(span, node);
+                            }
+                        });
+
+                        // Prevent links and buttons from triggering navigation or actions while editing
+                        doc.querySelectorAll('a, button').forEach(el => {
+                            el.addEventListener('click', (event) => {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                // Optionally, put the focus in the editable child span if present
+                                const editableSpan = el.querySelector('span[contenteditable="true"]');
+                                if (editableSpan) {
+                                    editableSpan.focus();
+                                }
+                            });
+                        });
+                    });
+                } catch (e) {
+                    console.error("Error making iframe content editable:", e);
+                    alert("Could not make preview editable. See browser console for details.");
+                }
+            };
+
+            iframe.src = currentBlobURL;
+            new bootstrap.Modal(document.getElementById('previewModal')).show();
+        });
+
+        // Download logic for the original, unedited HTML
+        document.getElementById('download-btn').addEventListener('click', function() {
+            const html = document.getElementById('ai-html-input').value.trim();
+            if (!html) {
+                alert('Please paste some HTML first.');
+                return;
+            }
+            const blob = new Blob([html], {
+                type: 'text/html'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Download logic for the MODIFIED HTML from the modal preview
+        document.getElementById('download-edited-btn').addEventListener('click', function() {
+            const doc = iframe.contentDocument;
+            if (!doc) {
+                alert('Could not access the preview content to download.');
+                return;
+            }
+
+            const cloneDoc = doc.cloneNode(true);
+
+            cloneDoc.getElementById('editable-style')?.remove();
+
+            // In the clone, find our editable spans and unwrap them
+            cloneDoc.querySelectorAll('span[contenteditable="true"]').forEach(span => {
+                const textNode = document.createTextNode(span.textContent);
+                span.parentNode.replaceChild(textNode, span);
+            });
+
+            const finalHtml = '<!DOCTYPE html>\n' + cloneDoc.documentElement.outerHTML;
+
+            // Trigger the download
+            const blob = new Blob([finalHtml], {
+                type: 'text/html'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index_edited.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Clean up blob URL when the modal is closed
+        document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
+            if (currentBlobURL) {
+                URL.revokeObjectURL(currentBlobURL);
+                currentBlobURL = null;
+                iframe.removeAttribute('src');
+            }
+        });
+    </script>
 </body>
 </html>
