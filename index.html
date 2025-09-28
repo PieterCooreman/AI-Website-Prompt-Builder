@@ -223,152 +223,165 @@
                             <form id="prompt-form">
                                 <div class="form-section">
                                     <h6 class="border-bottom pb-2 mb-3 text-primary">General Information</h6>
-                                    <div class="mb-3">
-                                        <label for="sitetitle" class="form-label">Title</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="sitetitle" placeholder="e.g., My Website">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                                <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
+                                   <div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="sitetitle" placeholder="">
+											<label for="sitetitle">Title</label>
+										</div>
+										<select class="form-select suggestion-select" onchange="this.closest('.input-group').querySelector('input').value = this.value; updateJsonOutput();">
+											<option value="">Suggestion</option>
+											</select>
+									</div>
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="siteslogan" placeholder="">
+											<label for="sitetitle">Slogan</label>
+										</div>
+										<select class="form-select suggestion-select" onchange="this.closest('.input-group').querySelector('input').value = this.value; updateJsonOutput();">
+											<option value="">Suggestion</option>
+											</select>
+									</div>            
+
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="sitelanguage" placeholder="">
+											<label for="sitelanguage">Language</label>
+										</div>                                    
+										<select class="form-select suggestion-select-n" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+											<option value="">Suggestion</option>
+											<option value="English">English</option>
+											<option value="Nederlands">Nederlands</option>
+											<option value="Français">Français</option>
+											<option value="Deutsch">Deutsch</option>
+											<option value="Español">Español</option>
+											<option value="Português">Português</option>
+											<option value="中文">中文</option>
+											<option value="العربية">العربية</option>
+										</select>                                        
                                     </div>
 									
-									
-																		
-									
-                                    <div class="mb-3">
-                                        <label for="siteslogan" class="form-label">Slogan</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="siteslogan" placeholder="e.g., Innovate Today">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="contact_details" placeholder="">
+											<label for="contact_details">Contact Details</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="sitelanguage" class="form-label">Language</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="sitelanguage" placeholder="e.g., English">
-                                            <select class="form-select suggestion-select-n" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                                <option value="">Suggestion</option>
-                                                <option value="English">English</option>
-                                                <option value="Nederlands">Nederlands</option>
-                                                <option value="Français">Français</option>
-                                                <option value="Deutsch">Deutsch</option>
-                                                <option value="Español">Español</option>
-                                                <option value="Português">Português</option>
-                                                <option value="中文">中文</option>
-                                                <option value="العربية">العربية</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="contact_details" class="form-label">Contact Details</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="contact_details" placeholder="e.g., 123 Street, City, Country">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
-                                                <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
+                                            </select>                                        
                                     </div>
                                 </div>
-                                
-                                <div class="form-section">
+								<div class="form-section">
                                     <h6 class="border-bottom pb-2 mb-3 text-primary">Context & Brand Identity</h6>
-                                    <div class="mb-3">
-                                        <label for="sector_activity" class="form-label">Sector/Activity</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="sector_activity" placeholder="e.g., Technology">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+								
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="sector_activity" placeholder="">
+											<label for="sector_activity">Sector/Activity</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="target_audience" class="form-label">Target Audience</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="target_audience" placeholder="e.g., Young professionals">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                            </select>                                        
+                                    </div>    
+
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="target_audience" placeholder="">
+											<label for="target_audience">Target Audience</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="mission" class="form-label">Mission</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="mission" placeholder="e.g., To improve the world through innovation">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                            </select>                                        
+                                    </div>   
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="mission" placeholder="">
+											<label for="mission">Mission</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="vision" class="form-label">Vision</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="vision" placeholder="e.g., To become a leader in the sector">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                            </select>                                        
+                                    </div> 
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="vision" placeholder="">
+											<label for="vision">Vision</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="core_values" class="form-label">Core Values</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="core_values" placeholder="e.g., Integrity, Innovation, Sustainability">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                            </select>                                        
+                                    </div> 
+									
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="core_values" placeholder="">
+											<label for="core_values">Core Values</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                            </select>                                        
+                                    </div>                                                                         
+                                    
+                                    
+                                    
                                 </div>
                                 
                                 <div class="form-section">
                                     <h6 class="border-bottom pb-2 mb-3 text-primary">Design</h6>
-                                    <div class="mb-3">
-                                        <label for="style_preference" class="form-label">Style Preference</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="style_preference" placeholder="e.g., Modern minimalist">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+									
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="style_preference" placeholder="">
+											<label for="style_preference">Style Preference</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="colors" class="form-label">Colors</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="colors" placeholder="e.g., Blue, White, Gray">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+                                            </select>                                        
+                                    </div>								
+									
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="colors" placeholder="">
+											<label for="colors">Colors</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
+                                            </select>                                        
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="typography" class="form-label">Typography</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="typography" placeholder="e.g., A classic combination">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+									
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="typography" placeholder="">
+											<label for="typography">Typography</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
+                                            </select>                                        
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="button_style" class="form-label">Button Style</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="button_style" placeholder="e.g., Rounded corners">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+									
+									
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="button_style" placeholder="">
+											<label for="button_style">Button Style</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
+                                            </select>                                        
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="tone_of_voice" class="form-label">Tone of Voice</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-input" id="tone_of_voice" placeholder="e.g., Friendly and professional">
-                                            <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
+									
+									
+									<div class="input-group mb-3">
+										<div class="form-floating">
+											<input type="text" class="form-control form-input" id="tone_of_voice" placeholder="">
+											<label for="tone_of_voice">Tone of Voice</label>
+										</div>
+                                        <select class="form-select suggestion-select" onchange="this.parentElement.querySelector('input').value = this.value; updateJsonOutput();">
                                                 <option value="">Suggestion</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                            </select>                                        
+                                    </div>                                 
+                                    
+                                    
+                                    
                                 </div>
                             </form>
                         </div>
@@ -1071,22 +1084,27 @@
 
             // Populate suggestion selects with unique sorted suggestions
             suggestionSelects.forEach(select => {
-                const input = select.previousElementSibling;
-                if (!input || !input.id) return;
-                const fieldId = input.id;
+    // Vind de input door eerst naar de parent '.input-group' te gaan
+    // en dan daarbinnen de input te zoeken.
+    const input = select.closest('.input-group').querySelector('input');
 
-                while (select.options.length > 1) {
-                    select.remove(1);
-                }
+    if (!input || !input.id) return;
+    const fieldId = input.id;
 
-                const uniqueSuggestions = collectUniqueSortedSuggestions(fieldId);
-                uniqueSuggestions.forEach(sugg => {
-                    const option = document.createElement('option');
-                    option.value = sugg;
-                    option.textContent = sugg;
-                    select.appendChild(option);
-                });
-            });
+    // Verwijder oude suggesties (alles behalve de eerste 'Suggestion' optie)
+    while (select.options.length > 1) {
+        select.remove(1);
+    }
+
+    // Voeg de nieuwe, unieke en gesorteerde suggesties toe
+    const uniqueSuggestions = collectUniqueSortedSuggestions(fieldId);
+    uniqueSuggestions.forEach(sugg => {
+        const option = document.createElement('option');
+        option.value = sugg;
+        option.textContent = sugg;
+        select.appendChild(option);
+    });
+});
 
             // Create theme badges for quick selection
             for (const themeKey in thematicClusters) {
