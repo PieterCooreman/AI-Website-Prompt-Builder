@@ -1,1 +1,1 @@
-Example: <a href="https://pietercooreman.github.io/WebPrompt-Studio/" target="_blank">https://pietercooreman.github.io/WebPrompt-Studio/</a>
+Example: <a href="https://pietercooreman.github.io/WebPrompt-Studio/">https://pietercooreman.github.io/WebPrompt-Studio/</a>
