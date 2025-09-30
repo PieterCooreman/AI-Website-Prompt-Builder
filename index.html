@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -499,9 +500,9 @@
 
     <script>
         const jsonTemplate = {
-            "instructions": "Build a responsive one-page website with Bootstrap in HTML5, CSS3, and modern JavaScript that meets all the requirements specified below. Include all HTML, CSS, and JavaScript in one file named index.html",
-            "output": "one complete index.html file with inline <style> en <script> sections",
-            "general_data": {
+			"instructions": "Build a responsive one-page website in a single HTML file with inline CSS and JavaScript. Use Bootstrap 5 and follow all requirements below.",
+			"output": "index.html (complete file with <style> and <script> sections)",
+            "site_info": {
                 "sitetitle": "[SITETITLE]",
                 "siteslogan": "[SITESLOGAN]",
                 "sitelanguage": "[SITELANGUAGE]",
@@ -519,54 +520,94 @@
                 "colors": "[COLORS]",
                 "typography": "[TYPOGRAPHY]",
                 "button_style": "[BUTTON_STYLE]",
-                "favicon": "Generate a matching favicon",
+                "favicon": "Generate a matching favicon embedded as a base64 PNG",
                 "header_behavior": "Full-width. Use CSS position: fixed (not sticky) with top:0 and an appropriate z-index (≥ 1000) so that the header ALWAYS remains visible, even on long scroll."
             },
-            "text_readability": [
-                "Minimum line-height: 1.5 for body text",
-                "Minimum font-size body-text: 16px",
-                "Minimum font-size titles: 22px",
-                "Maintain 4.5:1 color contrast ratio for all texts for both light and dark mode"
-            ],
+            "accessibility_and_readability": {
+				"min_font_size": "16px body, 22px headings",
+				"line_height": "1.5 minimum for body text",
+				"contrast": "4.5:1 minimum (WCAG AA) for both light and dark modes",
+				"aria": "Full ARIA labels for navigation, alt text for all images",
+				"keyboard": "Ensure all interactive elements are keyboard accessible"
+			  },
             "icons": {
                 "required_library": "Bootstrap Icons",
                 "exact_cdn": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
                 "implementation_rules": [
                     "Add <link rel='stylesheet' href='EXACT_CDN_URL' crossorigin='anonymous'> in <head>",
+					"Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",
                     "Do NOT use inline SVG or data URIs"
                 ]
             },
             "imagery_and_tone": {
                 "tone_of_voice": "[TONE_OF_VOICE]"
             },
-            "content_sections": [
-                "Fixed full-width header with logo, dark/light mode toggle (localStorage) and responsive hamburger menu",
-                "Hero section with a parallax fixed-cover background image",
-                "About-us section with a few site-themed descriptive lines (in line with the mission, vision and core_values)",
-                "Gallery of 6 royalty-free site-themed images with lightbox and lazy loading",
-                "Call-to-action guiding visitors to the contact block",
-                "Gallery of royalty-free site-themed videos (safe without attribution, lazy loaded)",
-                "Contact section with provided details and embedded map with a public, keyless embed URL from Google Maps",
-                "Privacy modal with a default policy for a site using only technical cookies",
-                "Footer with social icons (Facebook, Instagram, YouTube) and back-to-top button",
-                "Create a simple, custom cookie banner at the bottom of the page. This banner must not use any external scripts and must store the user's choice in localStorage to be hidden on subsequent visits. Add a link to the privacy modal."
-            ],
-            "web_technologies": [
-                "Use CDN links for external libraries like Bootstrap. Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",
-                "For the photo gallery, use a modern, vanilla JavaScript lightbox library with no jQuery dependencies, such as SimpleLightbox or GLightbox. For the images, use a dynamic drop shadow on hover."
-            ],
-            "functionality": {
-                "animations": "Subtle animate-on-scroll (fade/slide)",
-                "smooth_scrolling": true,
-                "hover_effects": "Buttons, links, and images",
-                "a11y": "Full accessibility: alt text for all images, ARIA labels for navigation",
-                "Bootstrap": "use popular Bootstrap components like navbar, cards, buttons, carousels, tabs, ..."
-            },
-            "code_validation": "Ensure all JS follows ESLint rules and check element existence before manipulation.",
-            "assets": {
-                "images": "Use royalty-free URLs from Unsplash/Pexels/Pixabay. For every <img> tag, add an explicit onerror handler so that if the main image fails to load (404, 403, unsupported format, etc.), the image source will be replaced with a placeholder via onerror='this.onerror=null;this.src='https://placehold.co/600x400?text=use+image+here'. This fallback logic must be present on every single image element, including gallery, hero, and thumbnails, to guarantee visual consistency and eliminate all broken image icons.",
-                "videos": "Use royalty-free stock videos that are free for web use without attribution. Embed videos, but avoid direct links (hotlinking) to stock video sites like Pexels. Instead, use placeholder videos from a service that allows hotlinking."
-            }
+            "required_sections": [
+				{
+				  "name": "Header",
+				  "specs": "Fixed (position: fixed, top: 0, z-index: 1000+), full-width, includes logo/brand, dark/light mode toggle, responsive hamburger menu for mobile"
+				},
+				{
+				  "name": "Hero",
+				  "specs": "Full-width with parallax background-attachment: fixed cover image, site title and slogan. Add a button that links to the about section (smooth scroll)."
+				},
+				{
+				  "name": "About",
+				  "specs": "Brief description aligned with mission and values (3-4 sentences)"
+				},
+				{
+				  "name": "Photo Gallery",
+				  "specs": "6 site-themed images in Bootstrap cards/grid, lightbox functionality (like GLightbox), lazy loading, hover shadow effects"
+				},
+				{
+				  "name": "Call-to-Action",
+				  "specs": "Prominent button/section guiding visitors to contact"
+				},
+				{
+				  "name": "Contact",
+				  "specs": "Contact details, embedded Google Maps (use public keyless embed URL)"
+				},
+				{
+				  "name": "Footer",
+				  "specs": "Social icons (Facebook, Instagram, YouTube using Bootstrap Icons), back-to-top button, copyright"
+				}
+			  ],
+			"features": {
+				"dark_mode": "Toggle button in header, stores preference in localStorage, switches between light/dark color schemes for entire page",
+				"cookie_banner": "Simple custom banner at bottom of page (no external scripts), 'Accept' button stores choice in localStorage to hide on future visits, includes link to Privacy modal",
+				"privacy_modal": "Bootstrap modal with basic privacy policy for technical cookies only",
+				"animations": "Subtle fade/slide on scroll (use Intersection Observer API)",
+				"smooth_scroll": "Enable for all anchor links",
+				"hover_effects": "On buttons, links, and gallery images"
+			  },
+			  
+			  "technical_requirements": {
+				"bootstrap": "Use Bootstrap 5.x via CDN, utilize components (navbar, cards, buttons, modal, grid)",
+				"cdn": "Omit the integrity and cross-origin attributes in the <link> and <script> tags. This prevents the browser from blocking the files if the hash is outdated.",
+				"icons": "Bootstrap Icons 1.11.1+ via CDN: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css",
+				"lightbox": "Modern vanilla JS library (no jQuery) like GLightbox via CDN. Omit the integrity and cross-origin attributes.",
+				"no_localstorage_api": "Store dark mode and cookie consent in localStorage",
+				"code_quality": "Check element existence before manipulation, use modern ES6+ JavaScript, proper error handling",
+				"browser_support": "Modern browsers (Chrome, Firefox, Safari, Edge - last 2 versions)"
+			  },
+			  
+			  "assets": {
+				"images": "Use royalty-free site-themed images from Unsplash/Pexels/Pixabay. Every <img> must include: onerror=\"this.onerror=null;this.src='https://placehold.co/600x400?text=Image+Placeholder'\"",
+				"videos": "Optional: If including video section, use 2-3 embedded YouTube/Vimeo videos of site-themed content, OR use placeholder service like https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4. Make lazy loaded.",
+				"no_broken_images": "All images must have fallback placeholders via onerror handler"
+			  },
+			  
+			  "seo_basics": {
+				"meta_description": "Include compelling meta description about the site theme",
+				"open_graph": "Add basic OG tags for social sharing (title, description, image)",
+				"semantic_html": "Use proper HTML5 semantic tags (header, nav, main, section, footer)"
+			  },
+			  
+			  "performance": {
+				"lazy_loading": "All images and videos below fold",
+				"minimal_dependencies": "Only essential libraries via CDN",
+				"optimized_css": "Avoid unused styles, use CSS custom properties for theming"
+			  }
         };
 
         const thematicClusters = {
